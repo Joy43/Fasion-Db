@@ -1,52 +1,115 @@
-// app/(tabs)/_layout.tsx
-import { Ionicons } from "@expo/vector-icons";
+import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import { Tabs } from "expo-router";
+import { View } from "react-native";
 
 export default function Layout() {
   return (
-    <Tabs
-      screenOptions={{
-        tabBarActiveTintColor: "white",
-        tabBarInactiveTintColor: "white",
-        tabBarShowLabel: false,
-        tabBarStyle: {
-          backgroundColor: "#333333",
-          borderRadius: 50,
-          marginHorizontal: 20,
-          marginBottom: 20,
-          height: 78,
-          position: "absolute",
-        },
-      }}
-    >
-      <Tabs.Screen
-        name="home"
-        options={{
-          title: "Home",
-          headerShown: false,
-          tabBarIcon: ({ focused }) => (
-            <Ionicons
-              name="home-outline"
-              size={28}
-              color={focused ? "#AD49E1" : "#FFFFFF"}
-            />
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="explore"
-        options={{
-          title: "Explore",
-          headerShown: false,
-          tabBarIcon: ({ focused }) => (
-            <Ionicons
-              name="search-outline"
-              size={28}
-              color={focused ? "#AD49E1" : "#FFFFFF"}
-            />
-          ),
-        }}
-      />
-    </Tabs>
+  <Tabs
+  screenOptions={{
+    tabBarShowLabel: false,
+    headerShown: false,
+    tabBarStyle: {
+      position: "absolute",
+      bottom: 20,
+      left: 20,
+      right: 20,
+      elevation: 10,
+      backgroundColor: "#ffffffee",
+      borderRadius: 40,
+      height: 80,
+      shadowColor: "#AD49E1",
+      shadowOffset: { width: 0, height: 5 },
+      shadowOpacity: 0.15,
+      shadowRadius: 8,
+      borderTopWidth: 0,
+    },
+  }}
+>
+  {/* Home */}
+  <Tabs.Screen
+    name="home"
+    options={{
+      tabBarIcon: ({ focused }) => (
+        <View className="items-center justify-center">
+          <Ionicons
+            name="home-outline"
+            size={28}
+            color={focused ? "#AD49E1" : "#6B7280"}
+          />
+        </View>
+      ),
+    }}
+  />
+
+  {/* Favorites */}
+  <Tabs.Screen
+    name="favorites"
+    options={{
+      tabBarIcon: ({ focused }) => (
+        <View className="items-center justify-center">
+          <Ionicons
+            name="heart-outline"
+            size={26}
+            color={focused ? "#AD49E1" : "#6B7280"}
+          />
+        </View>
+      ),
+    }}
+  />
+
+  {/* Signup (Center Button) */}
+  <Tabs.Screen
+    name="signup"
+    options={{
+      tabBarIcon: ({ focused }) => (
+        <View
+          className={`items-center justify-center rounded-full w-16 h-16 bg-white -mt-6 shadow-lg ${
+            focused ? "border-4 border-[#AD49E1]" : ""
+          }`}
+        >
+          <MaterialIcons
+            name="person-add-alt"
+            size={28}
+            color={focused ? "#AD49E1" : "#6B7280"}
+          />
+        </View>
+      ),
+    }}
+  />
+
+  {/* Orders */}
+  <Tabs.Screen
+    name="orders"
+    options={{
+      tabBarIcon: ({ focused }) => (
+        <View className="items-center justify-center">
+          <Ionicons
+            name="cube-outline"
+            size={26}
+            color={focused ? "#AD49E1" : "#6B7280"}
+          />
+        </View>
+      ),
+    }}
+  />
+
+  {/* Profile */}
+  <Tabs.Screen
+    name="profile"
+    options={{
+      tabBarIcon: ({ focused }) => (
+        <View className="items-center justify-center">
+          <Ionicons
+            name="person-outline"
+            size={26}
+            color={focused ? "#AD49E1" : "#6B7280"}
+          />
+        </View>
+      ),
+    }}
+  />
+</Tabs>
+
+
   );
 }

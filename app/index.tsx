@@ -1,13 +1,12 @@
 
-import React from 'react'
 
 import { Redirect } from 'expo-router'
 
 
-export default function Home() {
+export default function Homeindex() {
 
  
   return (
-   <Redirect href="/(start)/welcome"></Redirect>
+   <Redirect href="/welcome"></Redirect>
   )
 }

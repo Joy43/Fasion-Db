@@ -55,9 +55,9 @@ const Home = () => {
         style={{
           width: '91%',
           padding: 15,
-          backgroundColor: '#0286FF',
+          backgroundColor: '#004CFF',
           borderRadius: 10,
-          alignItems: 'center',
+          alignItems: 'center',    
           justifyContent: 'center',
           marginTop: 20,
           marginBottom: 20

@@ -59,20 +59,20 @@ export const images = {
 export const onboarding: OnboardingItem[] = [
   {
     id: 1,
-    title: "শেরপুরের মায়াবী লেকে ছুটছেন ভ্রমণপিপাসুরা!",
-    description: "Your journey begins with Ryde. Find your ideal ride effortlessly.",
+    title: "Discover Your Unique Style",
+    description: "Explore fashion that reflects your personality. Stand out with our exclusive collections.",
     image: images.Mayabilake,
   },
   {
     id: 2,
-    title: "গজনী অবকাশ পর্যটন কেন্দ্র",
-    description: "Discover the convenience of finding your perfect ride with Ryde",
+    title: "Designs That Inspire",
+    description: "From streetwear to haute couture — find the inspiration to redefine your wardrobe.",
     image: images.Gojniobokas,
   },
   {
     id: 3,
-    title: "মধুটিলা ইকোপার্ক নালিতাবাড়ী শেরপুর!",
-    description: "Enter your destination, sit back, and let us take care of the rest.",
+    title: "Fashion Meets Comfort",
+    description: "Experience the perfect blend of elegance and ease in every outfit.",
     image: images.Modutila,
   },
 ];
