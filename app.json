@@ -23,7 +23,6 @@
       "output": "static",
       "favicon": "./assets/images/favicon.png"
     },
-    
     "plugins": [
       "expo-router",
       [
@@ -34,7 +33,8 @@
           "resizeMode": "contain",
           "backgroundColor": "#ffffff"
         }
-      ]
+      ],
+      "react-native-video"
     ],
     "experiments": {
       "typedRoutes": true
