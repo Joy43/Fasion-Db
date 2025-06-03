@@ -1,12 +1,13 @@
-import React, { Component } from 'react'
-import { Text, View } from 'react-native'
+import LoginForm from '@/components/modules/auth/login/LoginFrom';
+import React from 'react';
+import { SafeAreaView } from 'react-native';
 
-export default class login extends Component {
-  render() {
-    return (
-      <View>
-        <Text>login</Text>
-      </View>
-    )
-  }
-}
+const LoginScreen = () => {
+  return (
+    <SafeAreaView className="flex-1 bg-white">
+      <LoginForm />
+    </SafeAreaView>
+  );
+};
+
+export default LoginScreen;

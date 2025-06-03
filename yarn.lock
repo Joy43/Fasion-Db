@@ -1171,6 +1171,13 @@
     find-up "^5.0.0"
     js-yaml "^4.1.0"
 
+"@hookform/resolvers@^5.0.1":
+  version "5.0.1"
+  resolved "https://registry.npmjs.org/@hookform/resolvers/-/resolvers-5.0.1.tgz#0a5e90310149e3ac5b017efcb5beb9bdbb711f38"
+  integrity sha512-u/+Jp83luQNx9AdyW2fIPGY6Y7NG68eN2ZW8FOJYL+M0i4s49+refdJdOp/A9n9HFQtQs3HIDHQvX3ZET2o7YA==
+  dependencies:
+    "@standard-schema/utils" "^0.3.0"
+
 "@humanfs/core@^0.19.1":
   version "0.19.1"
   resolved "https://registry.npmjs.org/@humanfs/core/-/core-0.19.1.tgz#17c55ca7d426733fe3c561906b8173c336b40a77"
@@ -1400,6 +1407,13 @@
   dependencies:
     "@radix-ui/react-compose-refs" "1.1.2"
 
+"@react-native-async-storage/async-storage@^2.1.2":
+  version "2.1.2"
+  resolved "https://registry.npmjs.org/@react-native-async-storage/async-storage/-/async-storage-2.1.2.tgz#8aae432adfc20800308e2ef3ce380864f0f9def8"
+  integrity sha512-dvlNq4AlGWC+ehtH12p65+17V0Dx7IecOWl6WanF2ja38O1Dcjjvn7jVzkUHJ5oWkQBlyASurTPlTHgKXyYiow==
+  dependencies:
+    merge-options "^3.0.4"
+
 "@react-native/assets-registry@0.79.2":
   version "0.79.2"
   resolved "https://registry.npmjs.org/@react-native/assets-registry/-/assets-registry-0.79.2.tgz#731963e664c8543f5b277e56c058bde612b69f50"
@@ -1616,6 +1630,11 @@
   integrity sha512-V4BG07kuYSUkTCSBHG8G8TNhM+F19jXFWnQtzj+we8DrkpSBCee9Z3Ms8yiGer/dlmhe35/Xdgyo3/0rQKg7YA==
   dependencies:
     "@sinonjs/commons" "^3.0.0"
+
+"@standard-schema/utils@^0.3.0":
+  version "0.3.0"
+  resolved "https://registry.npmjs.org/@standard-schema/utils/-/utils-0.3.0.tgz#3d5e608f16c2390c10528e98e59aef6bf73cae7b"
+  integrity sha512-e7Mew686owMaPJVNNLs55PUvgz371nKgwsc4vxE49zsODpJEnxgxRo2y/OKrqueavXgZNMDVj3DdHFlaSAeU8g==
 
 "@tybys/wasm-util@^0.9.0":
   version "0.9.0"
@@ -4238,6 +4257,11 @@ is-number@^7.0.0:
   resolved "https://registry.npmjs.org/is-number/-/is-number-7.0.0.tgz#7535345b896734d5f80c4d06c50955527a14f12b"
   integrity sha512-41Cifkg6e8TylSpdtTpeLVMqvSBEVzTttHvERD741+pnZ8ANv0004MRL43QKPDlK9cGvNp6NZWZUBlbGXYxxng==
 
+is-plain-obj@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.npmjs.org/is-plain-obj/-/is-plain-obj-2.1.0.tgz#45e42e37fccf1f40da8e5f76ee21515840c09287"
+  integrity sha512-YWnfyRwxL/+SsrWYfOpUtz5b3YD+nyfkHvjbcanzk8zgyO4ASD67uVMRt8k5bM4lLMDnXfriRhOpemw+NfT1eA==
+
 is-regex@^1.2.1:
   version "1.2.1"
   resolved "https://registry.npmjs.org/is-regex/-/is-regex-1.2.1.tgz#76d70a3ed10ef9be48eb577887d74205bf0cad22"
@@ -4549,6 +4573,11 @@ json5@^2.2.3:
     object.assign "^4.1.4"
     object.values "^1.1.6"
 
+jwt-decode@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.npmjs.org/jwt-decode/-/jwt-decode-4.0.0.tgz#2270352425fd413785b2faf11f6e755c5151bd4b"
+  integrity sha512-+KJGIyHgkGuIq3IEBNftfhW/LfWhXUIY6OmyVWjliu5KH1y0fw7VQ8YndE2O4qZdMSd9SqbnC8GOcZEy0Om7sA==
+
 keyv@^4.5.4:
   version "4.5.4"
   resolved "https://registry.npmjs.org/keyv/-/keyv-4.5.4.tgz#a879a99e29452f942439f2a405e3af8b31d4de93"
@@ -4814,6 +4843,13 @@ memoize-one@^6.0.0:
   version "6.0.0"
   resolved "https://registry.npmjs.org/memoize-one/-/memoize-one-6.0.0.tgz#b2591b871ed82948aee4727dc6abceeeac8c1045"
   integrity sha512-rkpe71W0N0c0Xz6QD0eJETuWAJGnJ9afsl1srmwPrI+yBCkge5EycXXbYRyvL29zZVUWQCY7InPRCv3GDXuZNw==
+
+merge-options@^3.0.4:
+  version "3.0.4"
+  resolved "https://registry.npmjs.org/merge-options/-/merge-options-3.0.4.tgz#84709c2aa2a4b24c1981f66c179fe5565cc6dbb7"
+  integrity sha512-2Sug1+knBjkaMsMgf1ctR1Ujx+Ayku4EdJN4Z+C2+JzoeF7A3OZ9KM2GY0CpQS51NR61LTurMJrRKPhSs3ZRTQ==
+  dependencies:
+    is-plain-obj "^2.1.0"
 
 merge-stream@^2.0.0:
   version "2.0.0"
@@ -5691,6 +5727,11 @@ react-freeze@^1.0.0:
   resolved "https://registry.npmjs.org/react-freeze/-/react-freeze-1.0.4.tgz#cbbea2762b0368b05cbe407ddc9d518c57c6f3ad"
   integrity sha512-r4F0Sec0BLxWicc7HEyo2x3/2icUTrRmDjaaRyzzn+7aDyFZliszMDOgLVwSnQnYENOlL1o569Ze2HZefk8clA==
 
+react-hook-form@^7.56.4:
+  version "7.56.4"
+  resolved "https://registry.npmjs.org/react-hook-form/-/react-hook-form-7.56.4.tgz#273f55d43fb24ace3e2b9409d0d5326306d7905e"
+  integrity sha512-Rob7Ftz2vyZ/ZGsQZPaRdIefkgOSrQSPXfqBdvOPwJfoGnjwRJUs7EM7Kc1mcoDv3NOtqBzPGbcMB8CGn9CKgw==
+
 react-is@^16.13.1, react-is@^16.7.0:
   version "16.13.1"
   resolved "https://registry.npmjs.org/react-is/-/react-is-16.13.1.tgz#789729a4dc36de2999dc156dd6c1d9c18cea56a4"
@@ -5754,6 +5795,11 @@ react-native-reanimated@3.16.2:
     convert-source-map "^2.0.0"
     invariant "^2.2.4"
 
+react-native-recaptcha-that-works@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.npmjs.org/react-native-recaptcha-that-works/-/react-native-recaptcha-that-works-2.0.0.tgz#f39b7595948e59b0d75ef62eeb0bed4affe060a4"
+  integrity sha512-860M3qopVwpefEkjNsMyWW8LCA1Wp3dk0CKVPdaUOeUjo58m4oB7quVuiSvB5paOto7yuvy9Anwbk3rA2unvRQ==
+
 react-native-safe-area-context@^5.4.1:
   version "5.4.1"
   resolved "https://registry.npmjs.org/react-native-safe-area-context/-/react-native-safe-area-context-5.4.1.tgz#6d04eac20f99622fa13895fa7ae96199f1ecf800"
@@ -5773,6 +5819,11 @@ react-native-swiper@^1.6.0:
   integrity sha512-OnkTTZi+9uZUgy0uz1I9oYDhCU3z36lZn+LFsk9FXPRelxb/KeABzvPs3r3SrHWy1aA67KGtSFj0xNK2QD0NJQ==
   dependencies:
     prop-types "^15.5.10"
+
+react-native-toast-message@^2.3.0:
+  version "2.3.0"
+  resolved "https://registry.npmjs.org/react-native-toast-message/-/react-native-toast-message-2.3.0.tgz#c25fb40d7af4388f6a798efbfca479d53916ed00"
+  integrity sha512-d7LldTK1ei1Bl7RFhoOYw8hVQ4oKPQHORYI//xR9Pyz3HxSlFlvQbueE5X3KLoemRRgBrOUg3zY6DxXnxrVLRg==
 
 react-native-vector-icons@^10.2.0:
   version "10.2.0"
@@ -7226,3 +7277,8 @@ yocto-queue@^0.1.0:
   version "0.1.0"
   resolved "https://registry.npmjs.org/yocto-queue/-/yocto-queue-0.1.0.tgz#0294eb3dee05028d31ee1a5fa2c556a6aaf10a1b"
   integrity sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==
+
+zod@^3.25.46:
+  version "3.25.46"
+  resolved "https://registry.npmjs.org/zod/-/zod-3.25.46.tgz#a8761d188e492b869bfb4f855bf0f716d54daf19"
+  integrity sha512-IqRxcHEIjqLd4LNS/zKffB3Jzg3NwqJxQQ0Ns7pdrvgGkwQsEBdEQcOHaBVqvvZArShRzI39+aMST3FBGmTrLQ==

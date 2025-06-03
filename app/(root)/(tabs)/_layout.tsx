@@ -59,7 +59,7 @@ export default function Layout() {
 
   {/* Signup (Center Button) */}
   <Tabs.Screen
-    name="signup"
+    name="login"
     options={{
       tabBarIcon: ({ focused }) => (
         <View

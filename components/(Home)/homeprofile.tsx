@@ -23,7 +23,7 @@ const HomeProfile = () => {
       </View>
 
       {/* Greeting */}
-      <Text style={styles.greeting}>Hello, Romina!</Text>
+      <Text style={styles.greeting}>Hello, ss joy!</Text>
 
       {/* Announcement */}
       <View style={styles.announcementCard}>

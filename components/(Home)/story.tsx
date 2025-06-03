@@ -3,11 +3,10 @@ import React, { useRef, useState } from 'react';
 import {
   Dimensions,
   Image,
-  Modal,
-  ScrollView,
+  Modal, SafeAreaView, ScrollView,
   Text,
   TouchableOpacity,
-  View,
+  View
 } from 'react-native';
 import VideoPlayer, { VideoPlayerProps } from 'react-native-video-player';
 
@@ -45,7 +44,7 @@ export default function StoriesSection() {
   const playerRef = useRef<VideoPlayerProps | null>(null);
 
   return (
-    <View className="px-4 py-4">
+    <SafeAreaView className='p-4 m-2'>
       <Text className="text-lg font-semibold mb-3">Stories</Text>
 
       <ScrollView horizontal showsHorizontalScrollIndicator={false}>
@@ -102,6 +101,6 @@ export default function StoriesSection() {
           )}
         </View>
       </Modal>
-    </View>
+    </SafeAreaView>
   );
 }
