@@ -28,7 +28,7 @@ const products = [
 
 const Mostpopular = () => {
   return (
-    <SafeAreaView className="p-4">
+    <SafeAreaView className="p-8">
       {/* Header */}
       <View className="flex-row justify-between items-center mb-4">
         <Text className="text-xl font-semibold text-gray-800">Most Popular</Text>

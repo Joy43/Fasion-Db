@@ -7,3 +7,4 @@ https://www.figma.com/design/m8pSNbqjBJAvalw0MzflTZ/Shoppe---eCommerce-Clothing-
 api--https://documenter.getpostman.com/view/28371413/2sAYQXpCyd#17d1fed2-96c5-49b8-8cca-a455e4036e39
 
 https://github.com/Apollo-Level2-Web-Dev/NextMart-Client/tree/part-6
+npx expo start --clear
