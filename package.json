@@ -53,6 +53,8 @@
     "react-native-video-player": "^0.16.3",
     "react-native-web": "~0.20.0",
     "react-native-webview": "13.13.5",
+    "react-native-youtube-iframe": "^2.3.0",
+    "react-player": "^2.16.0",
     "tailwindcss": "^3.4.17",
     "zod": "^3.25.46"
   },

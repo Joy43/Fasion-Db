@@ -16,9 +16,8 @@ import Toast from 'react-native-toast-message';
 
 const UpdateProfileForm = () => {
   const [form, setForm] = useState({
-    phoneCode: '+880',
-    phone: '',
-    birth: '',
+    phoneNo: '',
+    dateOfBirth: '',
     gender: '',
     address: '',
     photo: '',
@@ -69,7 +68,6 @@ const UpdateProfileForm = () => {
       );
 
       const responseData = await response.json();
-
       return responseData.secure_url || null;
     } catch (error) {
       console.error('Cloudinary upload error:', error);
@@ -92,10 +90,19 @@ const UpdateProfileForm = () => {
       const cloudUrl = await uploadToCloudinary(asset.uri);
 
       if (cloudUrl) {
-        setForm((prevForm) => ({ ...prevForm, photo: cloudUrl }));
-        Alert.alert('Success', 'Photo uploaded successfully!');
+        handleChange('photo', cloudUrl);
+         Toast.show({
+          type: 'success',
+          text1: 'image uploaded',
+          text2: 'Image uploaded successfully to Cloudinary!',
+         
+        });
       } else {
-        Alert.alert('Upload Failed', 'Image upload to Cloudinary failed.');
+        Toast.show({
+          type: 'error',
+          text1: 'Update Failed',
+          text2: 'image upload failed.',
+        });
       }
     } catch (error) {
       console.error('Image picker error:', error);
@@ -104,24 +111,17 @@ const UpdateProfileForm = () => {
   };
 
   const handleSubmit = async () => {
-    if (!form.phone || !form.birth || !form.gender || !form.address) {
-      Toast.show({
-        type: 'error',
-        text1: 'Validation Error',
-        text2: 'Please fill in all required fields.',
-      });
-      return;
-    }
-
     setLoading(true);
     try {
       const profileData = {
-        phoneNo: `${form.phoneCode}${form.phone}`,
+        phoneNo: form.phoneNo, 
         gender: form.gender,
-        dateOfBirth: form.birth,
+        dateOfBirth: form.dateOfBirth,
         address: form.address,
-        photo: form.photo,
+        photo: form.photo || undefined, 
       };
+
+      console.log('Submitting profile data:', profileData); 
 
       const result = await updateUserProfile(profileData);
 
@@ -132,18 +132,19 @@ const UpdateProfileForm = () => {
           text2: result.message || 'Profile updated successfully!',
         });
       } else {
+        console.log('API error response:', result); 
         Toast.show({
           type: 'error',
           text1: 'Update Failed',
-          text2: result.message || 'Profile update failed.',
+          text2: result.message || 'Profile update failed due to server validation.',
         });
       }
-    } catch (error) {
-      console.error('Update error:', error);
+    } catch (error: any) {
+      console.error('Update error:', error.response?.data || error.message); // Detailed error log
       Toast.show({
         type: 'error',
         text1: 'Unexpected Error',
-        text2: 'Something went wrong. Please try again.',
+        text2: error.response?.data?.message || error.message || 'Something went wrong. Please try again.',
       });
     } finally {
       setLoading(false);
@@ -163,27 +164,21 @@ const UpdateProfileForm = () => {
       </View>
 
       <Text className="text-sm text-gray-600 mb-1">Phone Number</Text>
-      <View className="flex-row items-center border px-2 rounded-md mb-4">
-        <TextInput
-          placeholder="+880"
-          value={form.phoneCode}
-          onChangeText={(value) => handleChange('phoneCode', value)}
-          className="w-14"
-        />
+      <View className="border px-2 rounded-md mb-4">
         <TextInput
           placeholder="1234567890"
           keyboardType="phone-pad"
-          value={form.phone}
-          onChangeText={(value) => handleChange('phone', value)}
-          className="flex-1"
+          value={form.phoneNo}
+          onChangeText={(value) => handleChange('phoneNo', value)}
+          className="flex-1 py-2"
         />
       </View>
 
       <Text className="text-sm text-gray-600 mb-1">Date of Birth</Text>
       <TextInput
         placeholder="YYYY-MM-DD"
-        value={form.birth}
-        onChangeText={(value) => handleChange('birth', value)}
+        value={form.dateOfBirth}
+        onChangeText={(value) => handleChange('dateOfBirth', value)}
         className="border rounded-md px-3 py-2 mb-4"
       />
 

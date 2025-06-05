@@ -1,106 +1,261 @@
 import { FontAwesome } from '@expo/vector-icons';
 import React, { useRef, useState } from 'react';
 import {
+  ActivityIndicator,
   Dimensions,
   Image,
-  Modal, SafeAreaView, ScrollView,
+  Modal,
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
   Text,
   TouchableOpacity,
-  View
+  View,
 } from 'react-native';
-import VideoPlayer, { VideoPlayerProps } from 'react-native-video-player';
+import YouTube from 'react-native-youtube-iframe';
 
-// ✅ TypeScript interface for stories
-interface Story {
-  id: number;
-  thumbnail: string;
-  videoUrl: string;
-  live?: boolean;
-}
-
-// ✅ JSON data declared inside the file
-const storiesData: Story[] = [
+const storiesData = [
   {
     id: 1,
-    thumbnail: 'https://images.unsplash.com/photo-1529139574466-a303027c1d8b?q=80&w=1374&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    videoUrl: 'https://youtube.com/shorts/P25Bb50Yonw?si=NONXF7pjp9Dz5mds',
+    thumbnail:
+      'https://images.pexels.com/photos/19929726/pexels-photo-19929726/free-photo-of-portrait-of-woman-in-jacket.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load',
+    videoId: 'SQeHEUoyj4c',
     live: true,
   },
   {
     id: 2,
-    thumbnail: 'https://plus.unsplash.com/premium_photo-1695575576052-7c271876b075?q=80&w=387&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    videoUrl: 'https://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4',
+    thumbnail: 'https://images.pexels.com/photos/6665048/pexels-photo-6665048.jpeg',
+    videoId: 'dQw4w9WgXcQ',
   },
   {
     id: 3,
     thumbnail: 'https://img.youtube.com/vi/3JZ_D3ELwOQ/0.jpg',
-    videoUrl: 'https://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4',
+    videoId: '3JZ_D3ELwOQ',
   },
 ];
 
 export default function StoriesSection() {
-  const [selectedVideo, setSelectedVideo] = useState<string | null>(null);
+  const [selectedVideoId, setSelectedVideoId] = useState<string | null>(null);
+  const [playing, setPlaying] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const screenWidth = Dimensions.get('window').width;
-  const playerRef = useRef<VideoPlayerProps | null>(null);
+  const playerRef = useRef<any>(null); // Use `any` since YouTubeStandalonePlayer is not exported
+
+  // Handle modal close and pause video
+  const handleCloseModal = async () => {
+    try {
+      if (playerRef.current?.getYoutubePlayer) {
+        await playerRef.current.getYoutubePlayer().pauseVideo();
+      }
+    } catch (err) {
+      console.error('Error pausing video:', err);
+      setError('Failed to pause video');
+    }
+    setSelectedVideoId(null);
+    setPlaying(true);
+    setError(null);
+  };
+
+  // Toggle play/pause
+  const togglePlayPause = async () => {
+    try {
+      if (playerRef.current?.getYoutubePlayer) {
+        if (playing) {
+          await playerRef.current.getYoutubePlayer().pauseVideo();
+        } else {
+          await playerRef.current.getYoutubePlayer().playVideo();
+        }
+        setPlaying(!playing);
+      }
+    } catch (err) {
+      console.error('Error toggling play/pause:', err);
+      setError('Failed to control video playback');
+    }
+  };
 
   return (
-    <SafeAreaView className='p-4 m-2'>
-      <Text className="text-lg font-semibold mb-3">Stories</Text>
+    <SafeAreaView style={styles.container}>
+      <Text style={styles.title}>Stories</Text>
 
-      <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+      <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.scrollView}>
         {storiesData.map((story) => (
           <TouchableOpacity
             key={story.id}
-            className="w-48 h-52 rounded-xl overflow-hidden relative mr-3"
-            onPress={() => setSelectedVideo(story.videoUrl)}
+            style={styles.storyCard}
+            onPress={() => {
+              setSelectedVideoId(story.videoId);
+              setPlaying(true);
+              setIsLoading(true);
+              setError(null);
+            }}
           >
             <Image
               source={{ uri: story.thumbnail }}
-              className="w-full h-full rounded-xl"
+              style={styles.thumbnail}
               resizeMode="cover"
+              onError={(e) => console.log('Thumbnail error:', e.nativeEvent.error)}
             />
-
             {story.live && (
-              <View className="absolute top-2 left-2 bg-green-500 px-2 py-0.5 rounded">
-                <Text className="text-white text-xs font-semibold">Live</Text>
+              <View style={styles.liveBadge}>
+                <Text style={styles.liveText}>Live</Text>
               </View>
             )}
-
-            <View className="absolute inset-0 justify-center items-center">
-              <View className="bg-white/70 p-2 rounded-full">
-                <FontAwesome name="play" size={14} color="black" />
+            <View style={styles.playIconContainer}>
+              <View style={styles.playIconBackground}>
+                <FontAwesome name="play" size={14} color="#000" />
               </View>
             </View>
           </TouchableOpacity>
         ))}
       </ScrollView>
 
-      {/* Video Modal */}
-      <Modal visible={!!selectedVideo} animationType="slide" transparent={true}>
-        <View className="flex-1 justify-center items-center bg-black/90 px-4">
-          <TouchableOpacity
-            className="absolute top-10 right-5 z-10 bg-white/70 rounded-full p-2"
-            onPress={() => setSelectedVideo(null)}
-          >
-            <FontAwesome name="close" size={24} color="black" />
+      {/* Modal Video Player */}
+      <Modal visible={!!selectedVideoId} animationType="slide" transparent={true}>
+        <View style={styles.modalContainer}>
+          <TouchableOpacity onPress={handleCloseModal} style={styles.closeButton}>
+            <FontAwesome name="close" size={24} color="#000" />
           </TouchableOpacity>
 
-          {selectedVideo && (
-            <VideoPlayer
-              ref={playerRef}
-              endWithThumbnail
-              thumbnail={{
-                uri: storiesData.find(story => story.videoUrl === selectedVideo)?.thumbnail || '',
-              }}
-              video={{ uri: selectedVideo }}
-              onError={(e) => console.log('Video Error:', e)}
-              showDuration
-              videoWidth={screenWidth - 40}
-              videoHeight={screenWidth * 0.56}
+          {error && <Text style={styles.errorText}>{error}</Text>}
+
+          {isLoading && (
+            <ActivityIndicator
+              size="large"
+              color="#FFFFFF"
+              style={styles.videoLoader}
             />
           )}
+
+          {selectedVideoId && (
+            <YouTube
+              ref={playerRef}
+              videoId={selectedVideoId}
+              play={playing}
+              height={(screenWidth - 40) * 0.56}
+              width={screenWidth - 40}
+              onReady={() => setIsLoading(false)}
+              onError={(e: any) => {
+                console.log('YouTube Player Error:', e);
+                setError('Failed to load video');
+                setIsLoading(false);
+              }}
+              onChangeState={(event: string) => {
+                if (event === 'paused') setPlaying(false);
+                if (event === 'playing') setPlaying(true);
+                if (event === 'buffering') setIsLoading(true);
+                if (event === 'ended') setPlaying(false);
+              }}
+            />
+          )}
+
+          <TouchableOpacity onPress={togglePlayPause} style={styles.playPauseButton}>
+            <FontAwesome
+              name={playing ? 'pause' : 'play'}
+              size={24}
+              color="#000"
+            />
+          </TouchableOpacity>
         </View>
       </Modal>
     </SafeAreaView>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 16,
+    margin: 8,
+    backgroundColor: '#FFFFFF',
+  },
+  title: {
+    fontSize: 20,
+    fontWeight: '700',
+    color: '#1F2937',
+    marginBottom: 12,
+  },
+  scrollView: {
+    marginBottom: 16,
+  },
+  storyCard: {
+    width: 190,
+    height: 210,
+    borderRadius: 16,
+    overflow: 'hidden',
+    marginRight: 12,
+    position: 'relative',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
+  },
+  thumbnail: {
+    width: '100%',
+    height: '100%',
+  },
+  liveBadge: {
+    position: 'absolute',
+    top: 8,
+    left: 8,
+    backgroundColor: '#10B981',
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    borderRadius: 4,
+  },
+  liveText: {
+    color: '#FFFFFF',
+    fontSize: 10,
+    fontWeight: 'bold',
+  },
+  playIconContainer: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  playIconBackground: {
+    backgroundColor: 'rgba(255, 255, 255, 0.7)',
+    padding: 10,
+    borderRadius: 50,
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.9)',
+    padding: 16,
+  },
+  closeButton: {
+    position: 'absolute',
+    top: 40,
+    right: 20,
+    backgroundColor: 'rgba(255, 255, 255, 0.7)',
+    padding: 12,
+    borderRadius: 999,
+    zIndex: 99,
+  },
+  playPauseButton: {
+    position: 'absolute',
+    bottom: 20,
+    alignSelf: 'center',
+    backgroundColor: 'rgba(255, 255, 255, 0.7)',
+    padding: 12,
+    borderRadius: 999,
+    zIndex: 99,
+  },
+  videoLoader: {
+    position: 'absolute',
+    alignSelf: 'center',
+  },
+  errorText: {
+    color: '#EF4444',
+    fontSize: 16,
+    textAlign: 'center',
+    marginBottom: 16,
+  },
+});
