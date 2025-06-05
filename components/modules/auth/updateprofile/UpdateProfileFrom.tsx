@@ -1,18 +1,18 @@
-import React, { useState } from 'react';
+import { updateUserProfile } from '@/services/AuthService';
+import { Picker } from '@react-native-picker/picker';
+import * as ImagePicker from 'expo-image-picker';
+import React, { useEffect, useState } from 'react';
 import {
   Alert,
   Image,
+  Platform,
   ScrollView,
   Text,
   TextInput,
   TouchableOpacity,
   View,
 } from 'react-native';
-import { Picker } from '@react-native-picker/picker';
-import { launchImageLibrary } from 'react-native-image-picker';
-import { updateUserProfile } from '@/services/AuthService';
-import { uploadToCloudinary } from '@/lib/uploadToCloudnary';
-
+import Toast from 'react-native-toast-message';
 
 const UpdateProfileForm = () => {
   const [form, setForm] = useState({
@@ -24,54 +24,129 @@ const UpdateProfileForm = () => {
     photo: '',
   });
 
-  const handleChange = (name: string, value: string) => {
-    setForm({ ...form, [name]: value });
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    (async () => {
+      if (Platform.OS !== 'web') {
+        const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+        if (status !== 'granted') {
+          Alert.alert('Permission Required', 'We need access to your media library.');
+        }
+      }
+    })();
+  }, []);
+
+  const handleChange = (key: string, value: string) => {
+    setForm((prevForm) => ({ ...prevForm, [key]: value }));
+  };
+
+  const uploadToCloudinary = async (uri: string): Promise<string | null> => {
+    try {
+      const data = new FormData();
+      const uriParts = uri.split('/');
+      const fileName = uriParts[uriParts.length - 1];
+      const fileType = fileName.endsWith('.png') ? 'image/png' : 'image/jpeg';
+
+      data.append('file', {
+        uri,
+        name: fileName,
+        type: fileType,
+      } as any);
+
+      data.append('upload_preset', 'upload_car');
+      data.append('cloud_name', 'dluuillmt');
+
+      const response = await fetch(
+        'https://api.cloudinary.com/v1_1/dluuillmt/image/upload',
+        {
+          method: 'POST',
+          body: data,
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        }
+      );
+
+      const responseData = await response.json();
+
+      return responseData.secure_url || null;
+    } catch (error) {
+      console.error('Cloudinary upload error:', error);
+      return null;
+    }
   };
 
   const handlePickImage = async () => {
-    launchImageLibrary(
-      {
-        mediaType: 'photo',
+    try {
+      const result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: true,
+        aspect: [1, 1],
         quality: 0.7,
-      },
-      async (response) => {
-        if (response.didCancel) return;
-        if (response.errorCode) {
-          Alert.alert('Error', response.errorMessage || 'Image pick failed');
-          return;
-        }
+      });
 
-        const asset = response.assets?.[0];
-        if (asset?.uri) {
-          const uploadResult = await uploadToCloudinary({
-            uri: asset.uri,
-            type: asset.type || 'image/jpeg',
-            name: asset.fileName || 'profile.jpg',
-          });
+      if (result.canceled || !result.assets || result.assets.length === 0) return;
 
-          if (uploadResult) {
-            setForm({ ...form, photo: uploadResult });
-            Alert.alert('Image Uploaded', 'Photo uploaded successfully!');
-          }
-        }
+      const asset = result.assets[0];
+      const cloudUrl = await uploadToCloudinary(asset.uri);
+
+      if (cloudUrl) {
+        setForm((prevForm) => ({ ...prevForm, photo: cloudUrl }));
+        Alert.alert('Success', 'Photo uploaded successfully!');
+      } else {
+        Alert.alert('Upload Failed', 'Image upload to Cloudinary failed.');
       }
-    );
+    } catch (error) {
+      console.error('Image picker error:', error);
+      Alert.alert('Error', 'An unexpected error occurred.');
+    }
   };
 
   const handleSubmit = async () => {
-    const profileData = {
-      phone: `${form.phoneCode}${form.phone}`,
-      dateOfBirth: form.birth,
-      gender: form.gender,
-      address: form.address,
-      photo: form.photo,
-    };
+    if (!form.phone || !form.birth || !form.gender || !form.address) {
+      Toast.show({
+        type: 'error',
+        text1: 'Validation Error',
+        text2: 'Please fill in all required fields.',
+      });
+      return;
+    }
 
-    const result = await updateUserProfile(profileData);
-    if (result.success) {
-      Alert.alert('Success', 'Profile updated successfully');
-    } else {
-      Alert.alert('Error', result.message || 'Failed to update profile');
+    setLoading(true);
+    try {
+      const profileData = {
+        phoneNo: `${form.phoneCode}${form.phone}`,
+        gender: form.gender,
+        dateOfBirth: form.birth,
+        address: form.address,
+        photo: form.photo,
+      };
+
+      const result = await updateUserProfile(profileData);
+
+      if (result.success) {
+        Toast.show({
+          type: 'success',
+          text1: 'Profile Updated',
+          text2: result.message || 'Profile updated successfully!',
+        });
+      } else {
+        Toast.show({
+          type: 'error',
+          text1: 'Update Failed',
+          text2: result.message || 'Profile update failed.',
+        });
+      }
+    } catch (error) {
+      console.error('Update error:', error);
+      Toast.show({
+        type: 'error',
+        text1: 'Unexpected Error',
+        text2: 'Something went wrong. Please try again.',
+      });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -80,9 +155,7 @@ const UpdateProfileForm = () => {
       <View className="items-center mb-6">
         <TouchableOpacity onPress={handlePickImage}>
           <Image
-            source={{
-              uri: form.photo || 'https://via.placeholder.com/150',
-            }}
+            source={{ uri: form.photo || 'https://via.placeholder.com/150' }}
             className="w-28 h-28 rounded-full border-2 border-pink-500"
           />
           <Text className="text-center mt-2 text-blue-600 underline">Change Photo</Text>
@@ -116,10 +189,7 @@ const UpdateProfileForm = () => {
 
       <Text className="text-sm text-gray-600 mb-1">Gender</Text>
       <View className="border rounded-md mb-4">
-        <Picker
-          selectedValue={form.gender}
-          onValueChange={(value) => handleChange('gender', value)}
-        >
+        <Picker selectedValue={form.gender} onValueChange={(value) => handleChange('gender', value)}>
           <Picker.Item label="Select Gender" value="" />
           <Picker.Item label="Male" value="Male" />
           <Picker.Item label="Female" value="Female" />
@@ -138,9 +208,12 @@ const UpdateProfileForm = () => {
 
       <TouchableOpacity
         onPress={handleSubmit}
-        className="bg-pink-600 rounded-lg py-3"
+        className={`rounded-lg py-3 ${loading ? 'bg-pink-400' : 'bg-pink-600'}`}
+        disabled={loading}
       >
-        <Text className="text-center text-white font-semibold">Update Profile</Text>
+        <Text className="text-center text-white font-semibold">
+          {loading ? 'Updating...' : 'Update Profile'}
+        </Text>
       </TouchableOpacity>
     </ScrollView>
   );

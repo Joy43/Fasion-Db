@@ -1,36 +1,63 @@
-import React from 'react';
-import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { getUserProfile } from '@/services/AuthService';
+import React, { useEffect, useState } from 'react';
+import { Image, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
+type UserProfile = {
+  name?: string;
+  photo?: string;
+ 
+};
+
 const HomeProfile = () => {
+  const [profile, setProfile] = useState<UserProfile | null>(null);
+ 
+
+  useEffect(() => {
+    const fetchProfile = async () => {
+     
+      const result = await getUserProfile();
+      if (result.success) {
+        setProfile(result.data);
+      } else {
+        console.warn('Failed to load profile:', result.message);
+      }
+     
+    };
+
+    fetchProfile();
+  }, []);
+
+ 
+
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView className="flex-1 bg-white px-4 pt-8">
       {/* Header */}
-      <View style={styles.header}>
-        <View style={styles.profileSection}>
+      <View className="flex-row justify-between items-center mb-4">
+        <View className="flex-row items-center">
           <Image
-            source={{ uri: 'https://i.pravatar.cc/150?img=3' }}
-            style={styles.avatar}
+            source={{ uri: profile?.photo || 'https://i.pravatar.cc/150?img=3' }}
+            className="w-10 h-10 rounded-full mr-3"
           />
-          <TouchableOpacity style={styles.activityButton}>
-            <Text style={styles.activityButtonText}>My Activity</Text>
+          <TouchableOpacity className="bg-blue-500 px-4 py-1.5 rounded-full">
+            <Text className="text-white font-semibold">My Activity</Text>
           </TouchableOpacity>
         </View>
-        <View style={styles.iconGroup}>
+        <View className="flex-row space-x-4">
           <Ionicons name="notifications-outline" size={24} color="black" />
           <Ionicons name="settings-outline" size={24} color="black" />
         </View>
       </View>
 
       {/* Greeting */}
-      <Text style={styles.greeting}>Hello, ss joy!</Text>
+      <Text className="text-2xl font-bold mb-4">Hello, {profile?.name || 'User'}!</Text>
 
       {/* Announcement */}
-      <View style={styles.announcementCard}>
+      <View className="flex-row justify-between items-center bg-gray-200 rounded-xl p-4 mb-6">
         <View>
-          <Text style={styles.announcementTitle}>Announcement</Text>
-          <Text style={styles.announcementText}>
-            Lorem ipsum dolor sit amet, consectetur...
+          <Text className="text-sm font-semibold mb-1">Announcement</Text>
+          <Text className="text-xs text-gray-600">
+            All shop here now you can shop here...
           </Text>
         </View>
         <TouchableOpacity>
@@ -39,136 +66,33 @@ const HomeProfile = () => {
       </View>
 
       {/* Recently Viewed */}
-      <Text style={styles.sectionTitle}>Recently viewed</Text>
-      <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.recentScroll}>
+      <Text className="text-lg font-semibold mb-3">Recently viewed</Text>
+      <ScrollView horizontal showsHorizontalScrollIndicator={false} className="mb-6">
         {[1, 2, 3, 4, 5].map((item) => (
           <Image
             key={item}
             source={{ uri: `https://i.pravatar.cc/100?img=${item + 10}` }}
-            style={styles.recentAvatar}
+            className="w-14 h-14 rounded-full mr-3"
           />
         ))}
       </ScrollView>
 
-      {/*------------ My Orders--------------- */}
-      <Text style={styles.sectionTitle}>My Orders</Text>
-      <View style={styles.orderButtons}>
-        <TouchableOpacity style={styles.orderButton}>
-          <Text style={styles.orderButtonText}>To Pay</Text>
+      {/* My Orders */}
+      <Text className="text-lg font-semibold mb-3">My Orders</Text>
+      <View className="flex-row justify-between space-x-2">
+        <TouchableOpacity className="bg-blue-100 px-4 py-2 rounded-full">
+          <Text className="text-blue-700 font-semibold">To Pay</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={[styles.orderButton, styles.receiveButton]}>
-          <View style={styles.dot} />
-          <Text style={styles.orderButtonText}>To Receive</Text>
+        <TouchableOpacity className="bg-blue-100 px-4 py-2 rounded-full flex-row items-center space-x-2">
+          <View className="w-2 h-2 bg-green-500 rounded-full" />
+          <Text className="text-blue-700 font-semibold">To Receive</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.orderButton}>
-          <Text style={styles.orderButtonText}>To Review</Text>
+        <TouchableOpacity className="bg-blue-100 px-4 py-2 rounded-full">
+          <Text className="text-blue-700 font-semibold">To Review</Text>
         </TouchableOpacity>
       </View>
     </ScrollView>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    paddingHorizontal: 16,
-    paddingTop: 32,
-  },
-  header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 16,
-  },
-  profileSection: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  avatar: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    marginRight: 12,
-  },
-  activityButton: {
-    backgroundColor: '#3B82F6',
-    paddingHorizontal: 16,
-    paddingVertical: 6,
-    borderRadius: 999,
-  },
-  activityButtonText: {
-    color: '#fff',
-    fontWeight: '600',
-  },
-  iconGroup: {
-    flexDirection: 'row',
-    gap: 16,
-  },
-  greeting: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    marginBottom: 12,
-  },
-  announcementCard: {
-    backgroundColor: '#F3F4F6',
-    borderRadius: 16,
-    padding: 16,
-    marginBottom: 24,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  announcementTitle: {
-    fontSize: 14,
-    fontWeight: '600',
-    marginBottom: 4,
-  },
-  announcementText: {
-    fontSize: 12,
-    color: '#6B7280',
-  },
-  sectionTitle: {
-    fontSize: 16,
-    fontWeight: '600',
-    marginBottom: 8,
-  },
-  recentScroll: {
-    marginBottom: 24,
-  },
-  recentAvatar: {
-    width: 56,
-    height: 56,
-    borderRadius: 28,
-    marginRight: 12,
-  },
-  orderButtons: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    gap: 8,
-  },
-  orderButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#DBEAFE',
-    paddingHorizontal: 16,
-    paddingVertical: 8,
-    borderRadius: 999,
-  },
-  receiveButton: {
-    paddingRight: 12,
-  },
-  dot: {
-    width: 8,
-    height: 8,
-    backgroundColor: '#22C55E',
-    borderRadius: 4,
-    marginRight: 6,
-  },
-  orderButtonText: {
-    color: '#2563EB',
-    fontWeight: '600',
-  },
-});
 
 export default HomeProfile;

@@ -9,7 +9,12 @@ const BASE_API =
    // Fallback to emulator localhost
 
 // --- Reusable API request handler ---
-const apiRequest = async (endpoint: string, method: string = "GET", body?: any, requireAuth: boolean = false) => {
+const apiRequest = async (
+  endpoint: string,
+  method: string = "GET",
+  body?: any,
+  requireAuth: boolean = false
+) => {
   try {
     const headers: Record<string, string> = {
       "Content-Type": "application/json",
@@ -17,7 +22,11 @@ const apiRequest = async (endpoint: string, method: string = "GET", body?: any, 
 
     if (requireAuth) {
       const token = await AsyncStorage.getItem("accessToken");
-      if (token) headers["Authorization"] = `Bearer ${token}`;
+      if (token) {
+        headers["Authorization"] = token; 
+      } else {
+        return { success: false, message: "No access token found" };
+      }
     }
 
     const res = await fetch(`${BASE_API}${endpoint}`, {
@@ -39,6 +48,8 @@ const apiRequest = async (endpoint: string, method: string = "GET", body?: any, 
     return { success: false, message: error.message || "Unknown error" };
   }
 };
+
+export default apiRequest;
 
 // --- Register user ---
 export const registerUser = async (userData: FieldValues) => {
@@ -98,7 +109,7 @@ export const getUserProfile = async () => {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${accessToken}`,
+        Authorization: accessToken,
       },
     });
 
@@ -112,7 +123,8 @@ export const getUserProfile = async () => {
     console.error("Profile fetch error:", error.message);
     return { success: false, message: error.message || "Unknown error" };
   }
-}
+};
+
 
 // --- Update user profile ---
 export const updateUserProfile = async (profileData: FieldValues) => {
@@ -124,7 +136,7 @@ export const updateUserProfile = async (profileData: FieldValues) => {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${accessToken}`,
+        Authorization: accessToken, 
       },
       body: JSON.stringify(profileData),
     });
@@ -139,24 +151,28 @@ export const updateUserProfile = async (profileData: FieldValues) => {
     console.error("Profile update error:", error.message);
     return { success: false, message: error.message || "Unknown error" };
   }
-}
+};
 
-// -------------update my profile
-// --- Refresh token ---
+
+// -------------update my profile-----------------
+
 export const getNewToken = async () => {
-  const refreshToken = await AsyncStorage.getItem("refreshToken");
-  if (!refreshToken) return { success: false, message: "No refresh token found" };
-
   try {
+    const refreshToken = await AsyncStorage.getItem("refreshToken");
+    if (!refreshToken) {
+      return { success: false, message: "No refresh token found" };
+    }
+
     const res = await fetch(`${BASE_API}/auth/refresh-token`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: refreshToken,
+        Authorization: refreshToken, 
       },
     });
 
     const result = await res.json();
+
     if (res.ok && result.success) {
       await AsyncStorage.setItem("accessToken", result.data.accessToken);
     }

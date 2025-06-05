@@ -1,30 +1,39 @@
-// services/cloudinary.ts
-export const uploadToCloudinary = async (photo: {
+// /lib/uploadToCloudinary.ts
+
+export const uploadToCloudinary = async (file: {
   uri: string;
   type: string;
   name: string;
 }): Promise<string | null> => {
-  const data = new FormData();
+  const formData = new FormData();
 
-  data.append('file', {
-    uri: photo.uri,
-    type: photo.type,
-    name: photo.name,
+  formData.append('file', {
+    uri: file.uri,
+    type: file.type,
+    name: file.name,
   } as any);
-
-  data.append('upload_preset', 'upload_car');
-  data.append('cloud_name', 'dluuillmt');
+  formData.append('upload_preset', 'upload_car'); 
 
   try {
-    const res = await fetch('https://api.cloudinary.com/v1_1/dluuillmt/image/upload', {
+    const response = await fetch('https://api.cloudinary.com/v1_1/dluuillmt/image/upload', {
       method: 'POST',
-      body: data,
+      body: formData,
+      headers: {
+        Accept: 'application/json',
+        // ✅ DO NOT set Content-Type manually
+      },
     });
 
-    const result = await res.json();
-    return result.secure_url;
-  } catch (error) {
-    console.error('Cloudinary upload error:', error);
+    const data = await response.json();
+
+    if (!response.ok) {
+      console.error('Cloudinary error:', data);
+      return null;
+    }
+
+    return data.secure_url;
+  } catch (err) {
+    console.error('Upload error:', err);
     return null;
   }
 };
