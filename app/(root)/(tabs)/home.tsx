@@ -1,9 +1,10 @@
-import CategorySection from "@/components/(Home)/categorySection";
 import FlashSale from "@/components/(Home)/flashsale";
 import HomeProfile from "@/components/(Home)/homeprofile";
 import Mostpopular from "@/components/(Home)/mostpopular";
 import NewItems from "@/components/(Home)/newitems";
+import Slider from "@/components/(Home)/slider";
 import StoriesSection from "@/components/(Home)/story";
+import AllCategory from "@/components/modules/shop/category";
 import { FlatList, View } from "react-native";
 
 export default function Home() {
@@ -17,10 +18,12 @@ export default function Home() {
       ListHeaderComponent={
         <>
           <HomeProfile />
+          <Slider/>
           <StoriesSection />
           <NewItems />
           <Mostpopular />
-          <CategorySection />
+      
+          <AllCategory/>
           <FlashSale />
           
         </>

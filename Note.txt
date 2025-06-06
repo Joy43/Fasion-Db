@@ -1,7 +1,11 @@
 1)yarn run reset-project
 2)npx expo customize metro.config.js
 3) ts.config.json file =>"typeRoots": ["./types", "./node_modules/@types"],
-https://www.figma.com/design/m8pSNbqjBJAvalw0MzflTZ/Shoppe---eCommerce-Clothing-Fashion-Store-Multi-Purpose-UI-Mobile-App-Design--Community-?node-id=0-1&p=f&t=haImQd1oAzzRFpDq-0
+** 
+https://www.figma.com/design/m8pSNbqjBJAvalw0MzflTZ/
+Shoppe---eCommerce-Clothing-Fashion-Store-Multi-Purpose-UI-Mobile-App-Design--Community-?node-id=0-1&p=f&t=haImQd1oAzzRFpDq-0
+**
+
 4)npx expo start -c
 
 api--https://documenter.getpostman.com/view/28371413/2sAYQXpCyd#17d1fed2-96c5-49b8-8cca-a455e4036e39

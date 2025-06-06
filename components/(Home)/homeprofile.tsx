@@ -1,41 +1,19 @@
 import { getUserProfile } from '@/services/AuthService';
+import { IUserProfile } from '@/types/userprofile';
 import React, { useEffect, useState } from 'react';
 import {
   Image,
-  Modal, SafeAreaView, ScrollView,
+  Modal,
+  SafeAreaView,
+  ScrollView,
   Text,
   TouchableOpacity,
   View
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-type UserProfile = {
-  name?: string;
-  photo?: string;
-  email?: string;
-  role?: string;
-  hasShop?: boolean;
-  isActive?: boolean;
-  lastLogin?: string;
-  createdAt?: string;
-  profile?: {
-    gender?: string;
-    phoneNo?: string;
-    address?: string;
-    dateOfBirth?: string;
-  };
-  clientInfo?: {
-    device?: string;
-    browser?: string;
-    ipAddress?: string;
-    pcName?: string;
-    os?: string;
-    userAgent?: string;
-  };
-};
-
 const HomeProfile = () => {
-  const [profile, setProfile] = useState<UserProfile | null>(null);
+  const [profile, setProfile] = useState<IUserProfile | null>(null);
   const [modalVisible, setModalVisible] = useState(false);
 
   useEffect(() => {
@@ -47,21 +25,20 @@ const HomeProfile = () => {
         console.warn('Failed to load profile:', result.message);
       }
     };
-
     fetchProfile();
   }, []);
-console.log('Profile Photo:', profile?.photo);
+  // console.log('Profile data:', profile);
+
   return (
-    <SafeAreaView className="flex-1 bg-white px-4 mt-12">
+    <SafeAreaView className="flex-1 bg-white px-4 mt-10">
       {/* Header */}
       <View className="flex-row justify-between items-center mb-4">
         <View className="flex-row items-center">
-        <Image
-  source={{ uri: profile?.photo || 'https://i.pravatar.cc/150?img=3' }}
-  style={{ width: 40, height: 40, borderRadius: 20, marginRight: 12 }}
-/>
-          
-<TouchableOpacity
+          <Image
+            source={{ uri: profile?.photo || 'https://i.pravatar.cc/150?img=3' }}
+            className="w-10 h-10 rounded-full mr-3"
+          />
+          <TouchableOpacity
             className="bg-blue-500 px-4 py-1.5 rounded-full"
             onPress={() => setModalVisible(true)}
           >
@@ -80,20 +57,20 @@ console.log('Profile Photo:', profile?.photo);
       {/* Announcement */}
       <View className="flex-row justify-between items-center bg-gray-200 rounded-xl p-4 mb-6">
         <View>
-          <Text className="text-sm font-semibold mb-1">Announcement</Text>
-          <Text className="text-xs text-gray-600">
+          <Text className="text-2xl font-semibold mb-1">Announcement</Text>
+          <Text className="text-xl text-gray-900">
             All shop here now you can shop here...
           </Text>
         </View>
         <TouchableOpacity>
-          <Ionicons name="chevron-forward-outline" size={24} color="blue" />
+          <Ionicons name="chevron-forward-outline" size={28} color="blue" />
         </TouchableOpacity>
       </View>
 
-      {/* Recently Viewed */}
-      <Text className="text-lg font-semibold mb-3">Recently viewed</Text>
+      {/*--------- Recently Viewed -------------*/}
+      <Text className="text-xl font-semibold mb-3">Recently viewed</Text>
       <ScrollView horizontal showsHorizontalScrollIndicator={false} className="mb-6">
-        {[1, 2, 3, 4, 5].map((item) => (
+        {[1, 2, 3, 4, 5,6,].map((item) => (
           <Image
             key={item}
             source={{ uri: `https://i.pravatar.cc/100?img=${item + 10}` }}
@@ -102,8 +79,8 @@ console.log('Profile Photo:', profile?.photo);
         ))}
       </ScrollView>
 
-      {/* My Orders */}
-      <Text className="text-lg font-semibold mb-3">My Orders</Text>
+      {/*------------ My Orders----------------- */}
+      <Text className="text-lg p-2 font-semibold ">My Shops</Text>
       <View className="flex-row justify-between space-x-2">
         <TouchableOpacity className="bg-blue-100 px-4 py-2 rounded-full">
           <Text className="text-blue-700 font-semibold">To Pay</Text>
@@ -120,7 +97,7 @@ console.log('Profile Photo:', profile?.photo);
       {/* Modal */}
       <Modal
         animationType="slide"
-        transparent={true}
+        transparent
         visible={modalVisible}
         onRequestClose={() => setModalVisible(false)}
       >
@@ -128,7 +105,14 @@ console.log('Profile Photo:', profile?.photo);
           <View className="bg-white rounded-xl p-6 w-11/12 max-h-[80%]">
             <ScrollView>
               <Text className="text-xl font-bold mb-4">User Details</Text>
-
+              <View className="flex-row items-center mb-4">
+             <Image
+  source={{ uri: profile?.photo }}
+  style={{ width: 64, height: 64, borderRadius: 32, marginRight: 16 }}
+/>
+                </View>
+              <Text className="text-lg font-semibold mb-2">Profile Information</Text>
+                <Text className="text-lg font-semibold">{profile?.name}</Text>
               <Text><Text className="font-semibold">Name:</Text> {profile?.name}</Text>
               <Text><Text className="font-semibold">Email:</Text> {profile?.email}</Text>
               <Text><Text className="font-semibold">Gender:</Text> {profile?.profile?.gender}</Text>

@@ -5,7 +5,7 @@ import { FieldValues } from "react-hook-form";
 
 // Automatically use correct IP for Android Emulator
 const BASE_API =
-  process.env.EXPO_PUBLIC_BASE_API || "http://192.168.56.1:5000/api/v1";
+  process.env.EXPO_PUBLIC_BASE_API || "http://localhost:5000/api/v1";
    // Fallback to emulator localhost
 
 // --- Reusable API request handler ---
