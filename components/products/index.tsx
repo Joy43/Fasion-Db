@@ -1,7 +1,6 @@
 import { IProduct } from '@/types/product';
-import { useRouter } from 'expo-router';
 import React from 'react';
-import { SafeAreaView, View } from 'react-native';
+import { ScrollView, View } from 'react-native';
 import FilterSidebar from './filterSidebar';
 import ProductCard from './ProductCart';
 
@@ -10,30 +9,24 @@ interface AllProductsProps {
 }
 
 const AllProducts = ({ products }: AllProductsProps) => {
-  const router = useRouter();
-
   if (!products || !Array.isArray(products.data)) return null;
 
-  const slicedProducts = products.data.slice(0, 6);
-
   return (
+    <ScrollView className="flex-1 bg-white p-4">
+      <View className="flex-row gap-6">
+        {/* Left Side - Filter */}
+        <View className="w-1/3">
+          <FilterSidebar />
+        </View>
 
-    <SafeAreaView className="p-4 bg-white">
-
-      <View className='flex gap-8 my-10'>
-        {/*--------------- filter sidebar--------------------------- */}
-<View className='w-full max-w-sm'>
-<FilterSidebar/>
-</View>
-{/* -------product card------- */}
-<View  className='grid grid-cols-2 gap-8'>
-
-<ProductCard/>
-</View>
+        {/* Right Side - Products */}
+        <View className="w-2/3 flex-row flex-wrap gap-4">
+          {products.data.map((product: IProduct, idx: number) => (
+            <ProductCard key={idx} product={product} />
+          ))}
+        </View>
       </View>
-
-    </SafeAreaView>
-    
+    </ScrollView>
   );
 };
 

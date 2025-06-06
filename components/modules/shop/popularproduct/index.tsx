@@ -1,6 +1,7 @@
 import { useProducts } from '@/hooks/useProduct';
 import { IProduct } from '@/types/product';
 import { Ionicons } from '@expo/vector-icons';
+import { router } from 'expo-router';
 
 import React from 'react';
 import { Image, SafeAreaView, Text, TouchableOpacity, View } from 'react-native';
@@ -20,8 +21,9 @@ const { data:products, isLoading, isError } = useProducts();
 {/* Header */}
       <View className="flex-row justify-between items-center mb-4">
         <Text className="text-xl font-semibold text-gray-800">Most Popular</Text>
-        <TouchableOpacity className="flex-row items-center">
-          <Text className="text-[#7A1CAC] mr-1 font-medium">See All</Text>
+        <TouchableOpacity onPress={() => router.push('/product')} 
+        className="flex-row items-center">
+          <Text  className="text-[#7A1CAC] mr-1 font-medium">See All</Text>
           <Ionicons name="chevron-forward" size={20} color="#7A1CAC" />
         </TouchableOpacity>
       </View>

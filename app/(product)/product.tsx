@@ -1,15 +1,15 @@
 import AllProducts from '@/components/products';
 import { useProducts } from '@/hooks/useProduct';
 import React from 'react';
-import { View } from 'react-native';
+import { ScrollView } from 'react-native';
 
 const AllProductsPage = () => {
-    const { data:products, isLoading, isError } = useProducts();
+    const { data:products } = useProducts();
     
   return (
-    <View>
+    <ScrollView>
     <AllProducts products={products} />
-    </View>
+    </ScrollView>
   )
 }
 
