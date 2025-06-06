@@ -29,7 +29,7 @@ const products = [
 const Mostpopular = () => {
   return (
     <SafeAreaView className="p-8">
-      {/* Header */}
+      {/*-------------- Header ---------------------------*/}
       <View className="flex-row justify-between items-center mb-4">
         <Text className="text-xl font-semibold text-gray-800">Most Popular</Text>
         <TouchableOpacity className="flex-row items-center">
@@ -38,7 +38,7 @@ const Mostpopular = () => {
         </TouchableOpacity>
       </View>
 
-      {/* Horizontal Scroll of Cards */}
+      {/* ---------------------- Horizontal Scroll of Cards -------------------*/}
       <ScrollView horizontal showsHorizontalScrollIndicator={false}>
         {products.map((item, index) => (
           <View

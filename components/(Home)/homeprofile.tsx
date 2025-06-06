@@ -57,8 +57,8 @@ const HomeProfile = () => {
       {/* Announcement */}
       <View className="flex-row justify-between items-center bg-gray-200 rounded-xl p-4 mb-6">
         <View>
-          <Text className="text-2xl font-semibold mb-1">Announcement</Text>
-          <Text className="text-xl text-gray-900">
+          <Text className="text-xl font-semibold mb-1">Announcement</Text>
+          <Text className="text-lg text-gray-900">
             All shop here now you can shop here...
           </Text>
         </View>
@@ -66,18 +66,6 @@ const HomeProfile = () => {
           <Ionicons name="chevron-forward-outline" size={28} color="blue" />
         </TouchableOpacity>
       </View>
-
-      {/*--------- Recently Viewed -------------*/}
-      <Text className="text-xl font-semibold mb-3">Recently viewed</Text>
-      <ScrollView horizontal showsHorizontalScrollIndicator={false} className="mb-6">
-        {[1, 2, 3, 4, 5,6,].map((item) => (
-          <Image
-            key={item}
-            source={{ uri: `https://i.pravatar.cc/100?img=${item + 10}` }}
-            className="w-14 h-14 rounded-full mr-3"
-          />
-        ))}
-      </ScrollView>
 
       {/*------------ My Orders----------------- */}
       <Text className="text-lg p-2 font-semibold ">My Shops</Text>
