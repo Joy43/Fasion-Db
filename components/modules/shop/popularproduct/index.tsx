@@ -30,7 +30,17 @@ const { data:products, isLoading, isError } = useProducts();
 
       <View className="flex flex-row flex-wrap justify-between p-2 gap-2">
       {slicedProducts.map((product:IProduct) => (
-        <View key={product._id} className="w-44 p-2 bg-red-50 rounded-2xl shadow-md overflow-hidden mr-4">
+        <TouchableOpacity onPress={() => {
+        if (product._id) {
+          router.push({
+            pathname: '/productdetials', 
+            params: { productId: product._id }, 
+          });
+        } else {
+          console.warn('Product ID is undefined, navigation prevented.');
+        }
+      }}
+       key={product._id} className="w-44 p-2 bg-red-50 rounded-2xl shadow-md overflow-hidden mr-4">
 
           <Image
             source={{ uri: product.imageUrls[0] }}
@@ -53,7 +63,7 @@ const { data:products, isLoading, isError } = useProducts();
                       />
           </View>
           
-        </View>
+        </TouchableOpacity>
       ))}
     </View>
 

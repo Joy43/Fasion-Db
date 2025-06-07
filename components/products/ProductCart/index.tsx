@@ -15,7 +15,7 @@ const ProductCard = ({ product }: { product: IProduct }) => {
           console.warn('Product ID is undefined, navigation prevented.');
         }
       }}
-      className="w-56 rounded-2xl shadow-md overflow-hidden bg-white"
+      className="w-48 rounded-2xl shadow-md overflow-hidden bg-white"
     >
       {product.imageUrls?.length > 0 && (
         <Image
