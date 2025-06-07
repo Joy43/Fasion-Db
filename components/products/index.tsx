@@ -13,13 +13,13 @@ const AllProducts = ({ products }: AllProductsProps) => {
 
   return (
     <ScrollView className="flex-1 bg-white p-4">
-      <View className="flex-row gap-6">
-        {/* Left Side - Filter */}
+      <View    className="flex-row gap-6">
+        {/*------------------ Left Side - Filter ---------------------*/}
         <View className="w-1/3">
           <FilterSidebar />
         </View>
 
-        {/* Right Side - Products */}
+        {/*------------------- Right Side - Products */}
         <View className="w-2/3 flex-row flex-wrap gap-4">
           {products.data.map((product: IProduct, idx: number) => (
             <ProductCard key={idx} product={product} />

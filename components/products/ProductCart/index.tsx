@@ -1,27 +1,34 @@
 import { IProduct } from '@/types/product';
-import { Image, ScrollView, Text, View } from 'react-native';
-const ProductCard= ({product}:{product:IProduct}) => {
+import { router } from 'expo-router';
+import { Image, Text, TouchableOpacity, View } from 'react-native';
+
+const ProductCard = ({ product }: { product: IProduct }) => {
   return (
-   <ScrollView >
-     
-      <View className=' w-56 rounded-2xl shadow-md overflow-hidden '>
-          <Image
-              source={{ uri: product.imageUrls[0] }}
-              className="w-full h-56"
-              resizeMode="cover"
-            />
-            <View className="p-2">
-              <Text className="text-base font-semibold text-gray-800">{product.name}</Text>
-              <Text className="text-sm text-[#7A1CAC] font-medium mt-1">{product.price}</Text>
-            </View>
+    <TouchableOpacity
+      onPress={() => {
+        if (product._id) {
+          router.push({
+            pathname: '/productdetials', 
+            params: { productId: product._id }, 
+          });
+        } else {
+          console.warn('Product ID is undefined, navigation prevented.');
+        }
+      }}
+      className="w-56 rounded-2xl shadow-md overflow-hidden bg-white"
+    >
+      {product.imageUrls?.length > 0 && (
+        <Image
+          source={{ uri: product.imageUrls[0] }}
+          className="w-full h-56"
+        />
+      )}
+      <View className="p-2">
+        <Text className="text-base font-semibold">{product.name}</Text>
+        <Text className="text-sm text-[#7A1CAC] mt-1">${product.price}</Text>
       </View>
-
-      {/* -------PAGINATION -------- */}
-
-   </ScrollView>
-    
-  
-  )
-}
+    </TouchableOpacity>
+  );
+};
 
 export default ProductCard;

@@ -1,8 +1,8 @@
 import {
-    addProduct,
-    getAllProducts,
-    getSingleProduct,
-    updateProduct,
+  addProduct,
+  getAllProducts,
+  getSingleProduct,
+  updateProduct,
 } from "@/services/Product";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
@@ -20,7 +20,7 @@ export const useProducts = (
 };
 
 // -------- Get Single Product --------
-export const useProduct = (productId: string) => {
+export const useSingleProduct = (productId: string) => {
   return useQuery({
     queryKey: ["PRODUCT", productId],
     queryFn: () => getSingleProduct(productId),
