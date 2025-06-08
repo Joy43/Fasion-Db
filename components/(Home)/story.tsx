@@ -7,7 +7,6 @@ import {
   Modal,
   SafeAreaView,
   ScrollView,
-  StyleSheet,
   Text,
   TouchableOpacity,
   View,
@@ -40,9 +39,8 @@ export default function StoriesSection() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const screenWidth = Dimensions.get('window').width;
-  const playerRef = useRef<any>(null); // Use `any` since YouTubeStandalonePlayer is not exported
+  const playerRef = useRef<any>(null);
 
-  // Handle modal close and pause video
   const handleCloseModal = async () => {
     try {
       if (playerRef.current?.getYoutubePlayer) {
@@ -57,7 +55,6 @@ export default function StoriesSection() {
     setError(null);
   };
 
-  // Toggle play/pause
   const togglePlayPause = async () => {
     try {
       if (playerRef.current?.getYoutubePlayer) {
@@ -75,14 +72,14 @@ export default function StoriesSection() {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      <Text style={styles.title}>Stories</Text>
+    <SafeAreaView className="flex-1 p-4 m-2 bg-white">
+      <Text className="text-xl font-bold text-gray-800 mb-3">Stories</Text>
 
-      <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.scrollView}>
+      <ScrollView horizontal showsHorizontalScrollIndicator={false} className="mb-4">
         {storiesData.map((story) => (
           <TouchableOpacity
             key={story.id}
-            style={styles.storyCard}
+            className="w-[190px] h-[210px] rounded-2xl overflow-hidden mr-3 relative shadow-md"
             onPress={() => {
               setSelectedVideoId(story.videoId);
               setPlaying(true);
@@ -92,17 +89,16 @@ export default function StoriesSection() {
           >
             <Image
               source={{ uri: story.thumbnail }}
-              style={styles.thumbnail}
+              className="w-full h-full"
               resizeMode="cover"
-              onError={(e) => console.log('Thumbnail error:', e.nativeEvent.error)}
             />
             {story.live && (
-              <View style={styles.liveBadge}>
-                <Text style={styles.liveText}>Live</Text>
+              <View className="absolute top-2 left-2 bg-emerald-500 px-2 py-1 rounded">
+                <Text className="text-white text-[10px] font-bold">Live</Text>
               </View>
             )}
-            <View style={styles.playIconContainer}>
-              <View style={styles.playIconBackground}>
+            <View className="absolute inset-0 justify-center items-center">
+              <View className="bg-white/70 p-2.5 rounded-full">
                 <FontAwesome name="play" size={14} color="#000" />
               </View>
             </View>
@@ -111,20 +107,16 @@ export default function StoriesSection() {
       </ScrollView>
 
       {/* Modal Video Player */}
-      <Modal visible={!!selectedVideoId} animationType="slide" transparent={true}>
-        <View style={styles.modalContainer}>
-          <TouchableOpacity onPress={handleCloseModal} style={styles.closeButton}>
+      <Modal visible={!!selectedVideoId} animationType="slide" transparent>
+        <View className="flex-1 justify-center items-center bg-black/90 p-4">
+          <TouchableOpacity onPress={handleCloseModal} className="absolute top-10 right-5 bg-white/70 p-3 rounded-full z-50">
             <FontAwesome name="close" size={24} color="#000" />
           </TouchableOpacity>
 
-          {error && <Text style={styles.errorText}>{error}</Text>}
+          {error && <Text className="text-red-500 text-base text-center mb-4">{error}</Text>}
 
           {isLoading && (
-            <ActivityIndicator
-              size="large"
-              color="#FFFFFF"
-              style={styles.videoLoader}
-            />
+            <ActivityIndicator size="large" color="#FFFFFF" className="absolute self-center" />
           )}
 
           {selectedVideoId && (
@@ -149,113 +141,11 @@ export default function StoriesSection() {
             />
           )}
 
-          <TouchableOpacity onPress={togglePlayPause} style={styles.playPauseButton}>
-            <FontAwesome
-              name={playing ? 'pause' : 'play'}
-              size={24}
-              color="#000"
-            />
+          <TouchableOpacity onPress={togglePlayPause} className="absolute bottom-5 self-center bg-white/70 p-3 rounded-full z-50">
+            <FontAwesome name={playing ? 'pause' : 'play'} size={24} color="#000" />
           </TouchableOpacity>
         </View>
       </Modal>
     </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 16,
-    margin: 8,
-    backgroundColor: '#FFFFFF',
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: '700',
-    color: '#1F2937',
-    marginBottom: 12,
-  },
-  scrollView: {
-    marginBottom: 16,
-  },
-  storyCard: {
-    width: 190,
-    height: 210,
-    borderRadius: 16,
-    overflow: 'hidden',
-    marginRight: 12,
-    position: 'relative',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
-  },
-  thumbnail: {
-    width: '100%',
-    height: '100%',
-  },
-  liveBadge: {
-    position: 'absolute',
-    top: 8,
-    left: 8,
-    backgroundColor: '#10B981',
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-    borderRadius: 4,
-  },
-  liveText: {
-    color: '#FFFFFF',
-    fontSize: 10,
-    fontWeight: 'bold',
-  },
-  playIconContainer: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  playIconBackground: {
-    backgroundColor: 'rgba(255, 255, 255, 0.7)',
-    padding: 10,
-    borderRadius: 50,
-  },
-  modalContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.9)',
-    padding: 16,
-  },
-  closeButton: {
-    position: 'absolute',
-    top: 40,
-    right: 20,
-    backgroundColor: 'rgba(255, 255, 255, 0.7)',
-    padding: 12,
-    borderRadius: 999,
-    zIndex: 99,
-  },
-  playPauseButton: {
-    position: 'absolute',
-    bottom: 20,
-    alignSelf: 'center',
-    backgroundColor: 'rgba(255, 255, 255, 0.7)',
-    padding: 12,
-    borderRadius: 999,
-    zIndex: 99,
-  },
-  videoLoader: {
-    position: 'absolute',
-    alignSelf: 'center',
-  },
-  errorText: {
-    color: '#EF4444',
-    fontSize: 16,
-    textAlign: 'center',
-    marginBottom: 16,
-  },
-});
