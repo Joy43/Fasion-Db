@@ -1,3 +1,4 @@
+import Reviews from '@/components/modules/shop/review/reviews';
 import { useSingleProduct } from '@/hooks/useProduct';
 import { AntDesign, Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
@@ -190,6 +191,8 @@ const PageDetails = () => {
             </Text>
           )}
         </View>
+
+        <Reviews productId={product._id} />
       </ScrollView>
     </SafeAreaView>
   );
