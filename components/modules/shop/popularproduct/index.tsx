@@ -15,6 +15,7 @@ const { data:products, isLoading, isError } = useProducts();
 
   const slicedProducts = products.data.slice(0, 6);
 
+
   return (
 
     <SafeAreaView className="p-4 bg-white">

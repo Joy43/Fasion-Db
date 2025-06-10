@@ -5846,6 +5846,11 @@ react-native-is-edge-to-edge@^1.1.6:
   resolved "https://registry.npmjs.org/react-native-is-edge-to-edge/-/react-native-is-edge-to-edge-1.1.7.tgz#28947688f9fafd584e73a4f935ea9603bd9b1939"
   integrity sha512-EH6i7E8epJGIcu7KpfXYXiV2JFIYITtq+rVS8uEb+92naMRBdxhTuS8Wn2Q7j9sqyO0B+Xbaaf9VdipIAmGW4w==
 
+react-native-loading-dots@^1.3.5:
+  version "1.3.5"
+  resolved "https://registry.npmjs.org/react-native-loading-dots/-/react-native-loading-dots-1.3.5.tgz#01b310f26842e2e1c320f91b2fd818766f6ba467"
+  integrity sha512-kUQncSwrfph1zJM4hfDSjkuuJHfJN9MZC+qpVuDJz/ix085ADpNC/8UBdsaeTT5fB1FG9/TuoJRY3tFi0qrFZg==
+
 react-native-reanimated@3.16.2:
   version "3.16.2"
   resolved "https://registry.npmjs.org/react-native-reanimated/-/react-native-reanimated-3.16.2.tgz#8ae2d632cbf02174ce3ef1329b3ce6e3cfe46aa2"

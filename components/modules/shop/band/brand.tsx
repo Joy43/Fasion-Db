@@ -3,13 +3,12 @@ import { IBrand } from '@/types/band.types';
 import { Ionicons } from '@expo/vector-icons';
 import React from 'react';
 import {
-    ActivityIndicator,
-    FlatList,
-    Image,
-    SafeAreaView,
-    Text,
-    TouchableOpacity,
-    View,
+  FlatList,
+  Image,
+  SafeAreaView,
+  Text,
+  TouchableOpacity,
+  View
 } from 'react-native';
 
 const Brands = () => {
@@ -39,13 +38,7 @@ const Brands = () => {
         </TouchableOpacity>
       </View>
 
-      {/* Loading */}
-      {isLoading && (
-        <View className="flex-1 justify-center items-center">
-          <ActivityIndicator size="large" color="#3B82F6" />
-          <Text className="mt-3 text-gray-500 text-base">Loading brands...</Text>
-        </View>
-      )}
+   
 
       {/* Error */}
       {isError && (

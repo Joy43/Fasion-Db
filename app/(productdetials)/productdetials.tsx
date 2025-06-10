@@ -1,17 +1,17 @@
 import Reviews from '@/components/modules/shop/review/reviews';
 import { useSingleProduct } from '@/hooks/useProduct';
+import LoadingScreen from '@/utils/Loading';
 import { AntDesign, Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { useLocalSearchParams } from 'expo-router';
 import { useState } from 'react';
 import {
-  ActivityIndicator,
   Image,
   SafeAreaView,
   ScrollView,
   Text,
   TouchableOpacity,
-  View,
+  View
 } from 'react-native';
 
 const PageDetails = () => {
@@ -29,7 +29,7 @@ const PageDetails = () => {
   if (isLoading) {
     return (
       <SafeAreaView className="flex-1 justify-center items-center">
-        <ActivityIndicator size="large" color="#7A1CAC" />
+       <LoadingScreen/>
       </SafeAreaView>
     );
   }

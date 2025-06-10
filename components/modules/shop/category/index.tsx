@@ -3,21 +3,17 @@ import { ICategory } from '@/types/category';
 import { Ionicons } from '@expo/vector-icons';
 import React from 'react';
 import {
-  ActivityIndicator,
   Image,
   ScrollView,
   Text,
   TouchableOpacity,
-  View,
+  View
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 const AllCategory = () => {
   const { data, isLoading, isError } = useCategories();
 
-  if (isLoading) {
-    return <ActivityIndicator className="mt-10" size="large" color="#7A1CAC" />;
-  }
 
   if (isError) {
     return (

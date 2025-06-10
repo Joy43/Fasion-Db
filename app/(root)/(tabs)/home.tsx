@@ -24,10 +24,8 @@ export default function Home() {
           <Slider/>
           <Brands/>
           <StoriesSection />
-  
           <PopularProduct/>
           <AllCategory/>
-         
         <Flashsell />
         
         </>

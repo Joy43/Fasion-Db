@@ -1,13 +1,13 @@
 import { useGetFlashsellProducts } from '@/hooks/useFlashsell';
 import { IProduct } from '@/types/product';
+import LoadingScreen from '@/utils/Loading';
 import { router } from 'expo-router';
 import React, { useEffect, useState } from 'react';
 import {
-  ActivityIndicator,
   Image,
   Text,
   TouchableOpacity,
-  View,
+  View
 } from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
 
@@ -40,9 +40,7 @@ const Flashsell = () => {
 
   if (isLoading) {
     return (
-      <View className="flex-1 justify-center items-center">
-        <ActivityIndicator size="large" color="#3B82F6" />
-      </View>
+    <LoadingScreen/>
     );
   }
 
