@@ -40,29 +40,29 @@ const Slider = () => {
             dot={<View className="bg-white/30 w-2 h-2 rounded-full mx-1" />}
             activeDot={<View className="bg-white w-3 h-3 rounded-full mx-1" />}
           >
-            {slides.map((slide, index) => (
-              <View key={index} className="w-full h-72 relative">
-                {/* Image */}
-             <Image
-  source={{ uri: slide.image }}
-  className="w-full"
-  resizeMode="cover"
-/>
+           {slides.map((slide, index) => (
+  <View key={index} className="w-full h-72 relative">
+    {/* Image */}
+    <Image
+      source={{ uri: slide.image }}
+      className="w-full h-full"
+      resizeMode="cover"
+    />
 
+    {/* Gradient Overlay */}
+    <LinearGradient
+      colors={['transparent', 'rgba(0,0,0,0.6)']}
+      className="absolute bottom-0 w-full h-1/2 rounded-b-3xl"
+    />
 
-                {/* Gradient Overlay */}
-                <LinearGradient
-                  colors={['transparent', 'rgba(0,0,0,0.6)']}
-                  className="absolute bottom-0 w-full h-1/2 rounded-b-3xl"
-                />
+    {/* Glassmorphic Text Overlay */}
+    <View className="absolute bottom-4 left-4 right-4 bg-white/10 backdrop-blur-md p-3 rounded-xl border border-white/20">
+      <Text className="text-white text-xl font-semibold">{slide.subtitle}</Text>
+      <Text className="text-white text-sm mt-1">{slide.description}</Text>
+    </View>
+  </View>
+))}
 
-                {/* Glassmorphic Text Overlay */}
-                <View className="absolute bottom-4 left-4 right-4 bg-white/10 backdrop-blur-md p-3 rounded-xl border border-white/20">
-                  <Text className="text-white text-xl font-semibold">{slide.subtitle}</Text>
-                  <Text className="text-white text-sm mt-1">{slide.description}</Text>
-                </View>
-              </View>
-            ))}
           </Swiper>
         </View>
       </View>

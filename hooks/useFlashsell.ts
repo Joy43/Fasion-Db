@@ -3,7 +3,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 // ---------get flashsell products hook----------------
 export const useGetFlashsellProducts = () => {
   return useQuery({
-    queryKey: ["BRAND"],
+    queryKey: ["FLASHSELL"],
     queryFn: FlashsellProducts,
      staleTime: 0, 
   });
