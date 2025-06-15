@@ -59,13 +59,7 @@ const Brands = () => {
           showsHorizontalScrollIndicator={false}
           contentContainerStyle={{ paddingHorizontal: 20, paddingVertical: 16 }}
         />
-      ) : (
-        !isLoading && (
-          <View className="flex-1 justify-center items-center">
-            <Text className="text-gray-500 font-medium text-lg">No brands found.</Text>
-          </View>
-        )
-      )}
+      ) : null}
     </SafeAreaView>
   );
 };

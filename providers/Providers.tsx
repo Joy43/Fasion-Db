@@ -2,6 +2,7 @@
 import UserProvider from '@/context/UserContext';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import React from 'react';
+import StoreProvider from './StoreProvider';
 
 // Create a QueryClient instance
 const queryClient = new QueryClient({
@@ -22,7 +23,8 @@ const Providers = ({ children }: { children: React.ReactNode }) => {
   return (
     <UserProvider>
       <QueryClientProvider client={queryClient}>
-        {children}
+
+      <StoreProvider>{children}</StoreProvider>
       </QueryClientProvider>
     </UserProvider>
   );

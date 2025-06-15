@@ -3,7 +3,7 @@ import { useSingleProduct } from '@/hooks/useProduct';
 import LoadingScreen from '@/utils/Loading';
 import { AntDesign, Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
-import { useLocalSearchParams } from 'expo-router';
+import { router, useLocalSearchParams } from 'expo-router';
 import { useState } from 'react';
 import {
   Image,
@@ -77,8 +77,8 @@ const PageDetails = () => {
             </View>
           </View>
 
-          {/* Color Options */}
-          <Text className="mt-5 text-base font-semibold text-gray-800">Color Options</Text>
+          {/*-------------- Color Options-------------------- */}
+          <Text className="mt-5 text-base font-semibold text-gray-800">Color Avaible</Text>
           <ScrollView horizontal showsHorizontalScrollIndicator={false} className="mt-2">
             {product.imageUrls?.map((url: string, index: number) => (
               <TouchableOpacity
@@ -98,32 +98,27 @@ const PageDetails = () => {
             ))}
           </ScrollView>
 
-          {/* Quantity Selector */}
-          <Text className="mt-5 text-base font-semibold text-gray-800">Quantity</Text>
-          <View className="flex-row items-center justify-between mt-2 w-36">
-            <TouchableOpacity
-              onPress={() => setQuantity(Math.max(1, quantity - 1))}
-              className="bg-white border border-gray-300 rounded-full w-10 h-10 justify-center items-center"
-            >
-              <Text className="text-xl">-</Text>
-            </TouchableOpacity>
-            <Text className="text-lg font-semibold">{quantity}</Text>
-            <TouchableOpacity
-              onPress={() => setQuantity(quantity + 1)}
-              className="bg-white border border-gray-300 rounded-full w-10 h-10 justify-center items-center"
-            >
-              <Text className="text-xl">+</Text>
-            </TouchableOpacity>
-          </View>
+        
 
-          {/* Buttons */}
+          {/* -----------------------Buttons -------------------------*/}
           <View className="flex-row items-center justify-between mt-6 space-x-3">
             <TouchableOpacity className="w-12 h-12 border rounded-full justify-center items-center border-gray-300">
               <AntDesign name="hearto" size={20} color="black" />
             </TouchableOpacity>
 
-            <TouchableOpacity className="flex-1 bg-blue-600 py-3 rounded-xl items-center">
-              <Text className="text-white font-semibold text-base">Buy now</Text>
+            <TouchableOpacity 
+             onPress={() => {
+                    if (product._id) {
+                      router.push({
+                        pathname: '/order', 
+                        params: { productId: product._id }, 
+                      });
+                    } else {
+                      console.warn('Product ID is undefined, navigation prevented.');
+                    }
+                  }}
+            className="flex-1 bg-blue-600 py-3 rounded-xl items-center">
+              <Text className="text-white font-semibold text-base">Order Now</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -158,7 +153,7 @@ const PageDetails = () => {
             </>
           )}
 
-          {/* Available Colors */}
+          {/*-------------------- Available Colors ---------------------------*/}
           {product.availableColors && (
             <>
               <Text className="mt-4 text-base font-bold text-gray-800 mb-2">Available Colors</Text>
@@ -184,7 +179,7 @@ const PageDetails = () => {
             </Text>
           )}
 
-          {/* Weight */}
+          {/*-------------------- Weight---------------------- */}
           {product.weight && (
             <Text className="mt-2 text-base text-gray-800">
               <Text className="font-bold">Weight:</Text> {product.weight}
