@@ -1,8 +1,8 @@
 
 // --------slider---------
-import Mayabilake from '@/assets/onboarding/1.jpeg';
-import Modutila from '@/assets/onboarding/2.jpeg';
-import Gojniobokas from '@/assets/onboarding/3.jpeg';
+import Mayabilake from '@/assets/onboarding/about.png';
+import Modutila from '@/assets/onboarding/product_27.png';
+import Gojniobokas from '@/assets/onboarding/product_52.png';
 
 // -----------logo-------
 
