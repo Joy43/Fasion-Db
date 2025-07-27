@@ -24,7 +24,7 @@ const PageDetails = () => {
 
   const [selectedColor, setSelectedColor] = useState(0);
 
-  const [quantity, setQuantity] = useState(1);
+
 
   if (isLoading) {
     return (
@@ -101,9 +101,9 @@ const PageDetails = () => {
         
 
           {/* -----------------------Buttons -------------------------*/}
-          <View className="flex-row items-center justify-between mt-6 space-x-3">
+          <View className="flex-row items-center justify-around mt-6 space-x-3">
             <TouchableOpacity className="w-12 h-12 border rounded-full justify-center items-center border-gray-300">
-              <AntDesign name="hearto" size={20} color="black" />
+              <AntDesign name="hearto" size={22} color="red" />
             </TouchableOpacity>
 
             <TouchableOpacity 
@@ -117,7 +117,7 @@ const PageDetails = () => {
                       console.warn('Product ID is undefined, navigation prevented.');
                     }
                   }}
-            className="flex-1 bg-blue-600 py-3 rounded-xl items-center">
+            className="w-fit p-5 bg-blue-600 py-3 rounded-xl items-center">
               <Text className="text-white font-semibold text-base">Order Now</Text>
             </TouchableOpacity>
           </View>
@@ -156,7 +156,7 @@ const PageDetails = () => {
           {/*-------------------- Available Colors ---------------------------*/}
           {product.availableColors && (
             <>
-              <Text className="mt-4 text-base font-bold text-gray-800 mb-2">Available Colors</Text>
+              <Text className="mt-4 text-base font-bold text-gray-800 mb-2">Available Colors Now</Text>
               {(Array.isArray(product.availableColors) ? product.availableColors : [product.availableColors])?.map(
                 (color: string, index: number) => (
                   <Text key={index} className="text-gray-600">• {color}</Text>
@@ -186,6 +186,8 @@ const PageDetails = () => {
             </Text>
           )}
         </View>
+
+        {/* -----------review & rating-------- */}
 
         <Reviews productId={product._id} />
       </ScrollView>

@@ -29,12 +29,12 @@ export const useDeleteBrand = (token: string) => {
   return useMutation({
     mutationFn: (brandId: string) => deleteBrand({ brandId, token }),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["CATEGORY"] });
+      queryClient.invalidateQueries({ queryKey: ["BRAND"] });
     },
   });
 };
 
-export const useUpdateCategory = (token: string) => {
+export const useUpdateBrand = (token: string) => {
   const queryClient = useQueryClient();
 
   return useMutation({

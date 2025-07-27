@@ -1,5 +1,6 @@
-import { Picker } from '@react-native-picker/picker'; // make sure you have this installed
-import { useMutation } from '@tanstack/react-query';
+
+import { useCreateReview } from '@/hooks/useReview';
+import { Picker } from '@react-native-picker/picker';
 import React, { useState } from 'react';
 import {
   Alert,
@@ -17,32 +18,7 @@ const Reviews = ({ productId }: ReviewsProps) => {
   const [review, setReview] = useState('');
   const [rating, setRating] = useState(5);
 
-  const postReview = async (data: { review: string; rating: number; product: string }) => {
-    const response = await fetch('http://localhost:5000/api/v1/review', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data),
-    });
-
-    if (!response.ok) {
-      const errorBody = await response.json();
-      throw new Error(errorBody.message || 'Something went wrong');
-    }
-
-    return response.json();
-  };
-
-  const { mutate, isPending } = useMutation<any, Error, { review: string; rating: number; product: string }>({
-    mutationFn: postReview,
-    onSuccess: () => {
-      Alert.alert('Success', 'Review submitted!');
-      setReview('');
-      setRating(5);
-    },
-    onError: (error: any) => {
-      Alert.alert('Error', error.message || 'Failed to submit review');
-    },
-  });
+  const { mutate, isPending } = useCreateReview();
 
   const handleSubmit = () => {
     if (!review.trim()) {
@@ -50,10 +26,20 @@ const Reviews = ({ productId }: ReviewsProps) => {
       return;
     }
 
-    mutate({
-      review,
-      rating,
-      product: productId,
+    const formData = new FormData();
+    formData.append('review', review);
+    formData.append('rating', rating.toString());
+    formData.append('product', productId);
+
+    mutate(formData, {
+      onSuccess: () => {
+        Alert.alert('Success', 'Review submitted!');
+        setReview('');
+        setRating(5);
+      },
+      onError: (error: any) => {
+        Alert.alert('Error', error.message || 'Failed to submit review');
+      },
     });
   };
 
@@ -78,7 +64,7 @@ const Reviews = ({ productId }: ReviewsProps) => {
           ))}
         </Picker>
       </View>
-
+{/* -------------------- product---------------- */}
       <TouchableOpacity
         className="bg-blue-600 rounded p-3 items-center"
         onPress={handleSubmit}
@@ -88,6 +74,7 @@ const Reviews = ({ productId }: ReviewsProps) => {
           {isPending ? 'Submitting...' : 'Submit Review'}
         </Text>
       </TouchableOpacity>
+      
     </View>
   );
 };
