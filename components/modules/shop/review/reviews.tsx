@@ -39,6 +39,7 @@ const Reviews = ({ productId }: ReviewsProps) => {
       },
       onError: (error: any) => {
         Alert.alert('Error', error.message || 'Failed to submit review');
+        console.log(error)
       },
     });
   };
@@ -74,7 +75,7 @@ const Reviews = ({ productId }: ReviewsProps) => {
           {isPending ? 'Submitting...' : 'Submit Review'}
         </Text>
       </TouchableOpacity>
-      
+
     </View>
   );
 };

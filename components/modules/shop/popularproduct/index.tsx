@@ -19,7 +19,7 @@ const { data:products, isLoading, isError } = useProducts();
   return (
 
     <SafeAreaView className="p-4 bg-white">
-{/* Header */}
+{/* ---------------------Header----------------------- */}
       <View className="flex-row justify-between items-center mb-4">
         <Text className="text-xl font-semibold text-gray-800">Most Popular</Text>
         <TouchableOpacity onPress={() => router.push('/product')} 
