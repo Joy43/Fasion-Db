@@ -1,4 +1,4 @@
-export interface IUser {
+export type IUser = {
   userId: string;
   name: string;
   email: string;
@@ -7,4 +7,4 @@ export interface IUser {
   role: "user" | "admin";
   iat?: number;
   exp?: number;
-}
+};

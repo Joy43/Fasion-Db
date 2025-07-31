@@ -2,12 +2,12 @@ import { getCurrentUser } from "@/services/AuthService";
 import { IUser } from "@/types/user";
 
 import {
-    createContext,
-    Dispatch,
-    SetStateAction,
-    useContext,
-    useEffect,
-    useState,
+  createContext,
+  Dispatch,
+  SetStateAction,
+  useContext,
+  useEffect,
+  useState,
 } from "react";
 
 interface IUserProviderValues {
@@ -25,7 +25,7 @@ const UserProvider = ({ children }: { children: React.ReactNode }) => {
 
   const handleUser = async () => {
     const user = await getCurrentUser();
-    setUser(user);
+    setUser(user as IUser);
     setIsLoading(false);
   };
 

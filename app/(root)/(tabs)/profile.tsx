@@ -1,55 +1,81 @@
-import UpdateProfileFrom from '@/components/modules/auth/updateprofile/UpdateProfileFrom';
-import { useUser } from '@/context/UserContext';
-import { logout } from '@/services/AuthService';
-import { Ionicons } from '@expo/vector-icons';
-import { router } from 'expo-router';
-import { Text, TouchableOpacity, View } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import UpdateProfileForm from "@/components/modules/auth/updateprofile/UpdateProfileFrom";
+import Userprofile from "@/components/modules/auth/userprofile/Userprofile";
+import { useUser } from "@/context/UserContext";
+import { logout } from "@/services/AuthService";
+import { Ionicons } from "@expo/vector-icons";
+import { router } from "expo-router";
+import { useState } from "react";
+import { Text, TouchableOpacity, View } from "react-native";
+import Modal from "react-native-modal";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const Profile = () => {
   const { user, setIsLoading } = useUser();
-console.log('user in profile', user);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
   const handleLogOut = () => {
     logout();
     setIsLoading(true);
     if (user) {
-      router.push('/login');
+      router.push("/login");
     }
   };
 
+  const openModal = () => setIsModalVisible(true);
+  const closeModal = () => setIsModalVisible(false);
+
   return (
-    <SafeAreaView className="flex-1 bg-[#f3f4f6] px-4 pt-6">
+    <SafeAreaView className="flex-1 bg-[#f9fafb] px-5 pt-6">
       {/* Header */}
       <View className="flex-row justify-between items-center mb-6">
         <View>
-          <Text className="text-xl font-semibold text-gray-800">
-            Welcome, {user?.name || 'User'}
+          <Text className="text-2xl font-extrabold text-gray-900">
+            Hello, {user?.name || "User"}
           </Text>
-          <Text className="text-sm text-gray-500">{user?.email}</Text>
+          <Text className="text-sm text-gray-500 mt-1">{user?.email}</Text>
         </View>
         <TouchableOpacity
           onPress={handleLogOut}
-          className="bg-red-500 px-4 py-2 rounded-full shadow"
+          className="flex-row items-center bg-red-500 px-4 py-2 rounded-full shadow-md active:opacity-80"
         >
-          <View className="flex-row items-center">
-            <Ionicons name="log-out-outline" size={16} color="#fff" />
-            <Text className="text-white text-sm ml-2">Logout</Text>
-          </View>
+          <Ionicons name="log-out-outline" size={18} color="#fff" />
+          <Text className="text-white text-sm font-medium ml-2">Logout</Text>
         </TouchableOpacity>
       </View>
 
-      {/* Role Info */}
-      <View className="mb-4 bg-white p-4 rounded-xl shadow-sm">
-        <Text className="text-gray-500 mb-1">Role</Text>
-        <Text className="text-lg font-medium text-gray-800">
-          {user?.role || 'N/A'}
-        </Text>
+      {/* Profile Info Card */}
+      <View className="bg-white p-5 rounded-2xl shadow-sm mb-6">
+        <View className="mb-4">
+          <Text className="text-sm text-gray-500">Role</Text>
+          <Text className="text-lg font-semibold text-gray-800">
+            {user?.role || "N/A"}
+          </Text>
+        </View>
+
+        {/* Edit Profile */}
+        <TouchableOpacity
+          onPress={openModal}
+          className="bg-blue-600 py-3 px-6 rounded-full active:opacity-90"
+        >
+          <Text className="text-white font-semibold text-base text-center">
+            Edit Profile
+          </Text>
+        </TouchableOpacity>
       </View>
 
-      {/* Update Profile Form */}
-      <View className="flex-1">
-        <UpdateProfileFrom />
-      </View>
+      {/* Modal */}
+      <Modal
+        isVisible={isModalVisible}
+        style={{ margin: 0 }}
+        onBackdropPress={closeModal}
+      >
+        <SafeAreaView className="flex-1 bg-white px-5 pt-6">
+          <UpdateProfileForm closeModal={closeModal} />
+        </SafeAreaView>
+      </Modal>
+
+      {/* Additional Info */}
+      <Userprofile />
     </SafeAreaView>
   );
 };

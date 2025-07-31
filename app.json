@@ -36,7 +36,8 @@
           "backgroundColor": "#ffffff"
         }
       ],
-      "react-native-video"
+      "react-native-video",
+      "expo-web-browser"
     ],
     "experiments": {
       "typedRoutes": true

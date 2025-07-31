@@ -1,19 +1,23 @@
+import { useAddOrder } from "@/hooks/useOrder";
 import { useSingleProduct } from "@/hooks/useProduct";
 import LoadingScreen from "@/utils/Loading";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
-import { router, useLocalSearchParams } from "expo-router";
+import { useLocalSearchParams } from "expo-router";
+import * as WebBrowser from "expo-web-browser";
 import { useState } from "react";
 import {
   Image,
   SafeAreaView,
   ScrollView,
   Text,
+  TextInput,
   TouchableOpacity,
   View,
 } from "react-native";
 
 const PageOrder = () => {
+  const { mutateAsync: createOrder, isPending } = useAddOrder();
   const navigation = useNavigation();
   const params = useLocalSearchParams();
   const productId = params.productId as string;
@@ -22,8 +26,40 @@ const PageOrder = () => {
   const product = data?.data;
 
   const [selectedColor, setSelectedColor] = useState(0);
-
   const [quantity, setQuantity] = useState(1);
+  const [shippingAddress, setShippingAddress] = useState("");
+  const [coupon, setCoupon] = useState("");
+
+  const handleOrder = async () => {
+    if (!product?._id) return alert("Invalid product ID");
+    if (!shippingAddress.trim()) return alert("Please enter shipping address");
+
+    try {
+      const payload = {
+        products: [
+          {
+            product: product._id,
+            color: product.availableColors?.[selectedColor] || "Default",
+            quantity,
+          },
+        ],
+        coupon,
+        shippingAddress,
+        paymentMethod: "Online",
+      };
+
+      const response = await createOrder(payload);
+
+      if (response?.data?.paymentUrl) {
+        await WebBrowser.openBrowserAsync(response.data.paymentUrl);
+      } else {
+        alert("Order placed but no payment URL returned.");
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Failed to place order.");
+    }
+  };
 
   if (isLoading) {
     return (
@@ -52,7 +88,7 @@ const PageOrder = () => {
           <Ionicons name="arrow-back" size={24} color="black" />
         </TouchableOpacity>
 
-        {/* Large Background Image */}
+        {/* Large Image */}
         <Image
           source={{ uri: product.imageUrls?.[0] }}
           className="w-full h-96"
@@ -71,13 +107,13 @@ const PageOrder = () => {
               <Text className="text-xl font-extrabold">${product.price}</Text>
               <View className="flex-row mt-1 space-x-2">
                 <Text className="bg-gray-100 px-3 py-1 rounded-lg text-sm">
-                  {product.color || "Pink"}
+                  {product.color || "Default"}
                 </Text>
               </View>
             </View>
           </View>
 
-          {/* ---------------- Color Options------------------------ */}
+          {/* Color Options */}
           <Text className="mt-5 text-base font-semibold text-gray-800">
             Color Options
           </Text>
@@ -106,7 +142,7 @@ const PageOrder = () => {
             ))}
           </ScrollView>
 
-          {/* --------------------Quantity Selector ----------------*/}
+          {/* Quantity Selector */}
           <Text className="mt-5 text-base font-semibold text-gray-800">
             Quantity
           </Text>
@@ -126,26 +162,41 @@ const PageOrder = () => {
             </TouchableOpacity>
           </View>
 
-          {/* -----------------------Buttons -------------------------*/}
-          {/* -------WHISHLIST------------- */}
+          {/* Coupon Input */}
+          <Text className="mt-6 text-base font-semibold text-gray-800">
+            Coupon Code
+          </Text>
+          <TextInput
+            placeholder="Enter coupon code"
+            value={coupon}
+            onChangeText={setCoupon}
+            className="mt-2 bg-white border border-gray-300 rounded-lg px-4 py-2"
+          />
+
+          {/* Shipping Address Input */}
+          <Text className="mt-6 text-base font-semibold text-gray-800">
+            Shipping Address
+          </Text>
+          <TextInput
+            placeholder="Enter shipping address"
+            value={shippingAddress}
+            onChangeText={setShippingAddress}
+            multiline
+            numberOfLines={3}
+            className="mt-2 bg-white border border-gray-300 rounded-lg px-4 py-2 text-gray-700"
+          />
+
+          {/* Buy Now Button */}
           <View className="flex-row items-center justify-between mt-6 space-x-6">
             <TouchableOpacity
-              onPress={() => {
-                if (product._id) {
-                  router.push({
-                    pathname: "/order",
-                    params: { productId: product._id },
-                  });
-                } else {
-                  console.warn(
-                    "Product ID is undefined, navigation prevented."
-                  );
-                }
-              }}
-              className="flex-1 bg-[#004CFF] w-fit py-3 px-3 rounded-xl items-center"
+              onPress={handleOrder}
+              disabled={isPending}
+              className={`flex-1 ${
+                isPending ? "bg-gray-400" : "bg-[#004CFF]"
+              } py-3 px-3 rounded-xl items-center`}
             >
               <Text className="text-white font-semibold text-base">
-                Buy now
+                {isPending ? "Processing..." : "Buy now"}
               </Text>
             </TouchableOpacity>
           </View>
@@ -153,7 +204,6 @@ const PageOrder = () => {
 
         {/* Product Details Section */}
         <View className="mt-6 px-4">
-          {/* Key Features */}
           <Text className="text-base font-bold text-gray-800 mb-2">
             Key Features
           </Text>
@@ -166,7 +216,7 @@ const PageOrder = () => {
             </Text>
           ))}
 
-          {/* Specification */}
+          {/* Specifications */}
           {product.specification && (
             <>
               <Text className="mt-4 text-base font-bold text-gray-800 mb-2">
@@ -192,7 +242,7 @@ const PageOrder = () => {
             </>
           )}
 
-          {/*-------------------- Available Colors ---------------------------*/}
+          {/* Available Colors */}
           {product.availableColors && (
             <>
               <Text className="mt-4 text-base font-bold text-gray-800 mb-2">
@@ -209,13 +259,6 @@ const PageOrder = () => {
             </>
           )}
 
-          {/* Data Rating */}
-          {product.dataRating && (
-            <Text className="mt-4 text-base text-gray-800">
-              <Text className="font-bold">Rating:</Text> {product.dataRating}
-            </Text>
-          )}
-
           {/* Stock */}
           {product.stock && (
             <Text className="mt-2 text-base text-gray-800">
@@ -223,7 +266,7 @@ const PageOrder = () => {
             </Text>
           )}
 
-          {/*-------------------- Weight---------------------- */}
+          {/* Weight */}
           {product.weight && (
             <Text className="mt-2 text-base text-gray-800">
               <Text className="font-bold">Weight:</Text> {product.weight}

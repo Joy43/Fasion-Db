@@ -12,6 +12,7 @@ export type IUserProfile = {
     phoneNo?: string;
     address?: string;
     dateOfBirth?: string;
+    photo?: string;
   };
   clientInfo?: {
     device?: string;
