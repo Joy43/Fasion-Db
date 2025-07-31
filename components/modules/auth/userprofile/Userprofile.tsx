@@ -1,92 +1,82 @@
-import { getUserProfile } from "@/services/AuthService";
-import { IUserProfile } from "@/types/userprofile";
-import React, { useEffect, useState } from "react";
-import { Image, ScrollView, Text, View } from "react-native";
+import { useProfile } from "@/hooks/useProfile";
+import React from "react";
+import { ActivityIndicator, Image, ScrollView, Text, View } from "react-native";
 
 const Userprofile = () => {
-  const [profile, setProfile] = useState<IUserProfile | null>(null);
+  const { data: profile, isLoading, isError } = useProfile();
 
-  useEffect(() => {
-    const fetchProfile = async () => {
-      const result = await getUserProfile();
-      if (result.success) {
-        setProfile(result.data);
-      } else {
-        console.warn("Failed to load profile:", result.message);
-      }
-    };
-    fetchProfile();
-  }, []);
+  if (isLoading) {
+    return (
+      <View className="flex-1 items-center justify-center">
+        <ActivityIndicator size="large" color="#7A1CAC" />
+        <Text className="mt-2 text-gray-500">Loading profile...</Text>
+      </View>
+    );
+  }
+
+  if (isError || !profile) {
+    return (
+      <View className="flex-1 items-center justify-center p-4">
+        <Text className="text-red-500 text-lg font-semibold">
+          Failed to load profile data.
+        </Text>
+      </View>
+    );
+  }
 
   return (
-    <ScrollView>
-      <Text className="text-xl font-bold mb-4 text-center">User Details</Text>
+    <ScrollView className="p-2">
+      <Text className="text-2xl font-bold mb-6 text-center text-purple-700">
+        User Profile
+      </Text>
 
       {/* Profile Image */}
       {profile?.profile?.photo ? (
         <Image
           source={{ uri: profile.profile.photo }}
-          className="w-16 h-16 rounded-full"
+          className="w-24 h-24 rounded-full mx-auto mb-4"
           resizeMode="cover"
         />
       ) : (
-        <View className="w-16 h-16 rounded-full bg-gray-300 items-center justify-center">
+        <View className="w-24 h-24 rounded-full bg-gray-300 items-center justify-center mx-auto mb-4">
           <Text className="text-xs text-gray-600">No Photo</Text>
         </View>
       )}
 
-      {/* Profile Information */}
-      <Text className="text-lg font-semibold mb-2">Profile Information</Text>
+      {/* Profile Info */}
+      <Text className="text-xl font-semibold mb-2 text-purple-600">
+        Profile Information
+      </Text>
 
-      <Text className="mb-1">
-        <Text className="font-semibold">Email:</Text> {profile?.email}
-      </Text>
-      <Text className="mb-1">
-        <Text className="font-semibold">Gender:</Text>{" "}
-        {profile?.profile?.gender}
-      </Text>
-      <Text className="mb-1">
-        <Text className="font-semibold">Phone:</Text>{" "}
-        {profile?.profile?.phoneNo}
-      </Text>
-      <Text className="mb-1">
-        <Text className="font-semibold">Address:</Text>{" "}
-        {profile?.profile?.address}
-      </Text>
-      <Text className="mb-1">
-        <Text className="font-semibold">DOB:</Text>{" "}
-        {profile?.profile?.dateOfBirth}
-      </Text>
-      <Text className="mb-1">
-        <Text className="font-semibold">Role:</Text> {profile?.role}
-      </Text>
-      <Text className="mb-1">
-        <Text className="font-semibold">Has Shop:</Text>{" "}
-        {profile?.hasShop ? "Yes" : "No"}
-      </Text>
-      <Text className="mb-1">
-        <Text className="font-semibold">Active:</Text>{" "}
-        {profile?.isActive ? "Yes" : "No"}
-      </Text>
-      <Text className="mb-4">
-        <Text className="font-semibold">Last Login:</Text> {profile?.lastLogin}
-      </Text>
+      <InfoItem label="Email" value={profile?.email} />
+      <InfoItem label="Gender" value={profile?.profile?.gender} />
+      <InfoItem label="Phone" value={profile?.profile?.phoneNo} />
+      <InfoItem label="Address" value={profile?.profile?.address} />
+      <InfoItem label="DOB" value={profile?.profile?.dateOfBirth} />
+      <InfoItem label="Active" value={profile?.isActive ? "Yes" : "No"} />
+      <InfoItem label="Last Login" value={profile?.lastLogin} />
 
       {/* Client Info */}
-      <Text className="text-lg font-bold mb-2">Client Info</Text>
-      <Text className="mb-1">
-        <Text className="font-semibold">Device:</Text>{" "}
-        {profile?.clientInfo?.device}
+      <Text className="text-xl font-semibold mt-6 mb-2 text-purple-600">
+        Client Information
       </Text>
-      <Text className="mb-1">
-        <Text className="font-semibold">PC Name:</Text>{" "}
-        {profile?.clientInfo?.pcName}
-      </Text>
-      <Text className="mb-1">
-        <Text className="font-semibold">OS:</Text> {profile?.clientInfo?.os}
-      </Text>
+      <InfoItem label="Device" value={profile?.clientInfo?.device} />
+      <InfoItem label="PC Name" value={profile?.clientInfo?.pcName} />
     </ScrollView>
   );
 };
+
+const InfoItem = ({
+  label,
+  value,
+}: {
+  label: string;
+  value?: string | null;
+}) => (
+  <Text className="mb-1 text-base">
+    <Text className="font-semibold text-gray-800">{label}:</Text>{" "}
+    <Text className="text-gray-600">{value || "N/A"}</Text>
+  </Text>
+);
 
 export default Userprofile;

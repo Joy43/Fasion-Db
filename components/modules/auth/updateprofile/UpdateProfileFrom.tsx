@@ -120,15 +120,27 @@ const UpdateProfileForm = ({ closeModal }: UpdateProfileFormProps) => {
 
   const handleSubmit = async () => {
     setLoading(true);
-    try {
-      const profileData = {
-        phoneNo: form.phoneNo,
-        gender: form.gender,
-        dateOfBirth: form.dateOfBirth,
-        address: form.address,
-        photo: form.photo || undefined,
-      };
 
+    // Basic validation example:
+    if (form.phoneNo && !/^\d{11}$/.test(form.phoneNo)) {
+      Toast.show({
+        type: "error",
+        text1: "Validation Error",
+        text2: "Phone number must be exactly 11 digits.",
+      });
+      setLoading(false);
+      return;
+    }
+
+    // Prepare data, omit empty strings
+    const profileData: Record<string, string> = {};
+    if (form.phoneNo) profileData.phoneNo = form.phoneNo;
+    if (form.gender) profileData.gender = form.gender;
+    if (form.dateOfBirth) profileData.dateOfBirth = form.dateOfBirth;
+    if (form.address) profileData.address = form.address;
+    if (form.photo) profileData.photo = form.photo;
+
+    try {
       console.log("Submitting profile data:", profileData);
 
       const result = await updateUserProfile(profileData);
