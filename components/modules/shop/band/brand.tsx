@@ -1,15 +1,16 @@
-import { useBrands } from '@/hooks/useBrand';
-import { IBrand } from '@/types/band.types';
-import { Ionicons } from '@expo/vector-icons';
-import React from 'react';
+import { useBrands } from "@/hooks/useBrand";
+import { IBrand } from "@/types/band.types";
+import { Ionicons } from "@expo/vector-icons";
+import { router } from "expo-router";
+import React from "react";
 import {
   FlatList,
   Image,
   SafeAreaView,
   Text,
   TouchableOpacity,
-  View
-} from 'react-native';
+  View,
+} from "react-native";
 
 const Brands = () => {
   const { data, isLoading, isError } = useBrands();
@@ -17,7 +18,9 @@ const Brands = () => {
   const renderBrandItem = ({ item }: { item: IBrand }) => (
     <View className="flex flex-col items-center bg-white rounded-xl shadow-sm p-4 mr-4 w-32">
       <Image
-        source={{ uri: (item.logo as string) || 'https://via.placeholder.com/150' }}
+        source={{
+          uri: item.logo || "https://via.placeholder.com/150",
+        }}
         className="w-16 h-16 rounded-full mb-2"
         resizeMode="cover"
       />
@@ -32,13 +35,14 @@ const Brands = () => {
       {/* Header */}
       <View className="flex-row justify-between items-center px-5 py-4 bg-white shadow-sm">
         <Text className="text-2xl font-bold text-gray-900">Brands</Text>
-        <TouchableOpacity className="flex-row items-center">
+        <TouchableOpacity
+          onPress={() => router.push("/product")}
+          className="flex-row items-center"
+        >
           <Text className="text-[#7A1CAC] mr-1 font-medium">See All</Text>
           <Ionicons name="chevron-forward" size={20} color="#7A1CAC" />
         </TouchableOpacity>
       </View>
-
-   
 
       {/* Error */}
       {isError && (
