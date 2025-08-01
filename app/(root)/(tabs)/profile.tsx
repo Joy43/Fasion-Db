@@ -1,5 +1,6 @@
 import UpdateProfileForm from "@/components/modules/auth/updateprofile/UpdateProfileFrom";
 import Userprofile from "@/components/modules/auth/userprofile/Userprofile";
+import LoginForm from "@/components/modules/auth/login/LoginFrom"; // ✅ import LoginForm
 import { useUser } from "@/context/UserContext";
 import { logout } from "@/services/AuthService";
 import { Ionicons } from "@expo/vector-icons";
@@ -13,12 +14,19 @@ const Profile = () => {
   const { user, setIsLoading } = useUser();
   const [isModalVisible, setIsModalVisible] = useState(false);
 
+  // 👉 If no user, return LoginForm
+  if (!user) {
+    return (
+      <SafeAreaView className="flex-1 bg-white px-5 pt-6">
+        <LoginForm />
+      </SafeAreaView>
+    );
+  }
+
   const handleLogOut = () => {
     logout();
     setIsLoading(true);
-    if (user) {
-      router.push("/login");
-    }
+    router.push("/login");
   };
 
   const openModal = () => setIsModalVisible(true);
@@ -26,13 +34,13 @@ const Profile = () => {
 
   return (
     <SafeAreaView className="flex-1 bg-[#f9fafb] px-5 pt-6">
-      {/* Header */}
+      {/*-------- Header -----------*/}
       <View className="flex-row justify-between items-center mb-6">
         <View>
           <Text className="text-2xl font-extrabold text-gray-900">
-            Hello, {user?.name || "User"}
+            Hello, {user.name || "User"}
           </Text>
-          <Text className="text-sm text-gray-500 mt-1">{user?.email}</Text>
+          <Text className="text-sm text-gray-500 mt-1">{user.email}</Text>
         </View>
         <TouchableOpacity
           onPress={handleLogOut}
@@ -48,7 +56,7 @@ const Profile = () => {
         <View className="mb-4">
           <Text className="text-sm text-gray-500">Role</Text>
           <Text className="text-lg font-semibold text-gray-800">
-            {user?.role || "N/A"}
+            {user.role || "N/A"}
           </Text>
         </View>
 
