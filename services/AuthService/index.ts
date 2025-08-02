@@ -54,12 +54,22 @@ export default apiRequest;
 // --- Register user ---
 export const registerUser = async (userData: FieldValues) => {
   const result = await apiRequest("/user", "POST", userData);
-  if (result.success) {
-    await AsyncStorage.setItem("accessToken", result.data.accessToken);
-    await AsyncStorage.setItem("refreshToken", result.data.refreshToken);
+  
+  if (result.success && result.data) {
+    const { accessToken, refreshToken } = result.data;
+
+    if (accessToken) {
+      await AsyncStorage.setItem("accessToken", accessToken);
+    }
+
+    if (refreshToken) {
+      await AsyncStorage.setItem("refreshToken", refreshToken);
+    }
   }
+
   return result;
 };
+
 
 // --- Login user ---
 export const loginUser = async (userData: FieldValues) => {
