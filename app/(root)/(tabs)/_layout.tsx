@@ -1,7 +1,7 @@
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import { Tabs } from "expo-router";
 import { View } from "react-native";
-
+import { Feather } from "@expo/vector-icons";
 export default function Layout() {
   return (
     <Tabs
@@ -57,7 +57,7 @@ export default function Layout() {
         }}
       />
 
-      {/* Signup (Center Button) */}
+      {/* -----------------Signup (Center Button) ------------------*/}
       <Tabs.Screen
         name="profile"
         options={{
@@ -99,8 +99,8 @@ export default function Layout() {
         options={{
           tabBarIcon: ({ focused }) => (
             <View className="items-center justify-center">
-              <Ionicons
-                name="person-outline"
+              <Feather
+                name="code"
                 size={26}
                 color={focused ? "#AD49E1" : "#6B7280"}
               />

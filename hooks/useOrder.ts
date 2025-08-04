@@ -1,4 +1,4 @@
-import { getValidToken } from "@/lib/verifyToken";
+import { getValidToken } from "@/lib/tokenUtils";
 
 import { addOrder } from "@/services/Order";
 import { OrderPayload } from "@/types/order.type";

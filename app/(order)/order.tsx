@@ -253,20 +253,20 @@ const PageOrder = () => {
                 : [product.availableColors]
               )?.map((color: string, index: number) => (
                 <Text key={index} className="text-gray-600">
-                  • {color}
+                  {color}
                 </Text>
               ))}
             </>
           )}
 
-          {/* Stock */}
+          {/*--------------- Stock ----------------------------*/}
           {product.stock && (
             <Text className="mt-2 text-base text-gray-800">
               <Text className="font-bold">Stock:</Text> {product.stock}
             </Text>
           )}
 
-          {/* Weight */}
+          {/*---------------- Weight -------------------------*/}
           {product.weight && (
             <Text className="mt-2 text-base text-gray-800">
               <Text className="font-bold">Weight:</Text> {product.weight}

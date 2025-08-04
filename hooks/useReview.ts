@@ -1,5 +1,10 @@
-import { getValidToken } from '@/lib/verifyToken';
-import { createReview, deleteReview, getAllReview, updateReview } from './../services/review/index';
+import { getValidToken } from "@/lib/tokenUtils";
+import {
+  createReview,
+  deleteReview,
+  getAllReview,
+  updateReview,
+} from "./../services/review/index";
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
@@ -45,13 +50,8 @@ export const useUpdateReview = (token: string) => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({
-      reviewId,
-      data,
-    }: {
-      reviewId: string;
-      data: FormData;
-    }) => updateReview({ reviewId, data, token }),
+    mutationFn: ({ reviewId, data }: { reviewId: string; data: FormData }) =>
+      updateReview({ reviewId, data, token }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["REVIEW"] }); // refetch reviews
     },

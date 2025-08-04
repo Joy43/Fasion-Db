@@ -1,9 +1,34 @@
+import { useUser } from "@/context/UserContext";
 import { useProfile } from "@/hooks/useProfile";
-import React from "react";
-import { ActivityIndicator, Image, ScrollView, Text, View } from "react-native";
+import { logout } from "@/services/AuthService";
+import { Feather, Ionicons } from "@expo/vector-icons";
+import { router } from "expo-router";
+import React, { useState } from "react";
+import {
+  ActivityIndicator,
+  Image,
+  ScrollView,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import UpdateProfileForm from "../updateprofile/UpdateProfileFrom";
+import Modal from "react-native-modal";
 
 const Userprofile = () => {
+  const { user, setIsLoading } = useUser();
   const { data: profile, isLoading, isError } = useProfile();
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const openModal = () => setIsModalVisible(true);
+  const closeModal = () => setIsModalVisible(false);
+
+  const handleLogOut = () => {
+    logout();
+    setIsLoading(true);
+    router.push("/login");
+  };
 
   if (isLoading) {
     return (
@@ -26,28 +51,62 @@ const Userprofile = () => {
 
   return (
     <ScrollView className="p-2">
-      <Text className="text-2xl font-bold mb-6 text-center text-purple-700">
-        User Profile
-      </Text>
-
-      {/* Profile Image */}
-      {profile?.profile?.photo ? (
-        <Image
-          source={{ uri: profile.profile.photo }}
-          className="w-24 h-24 rounded-full mx-auto mb-4"
-          resizeMode="cover"
-        />
-      ) : (
-        <View className="w-24 h-24 rounded-full bg-gray-300 items-center justify-center mx-auto mb-4">
-          <Text className="text-xs text-gray-600">No Photo</Text>
+      {/* Header */}
+      <View className="flex-row justify-between items-center mb-6">
+        <View>
+          <Text className="text-2xl font-extrabold text-gray-900">
+            Hello, {user?.name || "User"}
+          </Text>
         </View>
-      )}
+        <TouchableOpacity
+          onPress={handleLogOut}
+          className="flex-row items-center bg-red-500 px-4 py-2 rounded-full shadow-md active:opacity-80"
+        >
+          <Ionicons name="log-out-outline" size={18} color="#fff" />
+          <Text className="text-white text-sm font-medium ml-2">Logout</Text>
+        </TouchableOpacity>
+      </View>
+
+      {/* Profile Card */}
+      <View className="items-center mb-6">
+        <View className="relative">
+          {profile?.profile?.photo ? (
+            <Image
+              source={{ uri: profile.profile.photo }}
+              className="w-28 h-28 rounded-full"
+              resizeMode="cover"
+            />
+          ) : (
+            <View className="w-28 h-28 rounded-full bg-gray-300 items-center justify-center">
+              <Text className="text-xs text-gray-600">No Photo</Text>
+            </View>
+          )}
+
+          {/* Edit Icon Overlay */}
+          <TouchableOpacity
+            onPress={openModal}
+            className="absolute bottom-1 right-1 bg-red-600 p-2 rounded-full border border-white shadow-md active:opacity-80"
+          >
+            <Feather name="edit-2" size={16} color="#fff" />
+          </TouchableOpacity>
+        </View>
+      </View>
+
+      {/* Modal */}
+      <Modal
+        isVisible={isModalVisible}
+        onBackdropPress={closeModal}
+        style={{ margin: 0 }}
+      >
+        <SafeAreaView className="flex-1 bg-white px-5 pt-6">
+          <UpdateProfileForm closeModal={closeModal} />
+        </SafeAreaView>
+      </Modal>
 
       {/* Profile Info */}
-      <Text className="text-xl font-semibold mb-2 text-purple-600">
+      <Text className="text-xl font-semibold mb-2 text-red-600">
         Profile Information
       </Text>
-
       <InfoItem label="Email" value={profile?.email} />
       <InfoItem label="Gender" value={profile?.profile?.gender} />
       <InfoItem label="Phone" value={profile?.profile?.phoneNo} />
@@ -56,9 +115,9 @@ const Userprofile = () => {
       <InfoItem label="Active" value={profile?.isActive ? "Yes" : "No"} />
       <InfoItem label="Last Login" value={profile?.lastLogin} />
 
-      {/* Client Info */}
-      <Text className="text-xl font-semibold mt-6 mb-2 text-purple-600">
-        Client Information
+      {/* Device Info */}
+      <Text className="text-xl font-semibold mt-6 mb-2 text-red-400">
+        Device Information
       </Text>
       <InfoItem label="Device" value={profile?.clientInfo?.device} />
       <InfoItem label="PC Name" value={profile?.clientInfo?.pcName} />
@@ -71,11 +130,11 @@ const InfoItem = ({
   value,
 }: {
   label: string;
-  value?: string | null;
+  value?: string | null | boolean;
 }) => (
   <Text className="mb-1 text-base">
     <Text className="font-semibold text-gray-800">{label}:</Text>{" "}
-    <Text className="text-gray-600">{value || "N/A"}</Text>
+    <Text className="text-gray-600">{value?.toString() || "N/A"}</Text>
   </Text>
 );
 

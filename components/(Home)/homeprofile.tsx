@@ -8,8 +8,8 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import Ionicons from "react-native-vector-icons/Ionicons";
 
+import { Feather } from "@expo/vector-icons";
 const HomeProfile = () => {
   const [profile, setProfile] = useState<IUserProfile | null>(null);
 
@@ -24,7 +24,7 @@ const HomeProfile = () => {
     };
     fetchProfile();
   }, []);
-  console.log("Profile data:", profile);
+  // console.log("Profile data:", profile);
 
   return (
     <SafeAreaView className="flex-1 bg-white px-4 mt-10">
@@ -53,8 +53,8 @@ const HomeProfile = () => {
 
         {/* Right side: icons */}
         <View className="flex-row space-x-4 gap-3">
-          <Ionicons name="notifications-outline" size={24} color="black" />
-          <Ionicons name="settings-outline" size={24} color="black" />
+          <Feather name="bell" size={24} color="black" />
+          <Feather name="settings" size={24} color="black" />
         </View>
       </View>
 
@@ -72,7 +72,7 @@ const HomeProfile = () => {
           </Text>
         </View>
         <TouchableOpacity>
-          <Ionicons name="chevron-forward-outline" size={28} color="blue" />
+          <Feather name="chevron-right" size={24} color="blue" />
         </TouchableOpacity>
       </View>
 

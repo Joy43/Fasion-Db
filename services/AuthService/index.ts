@@ -1,14 +1,11 @@
-import { isTokenExpired } from "@/lib/verifyToken";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { jwtDecode } from "jwt-decode";
 import { FieldValues } from "react-hook-form";
+import { getValidToken, getDecodedUser } from "@/lib/tokenUtils";
 
-// Automatically use correct IP for Android Emulator
 const BASE_API =
   process.env.EXPO_PUBLIC_BASE_API || "http://localhost:5000/api/v1";
-   // Fallback to emulator localhost
 
-// --- Reusable API request handler ---
+// Reusable API request handler
 const apiRequest = async (
   endpoint: string,
   method: string = "GET",
@@ -21,12 +18,11 @@ const apiRequest = async (
     };
 
     if (requireAuth) {
-      const token = await AsyncStorage.getItem("accessToken");
-      if (token) {
-        headers["Authorization"] = token; 
-      } else {
-        return { success: false, message: "No access token found" };
+      const token = await getValidToken();
+      if (!token) {
+        return { success: false, message: "No valid access token found" };
       }
+      headers["Authorization"] = token;
     }
 
     const res = await fetch(`${BASE_API}${endpoint}`, {
@@ -49,123 +45,92 @@ const apiRequest = async (
   }
 };
 
-export default apiRequest;
-
-// --- Register user ---
+// Register user
 export const registerUser = async (userData: FieldValues) => {
   const result = await apiRequest("/user", "POST", userData);
-  
+
   if (result.success && result.data) {
     const { accessToken, refreshToken } = result.data;
-
-    if (accessToken) {
-      await AsyncStorage.setItem("accessToken", accessToken);
-    }
-
-    if (refreshToken) {
-      await AsyncStorage.setItem("refreshToken", refreshToken);
-    }
+    if (accessToken) await AsyncStorage.setItem("accessToken", accessToken);
+    if (refreshToken) await AsyncStorage.setItem("refreshToken", refreshToken);
+    // Do not log result.data to avoid exposing sensitive info
   }
 
   return result;
 };
 
-
-// --- Login user ---
+// Login user
 export const loginUser = async (userData: FieldValues) => {
   const result = await apiRequest("/auth/login", "POST", userData);
   if (result.success) {
     await AsyncStorage.setItem("accessToken", result.data.accessToken);
     await AsyncStorage.setItem("refreshToken", result.data.refreshToken);
+    // Do not log result.data
   }
   return result;
 };
 
-// --- Get current user from token ---
+// Get current user (fetches fresh profile data)
 export const getCurrentUser = async () => {
   try {
-    let token = await AsyncStorage.getItem('accessToken');
-
-    if (!token || await isTokenExpired(token)) {
-      // Try to get a new token
-      const response = await getNewToken();
-      token = response?.data?.accessToken;
-
-      if (token) {
-        await AsyncStorage.setItem('accessToken', token);
-      } else {
-        return null;
-      }
+    // Check if user profile is cached
+    const cachedProfile = await AsyncStorage.getItem("userProfile");
+    if (cachedProfile) {
+      return { success: true, data: JSON.parse(cachedProfile) };
     }
 
-    // Decode and return user info
-    return jwtDecode(token);
+    // Fetch fresh profile from server
+    const profileResult = await getUserProfile();
+    if (profileResult.success && profileResult.data) {
+      // Cache profile data
+      await AsyncStorage.setItem(
+        "userProfile",
+        JSON.stringify(profileResult.data)
+      );
+      return profileResult;
+    }
+
+    return {
+      success: false,
+      message: profileResult.message || "Failed to fetch user",
+    };
   } catch (error) {
-    console.warn('Error getting user:', error);
-    return null;
+    console.warn("Error getting user:", error);
+    return { success: false, message: "Error fetching user" };
   }
 };
-// --- Logout ---
+
+// Logout
 export const logout = async () => {
-  await AsyncStorage.multiRemove(["accessToken", "refreshToken"]);
+  await AsyncStorage.multiRemove([
+    "accessToken",
+    "refreshToken",
+    "userProfile",
+  ]);
 };
-// ----- Get user profile -----
+
+// Get user profile
 export const getUserProfile = async () => {
-  const accessToken = await AsyncStorage.getItem("accessToken");
-  if (!accessToken) return { success: false, message: "No access token found" };
-
-  try {
-    const res = await fetch(`${BASE_API}/user/me`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: accessToken,
-      },
-    });
-
-    const result = await res.json();
-    if (res.ok && result.success) {
-      return { success: true, data: result.data };
-    }
-
-    return { success: false, message: result.message || "Failed to fetch profile" };
-  } catch (error: any) {
-    console.error("Profile fetch error:", error.message);
-    return { success: false, message: error.message || "Unknown error" };
-  }
+  const result = await apiRequest("/user/me", "GET", null, true);
+  return result;
 };
 
-
-// --- Update user profile ---
+// Update user profile
 export const updateUserProfile = async (profileData: FieldValues) => {
-  const accessToken = await AsyncStorage.getItem("accessToken");
-  if (!accessToken) return { success: false, message: "No access token found" };
-
-  try {
-    const res = await fetch(`${BASE_API}/user/update-profile`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: accessToken, 
-      },
-      body: JSON.stringify(profileData),
-    });
-
-    const result = await res.json();
-    if (res.ok && result.success) {
-      return { success: true, data: result.data };
-    }
-
-    return { success: false, message: result.message || "Failed to update profile" };
-  } catch (error: any) {
-    console.error("Profile update error:", error.message);
-    return { success: false, message: error.message || "Unknown error" };
+  const result = await apiRequest(
+    "/user/update-profile",
+    "PATCH",
+    profileData,
+    true
+  );
+  if (result.success && result.data) {
+    // Update cached profile
+    await AsyncStorage.setItem("userProfile", JSON.stringify(result.data));
   }
+  return result;
 };
 
-
-// -------------update my profile-----------------
-
+// Get new refresh token
 export const getNewToken = async () => {
   try {
     const refreshToken = await AsyncStorage.getItem("refreshToken");
@@ -177,7 +142,7 @@ export const getNewToken = async () => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: refreshToken, 
+        Authorization: refreshToken,
       },
     });
 
@@ -185,11 +150,17 @@ export const getNewToken = async () => {
 
     if (res.ok && result.success) {
       await AsyncStorage.setItem("accessToken", result.data.accessToken);
+      return result;
     }
 
-    return result;
+    return {
+      success: false,
+      message: result.message || "Failed to refresh token",
+    };
   } catch (error: any) {
     console.error("Token refresh error:", error.message);
     return { success: false, message: error.message || "Unknown error" };
   }
 };
+
+export default apiRequest;

@@ -1,5 +1,8 @@
 export type IUser = {
   userId: string;
+  photo?: string;
+  createdAt: string;
+  updatedAt: string;
   name: string;
   email: string;
   hasShop?: boolean;
