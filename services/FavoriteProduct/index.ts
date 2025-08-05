@@ -1,41 +1,58 @@
+import { getValidToken } from "@/lib/tokenUtils";
+
 const BASE_API =
   process.env.EXPO_PUBLIC_BASE_API || "http://localhost:5000/api/v1";
+
+// GET all favorite products
 export const getAllFavoriteProducts = async () => {
-  const res = await fetch(`${BASE_API}/favourite`);
+  const token = await getValidToken();
+
+  const res = await fetch(`${BASE_API}/favourite`, {
+    headers: {
+      Authorization: token || "",
+    },
+  });
+
   if (!res.ok) throw new Error("Failed to fetch favorite products");
   return res.json();
 };
 
+// CREATE favorite product
 export const createFavoriteProduct = async ({
-  data,
-  token,
+  userId,
+  productId,
 }: {
-  data: FormData;
-  token: string;
+  userId: string;
+  productId: string;
 }) => {
+  const token = await getValidToken();
+
   const res = await fetch(`${BASE_API}/favourite`, {
     method: "POST",
     headers: {
-      Authorization: token,
+      Authorization: token || "",
+      "Content-Type": "application/json",
     },
-    body: data,
+    body: JSON.stringify({ userId, productId }),
   });
 
-  if (!res.ok) throw new Error("Failed to create favorite product");
-  return res.json();
+  const json = await res.json();
+
+  if (!res.ok) {
+    throw new Error(json.message || "Failed to create favorite product");
+  }
+
+  return json;
 };
 
-export const deleteFavoriteProduct = async ({
-  favoriteProductId,
-  token,
-}: {
-  favoriteProductId: string;
-  token: string;
-}) => {
+// DELETE favorite product
+export const deleteFavoriteProduct = async (favoriteProductId: string) => {
+  const token = await getValidToken();
+
   const res = await fetch(`${BASE_API}/favourite/${favoriteProductId}`, {
     method: "DELETE",
     headers: {
-      Authorization: token,
+      Authorization: token || "",
     },
   });
 

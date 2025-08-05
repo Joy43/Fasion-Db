@@ -12,7 +12,7 @@ const Profile = () => {
   const { user, setIsLoading } = useUser();
   const [isModalVisible, setIsModalVisible] = useState(false);
 
-  // 👉 If no user, return LoginForm
+  // --------------if no user, return LoginForm-------------------------------
   if (!user) {
     return (
       <SafeAreaView className="flex-1 bg-white px-5 pt-6">

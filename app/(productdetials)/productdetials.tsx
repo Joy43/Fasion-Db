@@ -1,4 +1,6 @@
 import Reviews from "@/components/modules/shop/review/reviews";
+import { useUser } from "@/context/UserContext";
+import { useAddToFavorite } from "@/hooks/useFavorite";
 import { useSingleProduct } from "@/hooks/useProduct";
 import LoadingScreen from "@/utils/Loading";
 import { AntDesign, Ionicons } from "@expo/vector-icons";
@@ -14,12 +16,16 @@ import {
 } from "react-native";
 
 const PageDetails = () => {
+  const { user, setIsLoading } = useUser();
+  console.log("user", user);
+  const userId = user?._id ||  "";
   const navigation = useNavigation();
   const params = useLocalSearchParams();
   const productId = params.productId as string;
 
   const { data, isLoading, error } = useSingleProduct(productId);
   const product = data?.data;
+  const addToFavoriteMutation = useAddToFavorite(userId);
 
   if (isLoading) {
     return (
@@ -78,7 +84,15 @@ const PageDetails = () => {
 
           {/* Action Buttons */}
           <View className="flex-row justify-between mt-6">
-            <TouchableOpacity className="w-12 h-12 border rounded-full justify-center items-center border-gray-300">
+            {/* -----------fovorite icon */}
+            <TouchableOpacity
+              onPress={() => {
+                if (product._id) {
+                  addToFavoriteMutation.mutate(product._id);
+                }
+              }}
+              className="w-12 h-12 border rounded-full justify-center items-center border-gray-300"
+            >
               <AntDesign name="hearto" size={22} color="red" />
             </TouchableOpacity>
 
@@ -91,7 +105,7 @@ const PageDetails = () => {
                   });
                 }
               }}
-              className="flex-1 ml-4 bg-blue-600 py-3 rounded-xl items-center"
+              className="flex-1 ml-4 bg-[#FF3E5B] font-semibold] py-3 rounded-xl items-center"
             >
               <Text className="text-white font-semibold text-base">
                 Order Now

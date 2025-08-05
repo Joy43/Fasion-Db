@@ -121,6 +121,8 @@ const Userprofile = () => {
       </Text>
       <InfoItem label="Device" value={profile?.clientInfo?.device} />
       <InfoItem label="PC Name" value={profile?.clientInfo?.pcName} />
+      <InfoItem label="Browser" value={profile?.clientInfo?.browser} />
+      <InfoItem label="User Agent" value={profile?.clientInfo?.userAgent} />
     </ScrollView>
   );
 };

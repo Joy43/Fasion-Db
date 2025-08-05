@@ -175,7 +175,7 @@ const LoginForm: React.FC = () => {
           <ActivityIndicator color="#fff" />
         ) : (
           <Text className="text-white text-center font-medium text-[16px]">
-            Next ➔
+            Login Now ➔
           </Text>
         )}
       </TouchableOpacity>

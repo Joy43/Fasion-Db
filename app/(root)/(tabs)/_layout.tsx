@@ -43,7 +43,7 @@ export default function Layout() {
 
       {/* Favorites */}
       <Tabs.Screen
-        name="favorites"
+        name="favorite"
         options={{
           tabBarIcon: ({ focused }) => (
             <View className="items-center justify-center">

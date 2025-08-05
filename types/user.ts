@@ -1,5 +1,6 @@
 export type IUser = {
   userId: string;
+  _id: string;
   photo?: string;
   createdAt: string;
   updatedAt: string;
