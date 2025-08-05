@@ -43,44 +43,48 @@ const FavoriteProduct = () => {
       {data.data.map((item: FavoriteProductItem) => (
         <View
           key={item._id}
-          className="mb-5 bg-white rounded-2xl shadow-md overflow-hidden"
+          className="mb-5 bg-white rounded-xl shadow-md overflow-hidden "
         >
-          {/* Product Image */}
-          <Image
-            source={{ uri: item.product?.imageUrls[0] }}
-            className="w-full h-48"
-            resizeMode="cover"
-          />
+          <View className="flex-row">
+            {/* Product Image */}
+            <View className="shrink-0">
+              <Image
+                source={{ uri: item.product?.imageUrls[0] }}
+                className="h-40 w-40 object-cover"
+                resizeMode="cover"
+              />
+            </View>
 
-          {/* Product Details */}
-          <View className="p-4">
-            <Text className="text-xl font-semibold text-gray-800">
-              {item.product.name}
-            </Text>
-            <Text className="text-gray-600 text-base mt-1">
-              ${item.product.price}
-            </Text>
-
-            {/* Order Now Button */}
-            <TouchableOpacity
-              onPress={() => {
-                if (item.product._id) {
-                  router.push({
-                    pathname: "/productdetials",
-                    params: { productId: item.product._id },
-                  });
-                } else {
-                  console.warn(
-                    "Product ID is undefined, navigation prevented."
-                  );
-                }
-              }}
-              className="mt-4 bg-red-500 rounded-md px-4 py-2 w-fit items-center"
-            >
-              <Text className="text-white font-semibold text-lg">
-                View Details
+            {/* Product Details */}
+            <View className="p-8">
+              <Text className="text-xl font-semibold text-gray-800">
+                {item.product.name}
               </Text>
-            </TouchableOpacity>
+              <Text className="text-gray-600 text-base mt-1">
+                ${item.product.price}
+              </Text>
+
+              {/* Order Now Button */}
+              <TouchableOpacity
+                onPress={() => {
+                  if (item.product._id) {
+                    router.push({
+                      pathname: "/productdetials",
+                      params: { productId: item.product._id },
+                    });
+                  } else {
+                    console.warn(
+                      "Product ID is undefined, navigation prevented."
+                    );
+                  }
+                }}
+                className="mt-4 bg-red-500 rounded-md px-4 py-2 w-fit items-center"
+              >
+                <Text className="text-white font-semibold text-lg">
+                  View Details
+                </Text>
+              </TouchableOpacity>
+            </View>
           </View>
         </View>
       ))}
