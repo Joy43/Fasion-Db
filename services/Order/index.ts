@@ -39,3 +39,23 @@ export const addOrder = async (
     throw error;
   }
 };
+
+export const getOrders = async (accessToken: string) => {
+  try {
+    const res = await fetch(`${BASE_API}/order/my-orders`, {
+      method: "GET",
+      headers: {
+        Authorization: accessToken,
+      },
+    });
+
+    if (!res.ok) {
+      throw new Error("Failed to fetch orders");
+    }
+
+    return await res.json();
+  } catch (error: any) {
+    console.error("Error fetching orders:", error);
+    throw error;
+  }
+};
