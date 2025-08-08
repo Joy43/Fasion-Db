@@ -1,12 +1,13 @@
 import MyOrder from "@/components/modules/myorder/MyOrder";
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const orders = () => {
   return (
-    <View>
+    <SafeAreaView>
       <MyOrder />
-    </View>
+    </SafeAreaView>
   );
 };
 
