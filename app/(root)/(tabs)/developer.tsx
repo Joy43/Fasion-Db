@@ -3,9 +3,9 @@ import { SafeAreaView, View } from "react-native";
 
 const developer = () => {
   return (
-    <View>
+    <SafeAreaView>
       <DeveloperProfile />
-    </View>
+    </SafeAreaView>
   );
 };
 

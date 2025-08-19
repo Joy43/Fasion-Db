@@ -1,129 +1,96 @@
 import React from "react";
-import { View, Text, Image, ScrollView, StyleSheet } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
-
-type TechRow = {
-  language: string;
-  langColor: string;
-  tool: string;
-  toolColor: string;
-  framework: string;
-  frameworkColor: string;
-};
-
-const rows: TechRow[] = [
-  {
-    language: "JavaScript",
-    langColor: "#F7DF1E",
-    tool: "JWT",
-    toolColor: "#000000",
-    framework: "React Native",
-    frameworkColor: "#61DAFB",
-  },
-  {
-    language: "TypeScript",
-    langColor: "#3178C6",
-    tool: "Redux",
-    toolColor: "#764ABC",
-    framework: "Next.js",
-    frameworkColor: "#000000",
-  },
-  {
-    language: "Nestjs",
-    langColor: "#E34F26",
-    tool: "React Router",
-    toolColor: "#CA4245",
-    framework: "React Native",
-    frameworkColor: "#61DAFB",
-  },
-  {
-    language: "Node.js",
-    langColor: "#1572B6",
-    tool: "Socket.IO",
-    toolColor: "#010101",
-    framework: "Electron JS",
-    frameworkColor: "#47848F",
-  },
+import { View, Text, Image, ScrollView, Switch } from "react-native";
+const skills = [
+  { title: "React Native", color: "#61DAFB", textColor: "#FFFFFF" },
+  { title: "TypeScript", color: "#3178C6", textColor: "#FFFFFF" },
+  { title: "JavaScript", color: "#F7DF1E", textColor: "#FFFFFF" },
+  { title: "NestJS", color: "#E0234E", textColor: "#FFFFFF" },
+  { title: "Node.js", color: "#68A063", textColor: "#FFFFFF" },
+  { title: "Express.js", color: "#000000", textColor: "#FFFFFF" },
 ];
 
-const DeveloperProfile: React.FC = () => {
+const DeveloperProfile = () => {
   return (
-    <SafeAreaView className="flex">
-      <ScrollView contentContainerStyle={{ paddingBottom: 40 }} className="p-4">
-        {/* Header Image */}
-        <View className="items-center mb-4">
+    <ScrollView contentContainerStyle={{ paddingBottom: 50 }}>
+      {/*------------- Profile Header -----------------------*/}
+      <View className="bg-gradient-to-b from-pink-100 to-pink-50 rounded-b-3xl shadow-lg pb-10">
+        <View className="items-center pt-10">
           <Image
             source={{
               uri: "https://res.cloudinary.com/dkqdwcguu/image/upload/v1754275277/joy_img_3_ony3do.jpg",
             }}
-            className="w-full w-52 h-52 rounded-full mb-4"
-            resizeMode="contain"
+            className="w-28 h-28 rounded-full border-4 border-white shadow-md"
           />
-          <Text className="text-2xl text-gray-700 text-center font-bold mb-2">
-            Ss Joy
+          <Text className="text-2xl font-bold text-gray-900 mt-4">
+            shahsultan islam joy
           </Text>
-          <Text className="text-xl font-semibold text-gray-900">
-            Software Engineering
-          </Text>
-        </View>
-        <View className=" text-center m-4">
-          <Text className="text-lg font-semibold text-gray-700">About Me</Text>
-
-          {/* Description */}
-          <Text className=" font-semibold text-gray-700 mb-6 px-2">
-            "Shahsultan Islam Joy" from Bangladesh | Passionate about Design,
-            Development, and Digital Creativity 🚀 Fluent in React, TypeScript,
-            Mongoose, MongoDB, Firebase, Next.js, React Native | Dedicated to
-            Crafting Intuitive Prisma Experiences
+          <Text className="text-sm text-gray-600 tracking-wide">
+            Software Engineer
           </Text>
         </View>
 
-        {/* Table */}
-        <View className="rounded-2xl bg-white shadow-md overflow-hidden">
-          {/* Header Row */}
-          <View className="flex-row bg-indigo-100 py-3 px-2">
-            <Text className="flex-1 text-center font-bold text-indigo-800">
-              🧠 Language
-            </Text>
-            <Text className="flex-1 text-center font-bold text-indigo-800">
-              📦 Tool
-            </Text>
-            <Text className="flex-1 text-center font-bold text-indigo-800">
-              🏗️ Framework
+        {/*------------------- Developer Info ----------------------------*/}
+        <View className="px-6 mt-6 space-y-3">
+          <View className="flex-row justify-between">
+            <Text className="font-bold text-red-500">Profession</Text>
+            <Text className="text-gray-700">Full Stack Developer</Text>
+          </View>
+          <View className="flex-row justify-between"></View>
+          <View className="flex-row justify-between">
+            <Text className="font-bold text-red-500">Location</Text>
+            <Text className="text-gray-700">Bangladesh</Text>
+          </View>
+          <View className="flex-row justify-between items-center">
+            <Text className="font-bold text-red-500">Position</Text>
+            <View className="flex-row items-center">
+              <Switch value={true} trackColor={{ true: "#FF4D4D" }} />
+              <Text className="ml-2 text-gray-700">Open</Text>
+            </View>
+          </View>
+        </View>
+      </View>
+
+      {/*---------------- Skills Section--------------------------- */}
+      <Text className="text-lg font-bold text-gray-900 px-6 mt-8 mb-4">
+        Skills
+      </Text>
+      <View className="flex-row flex-wrap px-6 gap-3">
+        {skills.map((skill, index) => (
+          <View
+            key={index}
+            className="px-4 py-2 rounded-full shadow-sm"
+            style={{ backgroundColor: `${skill.color}` }}
+          >
+            <Text
+              style={{ color: skill.textColor }}
+              className="font-semibold font-medium"
+            >
+              {skill.title}
             </Text>
           </View>
+        ))}
+      </View>
 
-          {/* Data Rows */}
-          {rows.map((row, index) => (
-            <View
-              key={index}
-              className={`flex-row py-4 px-2 ${
-                index % 2 === 0 ? "bg-white" : "bg-slate-50"
-              }`}
-            >
-              <Text
-                className="flex-1 text-center font-semibold text-base"
-                style={{ color: row.langColor }}
-              >
-                {row.language}
-              </Text>
-              <Text
-                className="flex-1 text-center font-semibold text-base"
-                style={{ color: row.toolColor }}
-              >
-                {row.tool}
-              </Text>
-              <Text
-                className="flex-1 text-center font-semibold text-base"
-                style={{ color: row.frameworkColor }}
-              >
-                {row.framework}
-              </Text>
-            </View>
-          ))}
+      {/* Stats Card */}
+      <View className="bg-red-500 rounded-3xl p-6 mx-6 mt-10 shadow-lg">
+        <View className="flex-row justify-between mb-6">
+          <View>
+            <Text className="text-4xl text-white font-bold">4.3</Text>
+            <Text className="text-white opacity-90">Average Rating</Text>
+          </View>
+          <View>
+            <Text className="text-4xl text-white font-bold">37</Text>
+            <Text className="text-white opacity-90">Jobs Completed</Text>
+          </View>
         </View>
-      </ScrollView>
-    </SafeAreaView>
+
+        <View className="flex-row justify-between">
+          <Text className="text-white">Availability: Excellent</Text>
+          <Text className="text-white">Service: Good</Text>
+          <Text className="text-white">Quality: Good</Text>
+        </View>
+      </View>
+    </ScrollView>
   );
 };
 

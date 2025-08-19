@@ -15,8 +15,19 @@ import {
 const Brands = () => {
   const { data, isLoading, isError } = useBrands();
 
+  const handleBrandPress = (brandId: string) => {
+    // Navigate to product page with brand filter applied
+    router.push({
+      pathname: "/product",
+      params: { brand: brandId }, // 👈 pass filter param
+    });
+  };
+
   const renderBrandItem = ({ item }: { item: IBrand }) => (
-    <View className="flex flex-col items-center bg-white rounded-xl shadow-sm p-4 mr-4 w-32">
+    <TouchableOpacity
+      onPress={() => handleBrandPress(item._id)} // 👈 make each brand clickable
+      className="flex flex-col items-center bg-white rounded-xl shadow-sm p-4 mr-4 w-32"
+    >
       <Image
         source={{
           uri: item.logo || "https://via.placeholder.com/150",
@@ -27,7 +38,7 @@ const Brands = () => {
       <Text className="text-center text-gray-800 text-sm font-semibold">
         {item.name}
       </Text>
-    </View>
+    </TouchableOpacity>
   );
 
   return (

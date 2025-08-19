@@ -6,7 +6,7 @@ import {
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import Toast from "react-native-toast-message";
 
-// ✅ Fetch all favorite products
+// -----------------------Fetch all favorite products-----------------
 export const useGetFavorite = () => {
   return useQuery({
     queryKey: ["FAVORITE_PRODUCTS"],
@@ -15,7 +15,7 @@ export const useGetFavorite = () => {
   });
 };
 
-// ✅ Add product to favorites
+// --------------------- Add product to favorites ---------------------
 export const useAddToFavorite = (userId: string) => {
   const queryClient = useQueryClient();
 
@@ -24,7 +24,7 @@ export const useAddToFavorite = (userId: string) => {
       return createFavoriteProduct({ userId, productId });
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["FAVORITE"] });
+      queryClient.invalidateQueries({ queryKey: ["FAVORITE_PRODUCTS"] });
       Toast.show({
         type: "success",
         text1: "Added to favorites!",
@@ -35,7 +35,7 @@ export const useAddToFavorite = (userId: string) => {
     onError: (error: any) => {
       Toast.show({
         type: "error",
-        text1: error.message || "Failed to add favorite.",
+        text1: error?.message || "Failed to add favorite.",
         position: "bottom",
         visibilityTime: 2500,
       });
@@ -43,7 +43,7 @@ export const useAddToFavorite = (userId: string) => {
   });
 };
 
-// ✅ Delete favorite product
+// ---------------Delete favorite product --------------------
 export const useDeleteFavorite = () => {
   const queryClient = useQueryClient();
 
@@ -53,6 +53,20 @@ export const useDeleteFavorite = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["FAVORITE_PRODUCTS"] });
+      Toast.show({
+        type: "success",
+        text1: "Removed from favorites!",
+        position: "bottom",
+        visibilityTime: 2000,
+      });
+    },
+    onError: (error: any) => {
+      Toast.show({
+        type: "error",
+        text1: error?.message || "Failed to remove favorite.",
+        position: "bottom",
+        visibilityTime: 2500,
+      });
     },
   });
 };

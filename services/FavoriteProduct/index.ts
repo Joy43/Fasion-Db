@@ -17,7 +17,7 @@ export const getAllFavoriteProducts = async () => {
   return res.json();
 };
 
-// CREATE favorite product
+//-------------- CREATE favorite product------------------------
 export const createFavoriteProduct = async ({
   userId,
   productId,
@@ -45,7 +45,7 @@ export const createFavoriteProduct = async ({
   return json;
 };
 
-// DELETE favorite product
+//---------------- DELETE favorite product---------------------
 export const deleteFavoriteProduct = async (favoriteProductId: string) => {
   const token = await getValidToken();
 

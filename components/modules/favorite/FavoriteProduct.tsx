@@ -8,7 +8,7 @@ import { router } from "expo-router";
 
 const FavoriteProduct = () => {
   const { data, isLoading, isError } = useGetFavorite();
-  console.log("Favorite Products:", data?.data);
+  // console.log("Favorite Products:", data?.data);
 
   if (isLoading) {
     return (
@@ -49,7 +49,7 @@ const FavoriteProduct = () => {
           className="mb-5 bg-white rounded-xl shadow-md overflow-hidden "
         >
           <View className="flex-row">
-            {/* Product Image */}
+            {/* --------------Product Image --------------------*/}
             <View className="shrink-0">
               <Image
                 source={{ uri: item.product?.imageUrls[0] }}
@@ -58,7 +58,7 @@ const FavoriteProduct = () => {
               />
             </View>
 
-            {/* Product Details */}
+            {/* ----------------Product Details -----------------*/}
             <View className="p-8">
               <Text className="text-xl font-semibold text-gray-800">
                 {item.product.name}
@@ -67,7 +67,7 @@ const FavoriteProduct = () => {
                 ${item.product.price}
               </Text>
 
-              {/* Order Now Button */}
+              {/* --------------------- Order Now Button --------------------------*/}
               <TouchableOpacity
                 onPress={() => {
                   if (item.product._id) {
