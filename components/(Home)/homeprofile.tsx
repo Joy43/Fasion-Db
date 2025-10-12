@@ -33,9 +33,9 @@ const HomeProfile = () => {
   const [modalVisible, setModalVisible] = useState(false);
 
   return (
-    <SafeAreaView className="flex-1 bg-white px-4 mt-10">
+    <SafeAreaView>
       {/* Header */}
-      <View className="flex-row justify-between items-center mb-4">
+      <View className="flex-row justify-between items-center mb-4 ">
         {/* Left side: profile photo + button */}
         <View className="flex-row items-center space-x-4 gap-3">
           {/* Profile photo or placeholder */}

@@ -1,14 +1,21 @@
 import { Stack } from "expo-router";
-import { StatusBar } from "react-native";
+
 import Toast from "react-native-toast-message";
 
 import Providers from "@/providers/Providers";
 import "./globals.css";
-
+import { StatusBar } from "expo-status-bar";
+import { Platform, SafeAreaView } from "react-native";
 export default function RootLayout() {
   return (
     <Providers>
       <>
+       <SafeAreaView style={{ flex: 1, backgroundColor: "#7A1CAC" }}>
+          <StatusBar
+            style="light"
+            backgroundColor={Platform.OS === "android" ? "#7A1CAC" : undefined}
+            animated
+          />
         <Stack>
           <Stack.Screen name="index" options={{ headerShown: false }} />
           <Stack.Screen name="(start)" options={{ headerShown: false }} />
@@ -24,8 +31,9 @@ export default function RootLayout() {
 
           <Stack.Screen name="+not-found" />
         </Stack>
-        <StatusBar className="auto" />
+
         <Toast />
+         </SafeAreaView>
       </>
     </Providers>
   );
