@@ -53,7 +53,7 @@ const PageOrder = () => {
       setDiscount(50);
     } else {
       setDiscount(0);
-      if (coupon) alert("Invalid coupon code");
+      if (coupon) alert("Invalid coupon code here");
     }
   };
 
