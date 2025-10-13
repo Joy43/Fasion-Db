@@ -157,7 +157,7 @@ export default function RegisterScreen() {
           />
         </TouchableOpacity>
         <Text className="text-sm text-gray-700 flex-1">
-          By checking the box you agree to our{" "}
+          By checking the box you agree to our plolicy{" "}
           <Text className="text-pink-500 font-semibold">Terms</Text> and{" "}
           <Text className="text-pink-500 font-semibold">Conditions</Text>
         </Text>
