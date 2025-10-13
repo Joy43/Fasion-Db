@@ -44,7 +44,7 @@ const Brands = () => {
   return (
     <SafeAreaView className="flex-1 bg-gray-100">
       {/* Header */}
-      <View className="flex-row justify-between items-center px-5 py-4 bg-white shadow-sm">
+      <View className="flex-row justify-between items-center px-5 py-4">
         <Text className="text-2xl font-bold text-gray-900">Brands</Text>
         <TouchableOpacity
           onPress={() => router.push("/product")}

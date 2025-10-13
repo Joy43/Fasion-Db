@@ -24,13 +24,10 @@ const DeveloperProfile = () => {
           <Text className="text-2xl font-bold text-gray-900 mt-4">
             shahsultan islam joy
           </Text>
-          <Text className="text-sm text-gray-600 tracking-wide">
-            Software Engineer
-          </Text>
         </View>
 
         {/*------------------- Developer Info ----------------------------*/}
-        <View className="px-6 mt-6 space-y-3">
+        <View className="px-6 mt-6 space-y-3 gap-4">
           <View className="flex-row justify-between">
             <Text className="font-bold text-red-500">Profession</Text>
             <Text className="text-gray-700">Full Stack Developer</Text>

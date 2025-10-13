@@ -18,14 +18,23 @@ export const useReviews = () => {
 };
 
 // ----------- Create a review ----------------
+interface CreateReviewPayload {
+  review: string;
+  rating: number;
+  product: string;
+  isVerifiedPurchase: boolean;
+}
+
 export const useCreateReview = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async (data: FormData) => {
+    mutationFn: async (payload: CreateReviewPayload) => {
       const token = await getValidToken();
       if (!token) throw new Error("Missing or expired token");
-      return createReview({ data, token });
+
+      // Send JSON directly instead of FormData
+      return createReview({ data: payload, token });
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["REVIEW"] });
@@ -53,7 +62,7 @@ export const useUpdateReview = (token: string) => {
     mutationFn: ({ reviewId, data }: { reviewId: string; data: FormData }) =>
       updateReview({ reviewId, data, token }),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["REVIEW"] }); // refetch reviews
+      queryClient.invalidateQueries({ queryKey: ["REVIEW"] });
     },
   });
 };

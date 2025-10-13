@@ -71,8 +71,8 @@ export default function RegisterScreen() {
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-white px-6 pt-10">
-      <View className="items-center mb-6">
+    <SafeAreaView className=" py-6">
+      <View className="items-center mb-6 px-6">
         <Image
           source={{
             uri: "https://res.cloudinary.com/dkqdwcguu/image/upload/v1754007752/undraw_adventure_map_hnin_2_1_lfwsve.png",
@@ -87,7 +87,7 @@ export default function RegisterScreen() {
       </Text>
 
       {/* Full Name */}
-      <View className="flex-row items-center bg-gray-100 rounded-lg px-4 py-3 mb-4 border border-gray-300">
+      <View className="flex-row items-center bg-gray-100 rounded-lg px-8 py-3 mb-4 border border-gray-300">
         <Feather
           name="user"
           size={18}
@@ -103,7 +103,7 @@ export default function RegisterScreen() {
       </View>
 
       {/* Email */}
-      <View className="flex-row items-center bg-gray-100 rounded-lg px-4 py-3 mb-4 border border-gray-300">
+      <View className="flex-row items-center bg-gray-100 rounded-lg px-6 py-3 mb-4 border border-gray-300">
         <Feather
           name="mail"
           size={18}
@@ -121,7 +121,7 @@ export default function RegisterScreen() {
       </View>
 
       {/* Password */}
-      <View className="flex-row items-center bg-gray-100 rounded-lg px-4 py-3 mb-4 border border-gray-300">
+      <View className="flex-row items-center bg-gray-100 rounded-lg px-6 py-3 mb-4 border border-gray-300">
         <Feather
           name="lock"
           size={18}
@@ -145,7 +145,7 @@ export default function RegisterScreen() {
       </View>
 
       {/* Terms Checkbox */}
-      <View className="flex-row items-center mb-6">
+      <View className="flex-row items-center mb-6 px-6">
         <TouchableOpacity
           onPress={() => handleChange("agree", !form.agree)}
           style={{ marginRight: 8 }}
@@ -165,7 +165,7 @@ export default function RegisterScreen() {
 
       {/* Register Button */}
       <TouchableOpacity
-        className="bg-pink-500 py-3 rounded-xl flex-row justify-center items-center"
+        className="bg-pink-500 px-8 py-3  rounded-xl flex-row justify-center items-center"
         onPress={handleRegister}
         disabled={loading}
       >
@@ -173,7 +173,9 @@ export default function RegisterScreen() {
           <ActivityIndicator color="#fff" />
         ) : (
           <>
-            <Text className="text-white font-semibold text-lg mr-2">Next</Text>
+            <Text className="text-white font-semibold text-lg mr-2">
+              Create Account
+            </Text>
             <Feather name="arrow-right" size={20} color="#fff" />
           </>
         )}

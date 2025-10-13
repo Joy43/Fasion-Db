@@ -55,7 +55,7 @@ const Userprofile = () => {
       <View className="flex-row justify-between items-center mb-6">
         <View>
           <Text className="text-2xl font-extrabold text-gray-900">
-            Hello, {user?.name || "User"}
+            {user?.name || "User"}
           </Text>
         </View>
         <TouchableOpacity

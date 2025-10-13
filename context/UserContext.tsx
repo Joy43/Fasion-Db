@@ -28,7 +28,7 @@ const UserProvider = ({ children }: { children: React.ReactNode }) => {
         const result = await getCurrentUser();
 
         if (result.success && result.data) {
-          setUser(result.data as IUser); // valid token
+          setUser(result.data as IUser); 
         } else {
           // No valid token → auto logout
           await logout();
