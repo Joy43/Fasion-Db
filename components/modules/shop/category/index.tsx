@@ -16,6 +16,9 @@ const AllCategory = () => {
       </Text>
     );
   }
+  if (isLoading) {
+    return <Text className="text-center mt-10 text-base">Loading...</Text>;
+  }
 
   if (!data?.data || data.data.length === 0) {
     return (

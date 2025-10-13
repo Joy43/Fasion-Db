@@ -6,9 +6,7 @@ import { useUser } from "@/context/UserContext";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 const Profile = () => {
-  const { user} = useUser();
-
-
+  const { user } = useUser();
 
   // --------------if no user, return LoginForm-------------------------------
   if (!user) {

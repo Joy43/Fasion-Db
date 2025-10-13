@@ -1,13 +1,12 @@
-import { getCurrentUser } from "@/services/AuthService";
+import { getCurrentUser, logout } from "@/services/AuthService";
 import { IUser } from "@/types/user";
-
 import {
   createContext,
-  Dispatch,
-  SetStateAction,
   useContext,
   useEffect,
   useState,
+  Dispatch,
+  SetStateAction,
 } from "react";
 
 interface IUserProviderValues {
@@ -23,15 +22,28 @@ const UserProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<IUser | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  const handleUser = async () => {
-    const user = await getCurrentUser();
-    setUser(user as IUser);
-    setIsLoading(false);
-  };
-
   useEffect(() => {
-    handleUser();
-  }, [isLoading]);
+    const initUser = async () => {
+      try {
+        const result = await getCurrentUser();
+
+        if (result.success && result.data) {
+          setUser(result.data as IUser); // valid token
+        } else {
+          // No valid token → auto logout
+          await logout();
+          setUser(null);
+        }
+      } catch (err) {
+        console.warn("Error fetching user:", err);
+        setUser(null);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    initUser();
+  }, []); // run only once on mount
 
   return (
     <UserContext.Provider value={{ user, setUser, isLoading, setIsLoading }}>
@@ -42,11 +54,7 @@ const UserProvider = ({ children }: { children: React.ReactNode }) => {
 
 export const useUser = () => {
   const context = useContext(UserContext);
-
-  if (context == undefined) {
-    throw new Error("useUser must be used within the UserProvider context");
-  }
-
+  if (!context) throw new Error("useUser must be used within the UserProvider");
   return context;
 };
 

@@ -63,18 +63,18 @@ export const getNewToken = async () => {
 
 // --- Get valid access token ---
 const getValidToken = async (): Promise<string | null> => {
-  let token = await AsyncStorage.getItem("accessToken");
+  let accessToken = await AsyncStorage.getItem("accessToken");
 
-  if (!token || isTokenExpired(token)) {
+  if (!accessToken|| isTokenExpired(accessToken)) {
     const refreshResult = await getNewToken();
     if (refreshResult.success && refreshResult.data?.accessToken) {
-      token = refreshResult.data.accessToken;
+      accessToken = refreshResult.data.accessToken;
     } else {
       return null;
     }
   }
 
-  return token;
+  return accessToken;
 };
 
 // --- Reusable API request handler ---
@@ -159,8 +159,8 @@ export const logout = autoLogout;
 
 export const getCurrentUser = async () => {
   try {
-    const token = await getValidToken();
-    if (!token) {
+    const accessToken = await getValidToken();
+    if (!accessToken) {
       await autoLogout();
       return { success: false, message: "No valid access token found" };
     }

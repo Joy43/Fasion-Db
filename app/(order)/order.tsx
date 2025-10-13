@@ -1,3 +1,4 @@
+import { useUser } from "@/context/UserContext";
 import { useAddOrder } from "@/hooks/useOrder";
 import { useSingleProduct } from "@/hooks/useProduct";
 import LoadingScreen from "@/utils/Loading";
@@ -5,7 +6,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { useLocalSearchParams } from "expo-router";
 import * as WebBrowser from "expo-web-browser";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Image,
   SafeAreaView,
@@ -15,13 +16,14 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import { any } from "zod";
 
 const PageOrder = () => {
   const { mutateAsync: createOrder, isPending } = useAddOrder();
   const navigation = useNavigation();
   const params = useLocalSearchParams();
   const productId = params.productId as string;
-
+  const { user } = useUser();
   const { data, isLoading, error } = useSingleProduct(productId);
   const product = data?.data;
 
@@ -29,35 +31,67 @@ const PageOrder = () => {
   const [quantity, setQuantity] = useState(1);
   const [shippingAddress, setShippingAddress] = useState("");
   const [coupon, setCoupon] = useState("");
+  const [discount, setDiscount] = useState(0); // For preview purposes
+
+  useEffect(() => {
+    // Note: IUser type doesn't have profile.address property
+    // You may need to add address field to IUser type or handle differently
+    // if (user?.address) {
+    //   setShippingAddress(user.address);
+    // }
+  }, [user]);
+
+  const selectedColorName = product?.availableColors?.[selectedColor] || "Default";
+  const unitPrice = product?.price || 0;
+  const totalAmount = quantity * unitPrice;
+  const deliveryCharge = 30;
+  const subtotal = totalAmount - discount;
+  const finalAmount = subtotal + deliveryCharge;
+
+  const applyCoupon = () => {
+    if (coupon === "TEST1") {
+      setDiscount(50);
+    } else {
+      setDiscount(0);
+      if (coupon) alert("Invalid coupon code");
+    }
+  };
 
   const handleOrder = async () => {
     if (!product?._id) return alert("Invalid product ID");
     if (!shippingAddress.trim()) return alert("Please enter shipping address");
 
+    const payload = {
+      shop: product.shop, // Shop ID from product
+      products: [
+        {
+          product: product._id,
+          quantity,
+          unitPrice,
+          color: selectedColorName,
+        },
+      ],
+      coupon: coupon || null,
+      totalAmount,
+      discount,
+      deliveryCharge,
+      finalAmount,
+      shippingAddress,
+      paymentMethod: "Online",
+    };
+
     try {
-      const payload = {
-        products: [
-          {
-            product: product._id,
-            color: product.availableColors?.[selectedColor] || "Default",
-            quantity,
-          },
-        ],
-        coupon,
-        shippingAddress,
-        paymentMethod: "Online",
-      };
+      const response = await createOrder(payload as any);
+      console.log("Order Response:", response);
 
-      const response = await createOrder(payload);
-
-      if (response?.data?.paymentUrl) {
+      if (response?.success && response?.data?.paymentUrl) {
         await WebBrowser.openBrowserAsync(response.data.paymentUrl);
       } else {
-        alert("Order placed but no payment URL returned.");
+        alert(response?.message || "Order placed but no payment URL returned.");
       }
-    } catch (err) {
-      console.error(err);
-      alert("Failed to place order.");
+    } catch (err: any) {
+      console.error("Error creating order:", err.message || err);
+      alert(err.message || "Failed to place order.");
     }
   };
 
@@ -104,10 +138,10 @@ const PageOrder = () => {
               className="w-14 h-14 rounded-full"
             />
             <View>
-              <Text className="text-xl font-extrabold">${product.price}</Text>
+              <Text className="text-xl font-extrabold">${unitPrice}</Text>
               <View className="flex-row mt-1 space-x-2">
                 <Text className="bg-gray-100 px-3 py-1 rounded-lg text-sm">
-                  {product.color || "Default"}
+                  {selectedColorName}
                 </Text>
               </View>
             </View>
@@ -162,16 +196,47 @@ const PageOrder = () => {
             </TouchableOpacity>
           </View>
 
+          {/* Order Summary */}
+          <Text className="mt-5 text-base font-semibold text-gray-800">
+            Order Summary
+          </Text>
+          <View className="mt-2 space-y-2">
+            <View className="flex-row justify-between">
+              <Text className="text-gray-600">Subtotal ({quantity}x)</Text>
+              <Text className="font-semibold">${totalAmount}</Text>
+            </View>
+            <View className="flex-row justify-between">
+              <Text className="text-gray-600">Discount</Text>
+              <Text className="font-semibold text-green-600">-${discount}</Text>
+            </View>
+            <View className="flex-row justify-between">
+              <Text className="text-gray-600">Delivery</Text>
+              <Text className="font-semibold">${deliveryCharge}</Text>
+            </View>
+            <View className="flex-row justify-between pt-1 border-t border-gray-300">
+              <Text className="font-bold">Total</Text>
+              <Text className="font-bold text-lg">${finalAmount}</Text>
+            </View>
+          </View>
+
           {/* Coupon Input */}
           <Text className="mt-6 text-base font-semibold text-gray-800">
             Coupon Code
           </Text>
-          <TextInput
-            placeholder="Enter coupon code"
-            value={coupon}
-            onChangeText={setCoupon}
-            className="mt-2 bg-white border border-gray-300 rounded-lg px-4 py-2"
-          />
+          <View className="flex-row mt-2">
+            <TextInput
+              placeholder="Enter coupon code (TEST1)"
+              value={coupon}
+              onChangeText={setCoupon}
+              className="flex-1 bg-white border border-gray-300 rounded-lg px-4 py-2 text-gray-700 mr-2"
+            />
+            <TouchableOpacity
+              onPress={applyCoupon}
+              className="bg-blue-500 px-4 py-2 rounded-lg"
+            >
+              <Text className="text-white font-semibold">Apply</Text>
+            </TouchableOpacity>
+          </View>
 
           {/* Shipping Address Input */}
           <Text className="mt-6 text-base font-semibold text-gray-800">
@@ -192,11 +257,11 @@ const PageOrder = () => {
               onPress={handleOrder}
               disabled={isPending}
               className={`flex-1 ${
-                isPending ? "bg-gray-400" : "bg-[#004CFF]"
+                isPending ? "bg-gray-400" : "bg-[#FFA500]"
               } py-3 px-3 rounded-xl items-center`}
             >
               <Text className="text-white font-semibold text-base">
-                {isPending ? "Processing..." : "Buy now"}
+                {isPending ? "Processing..." : `Pay $${finalAmount}`}
               </Text>
             </TouchableOpacity>
           </View>
