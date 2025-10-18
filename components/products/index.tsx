@@ -36,7 +36,7 @@ const AllProducts = ({ products }: AllProductsProps) => {
   const brands = brandData?.data || [];
   const allProducts = products?.data || [];
 
-  // 🔄 Auto-refresh filter
+  // Auto-refresh filter
   useEffect(() => {
     const filtered = allProducts.filter((product) => {
       const brandMatch = selectedBrand
@@ -54,7 +54,7 @@ const AllProducts = ({ products }: AllProductsProps) => {
     setFilteredProducts(filtered);
   }, [searchText, selectedBrand, selectedCategory, products]);
 
-  // 🔄 Clear all filters
+  // Clear all filters
   const clearFilters = () => {
     setSearchText("");
     setSelectedBrand(null);
@@ -62,7 +62,7 @@ const AllProducts = ({ products }: AllProductsProps) => {
   };
 
   return (
-    <ScrollView className="flex-1 bg-white px-4 pt-6">
+    <ScrollView className="flex-1 bg-white px-4 py-10">
       {/* ---------- Search Input ---------- */}
       <View className="flex-row items-center mb-6">
         <Text className="text-2xl font-bold mr-2">Search</Text>
@@ -72,9 +72,9 @@ const AllProducts = ({ products }: AllProductsProps) => {
           onChangeText={setSearchText}
           className="flex-1 border border-gray-300 rounded-full px-4 py-2 text-base"
         />
-        <TouchableOpacity className="ml-2">
+        {/* <TouchableOpacity className="ml-2">
           <Feather name="camera" size={20} color="black" />
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
 
       {/* ---------- Clear Filters ---------- */}

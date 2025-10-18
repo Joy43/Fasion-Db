@@ -12,3 +12,5 @@ api--https://documenter.getpostman.com/view/28371413/2sAYQXpCyd#17d1fed2-96c5-49
 
 https://github.com/Apollo-Level2-Web-Dev/NextMart-Client/tree/part-6
 npx expo start --clear
+yarn add @react-native-firebase/app @react-native-firebase/messaging
+yarn add expo-notifications expo-device expo-permissions
