@@ -1,16 +1,16 @@
-import { useProducts } from "@/hooks/useProduct";
-import { IProduct } from "@/types/product";
-import { Ionicons } from "@expo/vector-icons";
-import { router } from "expo-router";
+import { useProducts } from '@/hooks/useProduct';
+import { IProduct } from '@/types/product';
+import { Ionicons } from '@expo/vector-icons';
+import { router } from 'expo-router';
 
-import React from "react";
+import React from 'react';
 import {
   Image,
   SafeAreaView,
   Text,
   TouchableOpacity,
   View,
-} from "react-native";
+} from 'react-native';
 
 const PopularProduct = () => {
   const { data: products, isLoading, isError } = useProducts();
@@ -26,7 +26,7 @@ const PopularProduct = () => {
           Most Popular
         </Text>
         <TouchableOpacity
-          onPress={() => router.push("/product")}
+          onPress={() => router.push('/product')}
           className="flex-row items-center"
         >
           <Text className="text-[#7A1CAC] mr-1 font-medium">See All</Text>
@@ -40,11 +40,11 @@ const PopularProduct = () => {
             onPress={() => {
               if (product._id) {
                 router.push({
-                  pathname: "/productdetials",
+                  pathname: '/productdetials',
                   params: { productId: product._id },
                 });
               } else {
-                console.warn("Product ID is undefined, navigation prevented.");
+                console.warn('Product ID is undefined, navigation prevented.');
               }
             }}
             key={product._id}
@@ -62,7 +62,7 @@ const PopularProduct = () => {
 
             <View className="flex-row items-center justify-between mt-1">
               <Text className="text-gray-600 text-sm">${product.price}</Text>
-              <Ionicons name="heart-outline" size={22} color={"#AD49E1"} />
+              <Ionicons name="heart-outline" size={22} color={'#AD49E1'} />
             </View>
           </TouchableOpacity>
         ))}

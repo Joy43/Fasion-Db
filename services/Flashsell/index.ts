@@ -1,4 +1,5 @@
-const BASE_API = process.env.EXPO_PUBLIC_BASE_API || "http://localhost:5000/api/v1";
+const BASE_API =
+  process.env.EXPO_PUBLIC_BASE_API || 'http://localhost:5000/api/v1';
 
 // ---------------- GET flashsell products ----------------
 export const FlashsellProducts = async () => {
@@ -9,7 +10,7 @@ export const FlashsellProducts = async () => {
     }
     return await res.json();
   } catch (error) {
-    console.error("Error fetching flashsell products:", error);
+    console.error('Error fetching flashsell products:', error);
     throw error;
   }
 };
@@ -21,23 +22,24 @@ export const createFlashsellProduct = async (
 ) => {
   try {
     const res = await fetch(`${BASE_API}/flash-sale`, {
-      method: "POST",
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
-        Authorization: accessToken, 
+        'Content-Type': 'application/json',
+        Authorization: accessToken,
       },
       body: JSON.stringify(productData),
     });
 
     if (!res.ok) {
       const errorData = await res.json().catch(() => ({}));
-      const message = errorData?.message || "Failed to create flashsell product";
+      const message =
+        errorData?.message || 'Failed to create flashsell product';
       throw new Error(message);
     }
 
     return await res.json();
   } catch (error) {
-    console.error("Error creating flashsell product:", error);
+    console.error('Error creating flashsell product:', error);
     throw error;
   }
 };

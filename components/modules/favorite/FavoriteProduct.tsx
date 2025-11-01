@@ -1,10 +1,10 @@
-import { View, Text, ScrollView, Image, TouchableOpacity } from "react-native";
-import React from "react";
-import { useGetFavorite } from "@/hooks/useFavorite";
-import { SafeAreaView } from "react-native-safe-area-context";
-import LoadingScreen from "@/utils/Loading";
-import { FavoriteProductItem } from "@/types/favoriteproduct.type";
-import { router } from "expo-router";
+import { View, Text, ScrollView, Image, TouchableOpacity } from 'react-native';
+import React from 'react';
+import { useGetFavorite } from '@/hooks/useFavorite';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import LoadingScreen from '@/utils/Loading';
+import { FavoriteProductItem } from '@/types/favoriteproduct.type';
+import { router } from 'expo-router';
 
 const FavoriteProduct = () => {
   const { data, isLoading, isError } = useGetFavorite();
@@ -72,12 +72,12 @@ const FavoriteProduct = () => {
                 onPress={() => {
                   if (item.product._id) {
                     router.push({
-                      pathname: "/productdetials",
+                      pathname: '/productdetials',
                       params: { productId: item.product._id },
                     });
                   } else {
                     console.warn(
-                      "Product ID is undefined, navigation prevented."
+                      'Product ID is undefined, navigation prevented.'
                     );
                   }
                 }}

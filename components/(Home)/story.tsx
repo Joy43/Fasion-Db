@@ -23,7 +23,8 @@ const storiesData = [
   },
   {
     id: 2,
-    thumbnail: 'https://images.pexels.com/photos/6665048/pexels-photo-6665048.jpeg',
+    thumbnail:
+      'https://images.pexels.com/photos/6665048/pexels-photo-6665048.jpeg',
     videoId: 'dQw4w9WgXcQ',
   },
   {
@@ -72,10 +73,14 @@ export default function StoriesSection() {
   };
 
   return (
-    <SafeAreaView className="flex-1 p-4 m-2 bg-white">
-      <Text className="text-xl font-bold text-gray-800 mb-3">Stories</Text>
+    <SafeAreaView className="flex-1 py-6 m-2 ">
+      <Text className="text-xl font-bold  text-gray-800 mb-3">New Stories</Text>
 
-      <ScrollView horizontal showsHorizontalScrollIndicator={false} className="mb-4">
+      <ScrollView
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        className="mb-4"
+      >
         {storiesData.map((story) => (
           <TouchableOpacity
             key={story.id}
@@ -109,14 +114,25 @@ export default function StoriesSection() {
       {/* Modal Video Player */}
       <Modal visible={!!selectedVideoId} animationType="slide" transparent>
         <View className="flex-1 justify-center items-center bg-black/90 p-4">
-          <TouchableOpacity onPress={handleCloseModal} className="absolute top-10 right-5 bg-white/70 p-3 rounded-full z-50">
+          <TouchableOpacity
+            onPress={handleCloseModal}
+            className="absolute top-10 right-5 bg-white/70 p-3 rounded-full z-50"
+          >
             <FontAwesome name="close" size={24} color="#000" />
           </TouchableOpacity>
 
-          {error && <Text className="text-red-500 text-base text-center mb-4">{error}</Text>}
+          {error && (
+            <Text className="text-red-500 text-base text-center mb-4">
+              {error}
+            </Text>
+          )}
 
           {isLoading && (
-            <ActivityIndicator size="large" color="#FFFFFF" className="absolute self-center" />
+            <ActivityIndicator
+              size="large"
+              color="#FFFFFF"
+              className="absolute self-center"
+            />
           )}
 
           {selectedVideoId && (
@@ -141,8 +157,15 @@ export default function StoriesSection() {
             />
           )}
 
-          <TouchableOpacity onPress={togglePlayPause} className="absolute bottom-5 self-center bg-white/70 p-3 rounded-full z-50">
-            <FontAwesome name={playing ? 'pause' : 'play'} size={24} color="#000" />
+          <TouchableOpacity
+            onPress={togglePlayPause}
+            className="absolute bottom-5 self-center bg-white/70 p-3 rounded-full z-50"
+          >
+            <FontAwesome
+              name={playing ? 'pause' : 'play'}
+              size={24}
+              color="#000"
+            />
           </TouchableOpacity>
         </View>
       </Modal>

@@ -1,13 +1,9 @@
-import { getCurrentUser, logout } from "@/services/AuthService";
-import { IUser } from "@/types/user";
-import {
-  createContext,
-  useContext,
-  useEffect,
-  useState,
-  Dispatch,
-  SetStateAction,
-} from "react";
+import { getCurrentUser } from '@/services/AuthService';
+import { IUser } from '@/types/user';
+
+// Key fix: Import ReactNode (and other types) explicitly
+import type { Dispatch, ReactNode, SetStateAction } from 'react';
+import { createContext, useContext, useEffect, useState } from 'react';
 
 interface IUserProviderValues {
   user: IUser | null;
@@ -18,32 +14,25 @@ interface IUserProviderValues {
 
 const UserContext = createContext<IUserProviderValues | undefined>(undefined);
 
-const UserProvider = ({ children }: { children: React.ReactNode }) => {
+const UserProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<IUser | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
+  const handleUser = async () => {
+    try {
+      const currentUser = await getCurrentUser();
+      setUser(currentUser);
+    } catch (error) {
+      console.error('Error fetching user:', error);
+      setUser(null);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   useEffect(() => {
-    const initUser = async () => {
-      try {
-        const result = await getCurrentUser();
-
-        if (result.success && result.data) {
-          setUser(result.data as IUser); // valid token
-        } else {
-          // No valid token → auto logout
-          await logout();
-          setUser(null);
-        }
-      } catch (err) {
-        console.warn("Error fetching user:", err);
-        setUser(null);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    initUser();
-  }, []); // run only once on mount
+    handleUser();
+  }, []); // Empty array: Fetch once on mount, no infinite loops
 
   return (
     <UserContext.Provider value={{ user, setUser, isLoading, setIsLoading }}>
@@ -54,7 +43,11 @@ const UserProvider = ({ children }: { children: React.ReactNode }) => {
 
 export const useUser = () => {
   const context = useContext(UserContext);
-  if (!context) throw new Error("useUser must be used within the UserProvider");
+
+  if (context === undefined) {
+    throw new Error('useUser must be used within the UserProvider context');
+  }
+
   return context;
 };
 

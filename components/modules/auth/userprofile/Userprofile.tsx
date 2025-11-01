@@ -1,9 +1,9 @@
-import { useUser } from "@/context/UserContext";
-import { useProfile } from "@/hooks/useProfile";
-import { logout } from "@/services/AuthService";
-import { Feather, Ionicons } from "@expo/vector-icons";
-import { router } from "expo-router";
-import React, { useState } from "react";
+import { useUser } from '@/context/UserContext';
+import { useProfile } from '@/hooks/useProfile';
+import { logout } from '@/services/AuthService';
+import { Feather, Ionicons } from '@expo/vector-icons';
+import { router } from 'expo-router';
+import React, { useState } from 'react';
 import {
   ActivityIndicator,
   Image,
@@ -11,10 +11,10 @@ import {
   Text,
   TouchableOpacity,
   View,
-} from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
-import UpdateProfileForm from "../updateprofile/UpdateProfileFrom";
-import Modal from "react-native-modal";
+} from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import UpdateProfileForm from '../updateprofile/UpdateProfileFrom';
+import Modal from 'react-native-modal';
 
 const Userprofile = () => {
   const { user, setIsLoading } = useUser();
@@ -27,7 +27,7 @@ const Userprofile = () => {
   const handleLogOut = () => {
     logout();
     setIsLoading(true);
-    router.push("/login");
+    router.push('/login');
   };
 
   if (isLoading) {
@@ -55,7 +55,7 @@ const Userprofile = () => {
       <View className="flex-row justify-between items-center mb-6">
         <View>
           <Text className="text-2xl font-extrabold text-gray-900">
-            Hello, {user?.name || "User"}
+            {user?.name || 'User'}
           </Text>
         </View>
         <TouchableOpacity
@@ -112,7 +112,7 @@ const Userprofile = () => {
       <InfoItem label="Phone" value={profile?.profile?.phoneNo} />
       <InfoItem label="Address" value={profile?.profile?.address} />
       <InfoItem label="DOB" value={profile?.profile?.dateOfBirth} />
-      <InfoItem label="Active" value={profile?.isActive ? "Yes" : "No"} />
+      <InfoItem label="Active" value={profile?.isActive ? 'Yes' : 'No'} />
       <InfoItem label="Last Login" value={profile?.lastLogin} />
 
       {/* Device Info */}
@@ -135,8 +135,8 @@ const InfoItem = ({
   value?: string | null | boolean;
 }) => (
   <Text className="mb-1 text-base">
-    <Text className="font-semibold text-gray-800">{label}:</Text>{" "}
-    <Text className="text-gray-600">{value?.toString() || "N/A"}</Text>
+    <Text className="font-semibold text-gray-800">{label}:</Text>{' '}
+    <Text className="text-gray-600">{value?.toString() || 'N/A'}</Text>
   </Text>
 );
 

@@ -3,12 +3,7 @@ import { IProduct } from '@/types/product';
 import LoadingScreen from '@/utils/Loading';
 import { router } from 'expo-router';
 import React, { useEffect, useState } from 'react';
-import {
-  Image,
-  Text,
-  TouchableOpacity,
-  View
-} from 'react-native';
+import { Image, Text, TouchableOpacity, View } from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
 
 const Flashsell = () => {
@@ -19,7 +14,7 @@ const Flashsell = () => {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setTimeLeft(prev => (prev > 0 ? prev - 1 : 0));
+      setTimeLeft((prev) => (prev > 0 ? prev - 1 : 0));
     }, 1000);
     return () => clearInterval(interval);
   }, []);
@@ -28,7 +23,7 @@ const Flashsell = () => {
     const h = Math.floor(secs / 3600);
     const m = Math.floor((secs % 3600) / 60);
     const s = secs % 60;
-    return [h, m, s].map(unit => unit.toString().padStart(2, '0'));
+    return [h, m, s].map((unit) => unit.toString().padStart(2, '0'));
   };
 
   const [hh, mm, ss] = formatTime(timeLeft);
@@ -39,9 +34,7 @@ const Flashsell = () => {
   };
 
   if (isLoading) {
-    return (
-    <LoadingScreen/>
-    );
+    return <LoadingScreen />;
   }
 
   if (error) {
@@ -73,7 +66,10 @@ const Flashsell = () => {
       {/* Product Grid */}
       <View className="flex-row flex-wrap justify-between gap-y-4">
         {FlashsellItems.map((item: IProduct, index: number) => {
-          const discountPercent = getDiscountPercentage(item.price, item.offerPrice);
+          const discountPercent = getDiscountPercentage(
+            item.price,
+            item.offerPrice
+          );
 
           return (
             <TouchableOpacity

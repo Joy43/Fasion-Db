@@ -1,13 +1,17 @@
-
-import { createBrand, deleteBrand, getAllBrand, updateBrand } from "@/services/Brand";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import {
+  createBrand,
+  deleteBrand,
+  getAllBrand,
+  updateBrand,
+} from '@/services/Brand';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 // -----------get al categories----------------
 export const useBrands = () => {
   return useQuery({
-    queryKey: ["BRAND"],
+    queryKey: ['BRAND'],
     queryFn: getAllBrand,
-     staleTime: 0, 
+    staleTime: 0,
   });
 };
 // -----------create, delete, update categories----------------
@@ -18,7 +22,7 @@ export const useCreateBrand = (token: string) => {
   return useMutation({
     mutationFn: (data: FormData) => createBrand({ data, token }),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["BRAND"] });
+      queryClient.invalidateQueries({ queryKey: ['BRAND'] });
     },
   });
 };
@@ -29,7 +33,7 @@ export const useDeleteBrand = (token: string) => {
   return useMutation({
     mutationFn: (brandId: string) => deleteBrand({ brandId, token }),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["BRAND"] });
+      queryClient.invalidateQueries({ queryKey: ['BRAND'] });
     },
   });
 };
@@ -41,7 +45,7 @@ export const useUpdateBrand = (token: string) => {
     mutationFn: ({ brandId, data }: { brandId: string; data: FormData }) =>
       updateBrand({ brandId, data, token }),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["BRAND"] });
+      queryClient.invalidateQueries({ queryKey: ['BRAND'] });
     },
   });
 };

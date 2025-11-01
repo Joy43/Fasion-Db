@@ -3,7 +3,7 @@ import { useAddOrder } from "@/hooks/useOrder";
 import { useSingleProduct } from "@/hooks/useProduct";
 import LoadingScreen from "@/utils/Loading";
 import { Ionicons } from "@expo/vector-icons";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation } from "expo-router";
 import { useLocalSearchParams } from "expo-router";
 import * as WebBrowser from "expo-web-browser";
 import { useState, useEffect } from "react";
@@ -41,7 +41,8 @@ const PageOrder = () => {
     // }
   }, [user]);
 
-  const selectedColorName = product?.availableColors?.[selectedColor] || "Default";
+  const selectedColorName =
+    product?.availableColors?.[selectedColor] || "Default";
   const unitPrice = product?.price || 0;
   const totalAmount = quantity * unitPrice;
   const deliveryCharge = 30;
@@ -53,7 +54,7 @@ const PageOrder = () => {
       setDiscount(50);
     } else {
       setDiscount(0);
-      if (coupon) alert("Invalid coupon code");
+      if (coupon) alert("Invalid coupon code here");
     }
   };
 
@@ -147,7 +148,7 @@ const PageOrder = () => {
             </View>
           </View>
 
-          {/* Color Options */}
+          {/* -------Color Options ------------*/}
           <Text className="mt-5 text-base font-semibold text-gray-800">
             Color Options
           </Text>
@@ -257,7 +258,7 @@ const PageOrder = () => {
               onPress={handleOrder}
               disabled={isPending}
               className={`flex-1 ${
-                isPending ? "bg-gray-400" : "bg-[#FFA500]"
+                isPending ? "bg-gray-400" : "bg-[#0d700d]"
               } py-3 px-3 rounded-xl items-center`}
             >
               <Text className="text-white font-semibold text-base">
@@ -299,7 +300,7 @@ const PageOrder = () => {
                     <Text key={index} className="text-gray-600">
                       • {key}: {String(value)}
                     </Text>
-                  )
+                  ),
                 )
               ) : (
                 <Text className="text-gray-600">• {product.specification}</Text>

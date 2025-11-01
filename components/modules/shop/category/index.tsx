@@ -1,10 +1,10 @@
-import { useCategories } from "@/hooks/useCategories";
-import { ICategory } from "@/types/category";
-import { Ionicons } from "@expo/vector-icons";
-import { router } from "expo-router";
-import React from "react";
-import { Image, ScrollView, Text, TouchableOpacity, View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { useCategories } from '@/hooks/useCategories';
+import { ICategory } from '@/types/category';
+import { Ionicons } from '@expo/vector-icons';
+import { router } from 'expo-router';
+import React from 'react';
+import { Image, ScrollView, Text, TouchableOpacity, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const AllCategory = () => {
   const { data, isLoading, isError } = useCategories();
@@ -35,7 +35,7 @@ const AllCategory = () => {
         <View className="flex-row justify-between items-center mb-4">
           <Text className="text-xl font-bold text-gray-900">Categories</Text>
           <TouchableOpacity
-            onPress={() => router.push("/product")}
+            onPress={() => router.push('/product')}
             className="flex-row items-center "
           >
             <Text className="text-gray-900 text-xl font-medium mr-1">
@@ -55,7 +55,7 @@ const AllCategory = () => {
               <View className="w-full aspect-square rounded-xl overflow-hidden shadow-sm bg-gray-100">
                 <Image
                   source={{
-                    uri: category.icon || "https://via.placeholder.com/150",
+                    uri: category.icon || 'https://via.placeholder.com/150',
                   }}
                   alt={category.name}
                   className="w-full h-full"

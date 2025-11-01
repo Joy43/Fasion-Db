@@ -1,6 +1,5 @@
-import { useCreateReview } from "@/hooks/useReview";
-import { Picker } from "@react-native-picker/picker";
-import React, { useState } from "react";
+import { useCreateReview } from '@/hooks/useReview';
+import React, { useState } from 'react';
 import {
   Alert,
   Text,
@@ -8,85 +7,91 @@ import {
   TouchableOpacity,
   View,
   ActivityIndicator,
-} from "react-native";
+} from 'react-native';
 
 interface ReviewsProps {
   productId: string;
 }
 
 const Reviews = ({ productId }: ReviewsProps) => {
-  const [review, setReview] = useState("");
+  const [review, setReview] = useState('');
   const [rating, setRating] = useState(5);
 
   const { mutate, isPending } = useCreateReview();
 
   const handleSubmit = () => {
     if (!review.trim()) {
-      Alert.alert("Please enter a review");
+      Alert.alert('Please enter a review');
       return;
     }
     if (review.length < 5) {
-      Alert.alert("Review must be at least 5 characters");
+      Alert.alert('Review must be at least 5 characters');
       return;
     }
 
-    const reviewData = new FormData();
-    reviewData.append('review', review);
-    reviewData.append('rating', rating.toString());
-    reviewData.append('product', productId);
+    const reviewData = {
+      review,
+      rating,
+      product: productId,
+      isVerifiedPurchase: true,
+    };
 
     mutate(reviewData, {
       onSuccess: () => {
-        Alert.alert("Success", "Review submitted!");
-        setReview("");
+        Alert.alert('Success', 'Review submitted!');
+        setReview('');
         setRating(5);
       },
       onError: (error: any) => {
-        Alert.alert("Error", error?.message || "Failed to submit review");
-        console.log(error);
+        Alert.alert('Error', error?.message || 'Failed to submit review');
+        console.log(error.message);
       },
     });
   };
 
   return (
-    <View className="p-4 bg-white rounded-xl shadow my-6 mx-4">
-      <Text className="text-lg font-bold text-black mb-4">Write a Review</Text>
+    <View className="p-5 bg-white rounded-2xl shadow-lg my-6 mx-4">
+      <Text className="text-xl font-bold text-gray-900 mb-5">
+        Write a Review
+      </Text>
 
       <TextInput
-        className="border border-gray-300 rounded-lg p-3 mb-4 h-20 text-black"
-        placeholder="Enter your review..."
-        placeholderTextColor="#999"
+        className="border border-gray-300 rounded-xl p-4 mb-5 h-28 text-gray-900 bg-gray-50"
+        placeholder="Share your experience..."
+        placeholderTextColor="#888"
         value={review}
         multiline
         editable={!isPending}
         onChangeText={setReview}
       />
 
-      <Text className="mb-1 text-black font-semibold">Rating:</Text>
-      <View className="border border-gray-300 rounded-lg mb-4">
-        <Picker
-          selectedValue={rating}
-          onValueChange={(val) => setRating(val)}
-          mode="dropdown"
-          enabled={!isPending}
-        >
-          {[1, 2, 3, 4, 5].map((rate) => (
-            <Picker.Item key={rate} label={`${rate}`} value={rate} />
-          ))}
-        </Picker>
+      <Text className="mb-2 text-gray-900 font-semibold">Rating:</Text>
+      <View className="flex-row mb-5">
+        {[1, 2, 3, 4, 5].map((star) => (
+          <TouchableOpacity key={star} onPress={() => setRating(star)}>
+            <Text
+              style={{ fontSize: 32, marginHorizontal: 4, color: '#FFD700' }}
+            >
+              {star <= rating ? '★' : '☆'}
+            </Text>
+          </TouchableOpacity>
+        ))}
       </View>
 
       <TouchableOpacity
-        className={`rounded-lg p-3 items-center ${
-          isPending ? "bg-gray-400" : "bg-blue-600"
+        className={`rounded-xl p-4 items-center ${
+          isPending ? 'bg-gray-400' : 'bg-blue-600'
         }`}
         onPress={handleSubmit}
         disabled={isPending}
+        activeOpacity={0.8}
       >
         {isPending ? (
           <ActivityIndicator color="#fff" />
         ) : (
-          <Text className="text-white font-semibold">Submit Review</Text>
+          <Text className="text-white font-semibold text-lg">
+            Submit Review
+          </Text>
         )}
       </TouchableOpacity>
     </View>

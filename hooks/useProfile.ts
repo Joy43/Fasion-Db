@@ -1,9 +1,9 @@
-import { getUserProfile } from "@/services/AuthService";
-import { useQuery } from "@tanstack/react-query";
+import { getUserProfile } from '@/services/AuthService';
+import { useQuery } from '@tanstack/react-query';
 
 export const useProfile = () => {
   return useQuery({
-    queryKey: ["PROFILE"],
+    queryKey: ['PROFILE'],
     queryFn: async () => {
       const response = await getUserProfile();
       if (!response.success) throw new Error(response.message);

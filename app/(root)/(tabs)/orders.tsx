@@ -1,7 +1,7 @@
-import MyOrder from "@/components/modules/myorder/MyOrder";
-import React from "react";
+import MyOrder from '@/components/modules/myorder/MyOrder';
+import React from 'react';
 
-import { SafeAreaView } from "react-native-safe-area-context";
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const orders = () => {
   return (

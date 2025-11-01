@@ -1,12 +1,13 @@
-import { Stack } from "expo-router";
-import Toast from "react-native-toast-message";
-import Providers from "@/providers/Providers";
-import "./globals.css";
-import { StatusBar } from "expo-status-bar";
-import { SafeAreaView, Platform, View } from "react-native";
+import { Stack } from 'expo-router';
+import Toast from 'react-native-toast-message';
+
+import './globals.css';
+import { StatusBar } from 'expo-status-bar';
+import { SafeAreaView, Platform, View } from 'react-native';
+import Providers from '@/providers/Providers';
 
 export default function RootLayout() {
-  const appColor = "#10B981";
+  const appColor = '#10B981';
 
   return (
     <Providers>
@@ -14,7 +15,7 @@ export default function RootLayout() {
         style={{
           flex: 1,
           backgroundColor: appColor,
-          paddingTop: Platform.OS === "android" ? 0 : 0,
+          paddingTop: Platform.OS === 'android' ? 0 : 0,
         }}
         className="bg-white"
       >

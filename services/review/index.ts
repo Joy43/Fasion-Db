@@ -1,28 +1,44 @@
-import { useMutation } from "@tanstack/react-query";
 import axios from 'axios';
 const API_URL =
-  process.env.EXPO_PUBLIC_BASE_API || "http://localhost:5000/api/v1";
+  process.env.EXPO_PUBLIC_BASE_API || 'http://localhost:5000/api/v1';
 
-// ----------GET CATEGORIES----------
-
+// ----------GET REVIEWS----------
 export const getAllReview = async () => {
   const res = await fetch(`${API_URL}/review`);
-  if (!res.ok) throw new Error("Failed to fetch review");
+  if (!res.ok) throw new Error('Failed to fetch reviews');
   return res.json();
 };
-//----------- create a category----------
-export const useCreateReview = () => {
-  return useMutation({
-    mutationFn: async (reviewData: { review: string; rating: number; product: string }) => {
-      const res = await axios.post(
-        `${process.env.EXPO_PUBLIC_BASE_API}/reviews`, 
-        reviewData,
-        { headers: { "Content-Type": "application/json" } }
-      );
-      return res.data;
+
+// ----------CREATE REVIEW----------
+export const createReview = async ({
+  data,
+  token,
+}: {
+  data: {
+    review: string;
+    rating: number;
+    product: string;
+    isVerifiedPurchase: boolean;
+  };
+  token: string;
+}) => {
+  const res = await fetch(`${API_URL}/review`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: token,
     },
+    body: JSON.stringify(data),
   });
-}
+
+  if (!res.ok) {
+    const errorText = await res.text();
+    throw new Error(`Failed to create review: ${errorText}`);
+  }
+
+  return res.json();
+};
+
 //------------ delete a category-------------
 export const deleteReview = async ({
   reviewId,
@@ -32,12 +48,12 @@ export const deleteReview = async ({
   token: string;
 }) => {
   const res = await fetch(`${API_URL}/review/${reviewId}`, {
-    method: "DELETE",
+    method: 'DELETE',
     headers: {
       Authorization: token,
     },
   });
-  if (!res.ok) throw new Error("Failed to delete review");
+  if (!res.ok) throw new Error('Failed to delete review');
   return res.json();
 };
 // ---------------- update a category-----------------
@@ -51,13 +67,13 @@ export const updateReview = async ({
   token: string;
 }) => {
   const res = await fetch(`${API_URL}/review/${reviewId}`, {
-    method: "PATCH",
+    method: 'PATCH',
     headers: {
       Authorization: token,
     },
     body: data,
   });
 
-  if (!res.ok) throw new Error("Failed to update review");
+  if (!res.ok) throw new Error('Failed to update review');
   return res.json();
 };

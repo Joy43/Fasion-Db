@@ -24,7 +24,7 @@ export type Order = {
     _id: string;
     name: string;
     email: string;
-    role: "user" | "admin";
+    role: 'user' | 'admin';
     hasShop: boolean;
     isActive: boolean;
     otpToken: string | null;
@@ -37,10 +37,10 @@ export type Order = {
   coupon: Coupon;
   discount: number;
   deliveryCharge: number;
-  status: "Pending" | "Confirmed" | "Shipped" | "Delivered" | "Cancelled"; // adjust as needed
+  status: 'Pending' | 'Confirmed' | 'Shipped' | 'Delivered' | 'Cancelled'; // adjust as needed
   shippingAddress: string;
-  paymentMethod: "Online" | "COD" | string;
-  paymentStatus: "Pending" | "Paid" | "Failed" | string;
+  paymentMethod: 'Online' | 'COD' | string;
+  paymentStatus: 'Pending' | 'Paid' | 'Failed' | string;
   totalAmount: number;
   finalAmount: number;
   shop: string;
@@ -89,7 +89,7 @@ export type Coupon = {
   _id: string;
   code: string;
   shop: string;
-  discountType: "Percentage" | "Flat";
+  discountType: 'Percentage' | 'Flat';
   discountValue: number;
   minOrderAmount: number;
   maxDiscountAmount: number;

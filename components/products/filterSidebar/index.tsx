@@ -1,13 +1,13 @@
-import Slider from "@react-native-community/slider";
-import { useNavigation, useRoute } from "@react-navigation/native";
-import React, { useState } from "react";
-import { ScrollView, Text, TouchableOpacity, View } from "react-native";
-import Toast from "react-native-toast-message";
-import { FontAwesome } from "@expo/vector-icons";
+import Slider from '@react-native-community/slider';
+import { useNavigation, useRoute } from '@react-navigation/native';
+import React, { useState } from 'react';
+import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
+import Toast from 'react-native-toast-message';
+import { FontAwesome } from '@expo/vector-icons';
 
 // Custom hooks for fetching data
-import { useBrands } from "@/hooks/useBrand";
-import { useCategories } from "@/hooks/useCategories";
+import { useBrands } from '@/hooks/useBrand';
+import { useCategories } from '@/hooks/useCategories';
 
 export default function FilterSidebar() {
   const [price, setPrice] = useState(0);
@@ -34,8 +34,8 @@ export default function FilterSidebar() {
     } catch (err) {
       console.error(err);
       Toast.show({
-        type: "error",
-        text1: "Failed to set filter",
+        type: 'error',
+        text1: 'Failed to set filter',
       });
     }
   };
@@ -70,7 +70,7 @@ export default function FilterSidebar() {
             step={1}
             onValueChange={(val) => {
               setPrice(val);
-              handleSearchQuery("price", val);
+              handleSearchQuery('price', val);
             }}
             minimumTrackTintColor="#000"
             maximumTrackTintColor="#ccc"
@@ -86,7 +86,7 @@ export default function FilterSidebar() {
             categories.map((category: { _id: string; name: string }) => (
               <TouchableOpacity
                 key={category._id}
-                onPress={() => handleSearchQuery("category", category._id)}
+                onPress={() => handleSearchQuery('category', category._id)}
                 className="flex-row items-center mb-2"
               >
                 <View className="w-4 h-4 rounded-full border border-gray-400 mr-2 " />
@@ -106,16 +106,16 @@ export default function FilterSidebar() {
               return (
                 <TouchableOpacity
                   key={brand._id}
-                  onPress={() => handleSearchQuery("brand", brand._id)}
+                  onPress={() => handleSearchQuery('brand', brand._id)}
                   className={`flex-row items-center mb-2 p-2 rounded-md ${
-                    isSelected ? "bg-purple-100" : ""
+                    isSelected ? 'bg-purple-100' : ''
                   }`}
                 >
                   <View
                     className={`w-4 h-4 rounded-full mr-2 flex items-center justify-center ${
                       isSelected
-                        ? "bg-purple-600 border-2 border-purple-600"
-                        : "border border-gray-400"
+                        ? 'bg-purple-600 border-2 border-purple-600'
+                        : 'border border-gray-400'
                     }`}
                   >
                     {isSelected && (
@@ -125,8 +125,8 @@ export default function FilterSidebar() {
                   <Text
                     className={`${
                       isSelected
-                        ? "text-purple-700 font-semibold"
-                        : "text-gray-600"
+                        ? 'text-purple-700 font-semibold'
+                        : 'text-gray-600'
                     }`}
                   >
                     {brand.name}
@@ -142,7 +142,7 @@ export default function FilterSidebar() {
           {[5, 4, 3, 2, 1].map((rating) => (
             <TouchableOpacity
               key={rating}
-              onPress={() => handleSearchQuery("rating", rating)}
+              onPress={() => handleSearchQuery('rating', rating)}
               className="flex-row items-center mb-2"
             >
               <View className="w-4 h-4 rounded-full border border-gray-400 mr-2 " />
@@ -152,7 +152,7 @@ export default function FilterSidebar() {
                     key={i}
                     name="star"
                     size={16}
-                    color={i < rating ? "orange" : "lightgray"}
+                    color={i < rating ? 'orange' : 'lightgray'}
                   />
                 ))}
               </View>

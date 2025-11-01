@@ -1,6 +1,6 @@
-import { getUserProfile } from "@/services/AuthService";
-import { IUserProfile } from "@/types/userprofile";
-import React, { useEffect, useState } from "react";
+import { getUserProfile } from '@/services/AuthService';
+import { IUserProfile } from '@/types/userprofile';
+import React, { useEffect, useState } from 'react';
 import {
   Image,
   Modal,
@@ -9,11 +9,11 @@ import {
   Text,
   TouchableOpacity,
   View,
-} from "react-native";
+} from 'react-native';
 
-import { Feather } from "@expo/vector-icons";
-import Notification from "./Notification";
-import { useUser } from "@/context/UserContext";
+import { Feather } from '@expo/vector-icons';
+import Notification from './Notification';
+import { useUser } from '@/context/UserContext';
 const HomeProfile = () => {
   const [profile, setProfile] = useState<IUserProfile | null>(null);
   const { user } = useUser();
@@ -23,14 +23,13 @@ const HomeProfile = () => {
       if (result.success) {
         setProfile(result.data);
       } else {
-        console.warn("Failed to load profile:", result.message);
+        console.warn('Failed to load profile:', result.message);
       }
     };
     fetchProfile();
   }, []);
   // console.log("Profile data:", profile);
   // -----------------MODAL------------
-  const [modalVisible, setModalVisible] = useState(false);
 
   return (
     <SafeAreaView>
@@ -60,7 +59,7 @@ const HomeProfile = () => {
         {/* Right side: icons */}
         <View className="flex-row space-x-4 gap-3">
           {/* ---------- notification------------ */}
-          <TouchableOpacity onPress={() => setModalVisible(true)}>
+          <TouchableOpacity>
             <Feather name="bell" size={24} color="black" />
           </TouchableOpacity>
           {/* --------------stting--------- */}
@@ -72,7 +71,7 @@ const HomeProfile = () => {
 
       {/* Greeting */}
       <Text className="text-2xl font-bold mb-4">
-        Hello, {profile?.name || "User"}!
+        Hello, {profile?.name || 'User'}!
       </Text>
 
       {/* Announcement */}
@@ -102,30 +101,6 @@ const HomeProfile = () => {
           <Text className="text-blue-700 font-semibold">To Review</Text>
         </TouchableOpacity>
       </View>
-
-      {/* Modal for notification */}
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => setModalVisible(false)}
-      >
-        <View className="flex-1 justify-center items-center bg-black bg-opacity-50">
-          <View className="bg-white p-6 rounded-lg w-11/12 max-w-md">
-            {/* Pass userId prop here */}
-            <Notification userId={user?._id || null} />
-
-            <Pressable
-              onPress={() => setModalVisible(false)}
-              className="mt-4 bg-blue-500 py-2 rounded"
-            >
-              <Text className="text-center text-white font-semibold">
-                Close
-              </Text>
-            </Pressable>
-          </View>
-        </View>
-      </Modal>
     </SafeAreaView>
   );
 };

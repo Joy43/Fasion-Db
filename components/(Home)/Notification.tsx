@@ -1,6 +1,6 @@
-import { useNotificationSocket } from "@/hooks/useNotification";
-import React from "react";
-import { View, Text } from "react-native";
+import { useNotificationSocket } from '@/hooks/useNotification';
+import React from 'react';
+import { View, Text } from 'react-native';
 
 interface NotificationProps {
   userId: string | null;

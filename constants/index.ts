@@ -1,4 +1,3 @@
-
 // --------slider---------
 import Mayabilake from '@/assets/onboarding/about.png';
 import Modutila from '@/assets/onboarding/product_27.png';
@@ -17,35 +16,35 @@ interface OnboardingItem {
 }
 
 export const images = {
-
   Mayabilake,
   Modutila,
   Gojniobokas,
 };
 
-export const icons ={
-  applogo
-
-}
-
+export const icons = {
+  applogo,
+};
 
 export const onboarding: OnboardingItem[] = [
   {
     id: 1,
-    title: "Discover Your Unique Style",
-    description: "Explore fashion that reflects your personality. Stand out with our exclusive collections.",
+    title: 'Discover Your Unique Style',
+    description:
+      'Explore fashion that reflects your personality. Stand out with our exclusive collections.',
     image: images.Mayabilake,
   },
   {
     id: 2,
-    title: "Designs That Inspire",
-    description: "From streetwear to haute couture — find the inspiration to redefine your wardrobe.",
+    title: 'Designs That Inspire',
+    description:
+      'From streetwear to haute couture — find the inspiration to redefine your wardrobe.',
     image: images.Gojniobokas,
   },
   {
     id: 3,
-    title: "Fashion Meets Comfort",
-    description: "Experience the perfect blend of elegance and ease in every outfit.",
+    title: 'Fashion Meets Comfort',
+    description:
+      'Experience the perfect blend of elegance and ease in every outfit.',
     image: images.Modutila,
   },
 ];

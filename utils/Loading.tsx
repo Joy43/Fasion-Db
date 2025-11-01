@@ -1,5 +1,5 @@
-import React from "react";
-import { Animated, StyleSheet, View } from "react-native";
+import React from 'react';
+import { Animated, StyleSheet, View } from 'react-native';
 
 const Dot = ({ delay, color }: { delay: number; color: string }) => {
   const opacity = new Animated.Value(0);
@@ -22,7 +22,9 @@ const Dot = ({ delay, color }: { delay: number; color: string }) => {
     ).start();
   }, [delay, opacity]);
 
-  return <Animated.View style={[styles.dot, { opacity, backgroundColor: color }]} />;
+  return (
+    <Animated.View style={[styles.dot, { opacity, backgroundColor: color }]} />
+  );
 };
 
 export default function LoadingScreen() {
@@ -40,12 +42,12 @@ export default function LoadingScreen() {
 const styles = StyleSheet.create({
   loadingScreen: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   dotsWrapper: {
-    flexDirection: "row",
-    justifyContent: "space-between",
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     width: 60,
   },
   dot: {

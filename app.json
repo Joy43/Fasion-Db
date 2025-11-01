@@ -38,7 +38,8 @@
         }
       ],
       "react-native-video",
-      "expo-web-browser"
+      "expo-web-browser",
+      "expo-font"
     ],
     "experiments": {
       "typedRoutes": true
