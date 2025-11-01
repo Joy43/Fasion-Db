@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState } from 'react';
 import {
   ActivityIndicator,
   Alert,
@@ -8,17 +8,17 @@ import {
   TextInput,
   TouchableOpacity,
   View,
-} from "react-native";
-import { Feather } from "@expo/vector-icons";
-import { router } from "expo-router";
-import { registerUser } from "@/services/AuthService";
-import Toast from "react-native-toast-message";
+} from 'react-native';
+import { Feather } from '@expo/vector-icons';
+import { router } from 'expo-router';
+import { registerUser } from '@/services/AuthService';
+import Toast from 'react-native-toast-message';
 
 export default function RegisterScreen() {
   const [form, setForm] = useState({
-    name: "",
-    email: "",
-    password: "",
+    name: '',
+    email: '',
+    password: '',
     agree: false,
   });
 
@@ -31,10 +31,10 @@ export default function RegisterScreen() {
 
   const handleRegister = async () => {
     if (!form.agree)
-      return Alert.alert("Terms", "You must agree to the terms.");
+      return Alert.alert('Terms', 'You must agree to the terms.');
 
     if (!form.name || !form.email || !form.password) {
-      return Alert.alert("Missing Fields", "All fields are required.");
+      return Alert.alert('Missing Fields', 'All fields are required.');
     }
 
     setLoading(true);
@@ -48,22 +48,22 @@ export default function RegisterScreen() {
 
       if (result?.success) {
         Toast.show({
-          type: "success",
-          text1: result.message || "You have created an account successfully!",
+          type: 'success',
+          text1: result.message || 'You have created an account successfully!',
         });
 
-        router.push("/home");
+        router.push('/home');
       } else {
         Toast.show({
-          type: "error",
-          text1: result?.message || "Registration failed.",
+          type: 'error',
+          text1: result?.message || 'Registration failed.',
         });
       }
     } catch (error) {
-      console.error("Registration error:", error);
+      console.error('Registration error:', error);
       Toast.show({
-        type: "error",
-        text1: "Unexpected error occurred.",
+        type: 'error',
+        text1: 'Unexpected error occurred.',
       });
     } finally {
       setLoading(false);
@@ -75,9 +75,9 @@ export default function RegisterScreen() {
       <View className="items-center mb-6 px-6">
         <Image
           source={{
-            uri: "https://res.cloudinary.com/dkqdwcguu/image/upload/v1754007752/undraw_adventure_map_hnin_2_1_lfwsve.png",
+            uri: 'https://res.cloudinary.com/dkqdwcguu/image/upload/v1754007752/undraw_adventure_map_hnin_2_1_lfwsve.png',
           }}
-          style={{ width: 150, height: 150, resizeMode: "contain" }}
+          style={{ width: 150, height: 150, resizeMode: 'contain' }}
         />
       </View>
 
@@ -97,7 +97,7 @@ export default function RegisterScreen() {
         <TextInput
           placeholder="Full name"
           value={form.name}
-          onChangeText={(val) => handleChange("name", val)}
+          onChangeText={(val) => handleChange('name', val)}
           className="flex-1 text-gray-700"
         />
       </View>
@@ -113,7 +113,7 @@ export default function RegisterScreen() {
         <TextInput
           placeholder="Valid email"
           value={form.email}
-          onChangeText={(val) => handleChange("email", val)}
+          onChangeText={(val) => handleChange('email', val)}
           className="flex-1 text-gray-700"
           keyboardType="email-address"
           autoCapitalize="none"
@@ -132,12 +132,12 @@ export default function RegisterScreen() {
           placeholder="Strong password"
           secureTextEntry={!showPassword}
           value={form.password}
-          onChangeText={(val) => handleChange("password", val)}
+          onChangeText={(val) => handleChange('password', val)}
           className="flex-1 text-gray-700"
         />
         <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
           <Feather
-            name={showPassword ? "eye" : "eye-off"}
+            name={showPassword ? 'eye' : 'eye-off'}
             size={20}
             color="#888"
           />
@@ -147,18 +147,18 @@ export default function RegisterScreen() {
       {/* Terms Checkbox */}
       <View className="flex-row items-center mb-6 px-6">
         <TouchableOpacity
-          onPress={() => handleChange("agree", !form.agree)}
+          onPress={() => handleChange('agree', !form.agree)}
           style={{ marginRight: 8 }}
         >
           <Feather
-            name={form.agree ? "check-square" : "square"}
+            name={form.agree ? 'check-square' : 'square'}
             size={20}
-            color={form.agree ? "#f43f5e" : "#aaa"}
+            color={form.agree ? '#f43f5e' : '#aaa'}
           />
         </TouchableOpacity>
         <Text className="text-sm text-gray-700 flex-1">
-          By checking the box you agree to our plolicy{" "}
-          <Text className="text-pink-500 font-semibold">Terms</Text> and{" "}
+          By checking the box you agree to our plolicy{' '}
+          <Text className="text-pink-500 font-semibold">Terms</Text> and{' '}
           <Text className="text-pink-500 font-semibold">Conditions</Text>
         </Text>
       </View>
@@ -183,10 +183,10 @@ export default function RegisterScreen() {
 
       {/* Footer */}
       <Text className="text-center text-gray-600 mt-4">
-        Already a member?{" "}
+        Already a member?{' '}
         <Text
           className="text-pink-500 font-semibold"
-          onPress={() => router.push("/login")}
+          onPress={() => router.push('/login')}
         >
           Login in
         </Text>

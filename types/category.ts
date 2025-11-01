@@ -1,4 +1,4 @@
-export type ICategory= {
+export type ICategory = {
   _id: string;
   name: string;
   description: string;
@@ -6,8 +6,7 @@ export type ICategory= {
   isActive: boolean;
   createdBy: string;
   slug: string;
-  icon:string;
-  createdAt: string;  
+  icon: string;
+  createdAt: string;
   updatedAt: string;
-
-}
+};

@@ -1,12 +1,12 @@
-import React from "react";
-import { View, Text, Image, ScrollView, Switch } from "react-native";
+import React from 'react';
+import { View, Text, Image, ScrollView, Switch } from 'react-native';
 const skills = [
-  { title: "React Native", color: "#61DAFB", textColor: "#FFFFFF" },
-  { title: "TypeScript", color: "#3178C6", textColor: "#FFFFFF" },
-  { title: "JavaScript", color: "#F7DF1E", textColor: "#FFFFFF" },
-  { title: "NestJS", color: "#E0234E", textColor: "#FFFFFF" },
-  { title: "Node.js", color: "#68A063", textColor: "#FFFFFF" },
-  { title: "Express.js", color: "#000000", textColor: "#FFFFFF" },
+  { title: 'React Native', color: '#61DAFB', textColor: '#FFFFFF' },
+  { title: 'TypeScript', color: '#3178C6', textColor: '#FFFFFF' },
+  { title: 'JavaScript', color: '#F7DF1E', textColor: '#FFFFFF' },
+  { title: 'NestJS', color: '#E0234E', textColor: '#FFFFFF' },
+  { title: 'Node.js', color: '#68A063', textColor: '#FFFFFF' },
+  { title: 'Express.js', color: '#000000', textColor: '#FFFFFF' },
 ];
 
 const DeveloperProfile = () => {
@@ -17,7 +17,7 @@ const DeveloperProfile = () => {
         <View className="items-center pt-10">
           <Image
             source={{
-              uri: "https://res.cloudinary.com/dkqdwcguu/image/upload/v1754275277/joy_img_3_ony3do.jpg",
+              uri: 'https://res.cloudinary.com/dkqdwcguu/image/upload/v1754275277/joy_img_3_ony3do.jpg',
             }}
             className="w-28 h-28 rounded-full border-4 border-white shadow-md"
           />
@@ -40,7 +40,7 @@ const DeveloperProfile = () => {
           <View className="flex-row justify-between items-center">
             <Text className="font-bold text-red-500">Position</Text>
             <View className="flex-row items-center">
-              <Switch value={true} trackColor={{ true: "#FF4D4D" }} />
+              <Switch value={true} trackColor={{ true: '#FF4D4D' }} />
               <Text className="ml-2 text-gray-700">Open</Text>
             </View>
           </View>

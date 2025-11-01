@@ -1,10 +1,10 @@
-import { useBrands } from "@/hooks/useBrand";
-import { useCategories } from "@/hooks/useCategories";
-import { IBrand } from "@/types/band.types";
-import { ICategory } from "@/types/category";
-import { IProduct } from "@/types/product";
-import { Feather } from "@expo/vector-icons";
-import React, { useEffect, useState } from "react";
+import { useBrands } from '@/hooks/useBrand';
+import { useCategories } from '@/hooks/useCategories';
+import { IBrand } from '@/types/band.types';
+import { ICategory } from '@/types/category';
+import { IProduct } from '@/types/product';
+import { Feather } from '@expo/vector-icons';
+import React, { useEffect, useState } from 'react';
 import {
   Dimensions,
   ScrollView,
@@ -12,15 +12,15 @@ import {
   TextInput,
   TouchableOpacity,
   View,
-} from "react-native";
-import ProductCard from "./ProductCart";
+} from 'react-native';
+import ProductCard from './ProductCart';
 
 interface AllProductsProps {
   products: { data: IProduct[] } | undefined;
 }
 
 const AllProducts = ({ products }: AllProductsProps) => {
-  const [searchText, setSearchText] = useState("");
+  const [searchText, setSearchText] = useState('');
   const [selectedBrand, setSelectedBrand] = useState<string | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [filteredProducts, setFilteredProducts] = useState<IProduct[]>([]);
@@ -29,7 +29,7 @@ const AllProducts = ({ products }: AllProductsProps) => {
   const { data: categoryData, isLoading: isCategoriesLoading } =
     useCategories();
 
-  const screenWidth = Dimensions.get("window").width;
+  const screenWidth = Dimensions.get('window').width;
   const cardWidth = (screenWidth - 48) / 2;
 
   const categories = categoryData?.data || [];
@@ -56,7 +56,7 @@ const AllProducts = ({ products }: AllProductsProps) => {
 
   // Clear all filters
   const clearFilters = () => {
-    setSearchText("");
+    setSearchText('');
     setSelectedBrand(null);
     setSelectedCategory(null);
   };
@@ -104,15 +104,15 @@ const AllProducts = ({ products }: AllProductsProps) => {
                 }
                 className={`px-3 py-1 rounded-full ${
                   selectedCategory === category._id
-                    ? "bg-blue-600"
-                    : "bg-gray-100"
+                    ? 'bg-blue-600'
+                    : 'bg-gray-100'
                 }`}
               >
                 <Text
                   className={`${
                     selectedCategory === category._id
-                      ? "text-white font-semibold"
-                      : "text-black"
+                      ? 'text-white font-semibold'
+                      : 'text-black'
                   }`}
                 >
                   {category.name}
@@ -136,14 +136,14 @@ const AllProducts = ({ products }: AllProductsProps) => {
                   )
                 }
                 className={`px-3 py-1 rounded-full ${
-                  selectedBrand === brand._id ? "bg-purple-600" : "bg-gray-100"
+                  selectedBrand === brand._id ? 'bg-purple-600' : 'bg-gray-100'
                 }`}
               >
                 <Text
                   className={`${
                     selectedBrand === brand._id
-                      ? "text-white font-semibold"
-                      : "text-black"
+                      ? 'text-white font-semibold'
+                      : 'text-black'
                   }`}
                 >
                   {brand.name}

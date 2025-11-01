@@ -3,8 +3,8 @@ import {
   getAllProducts,
   getSingleProduct,
   updateProduct,
-} from "@/services/Product";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+} from '@/services/Product';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 // -------- Get All Products --------
 export const useProducts = (
@@ -13,7 +13,7 @@ export const useProducts = (
   query?: { [key: string]: string | string[] | undefined }
 ) => {
   return useQuery({
-    queryKey: ["PRODUCTS", { page, limit, ...query }],
+    queryKey: ['PRODUCTS', { page, limit, ...query }],
     queryFn: () => getAllProducts(page, limit, query),
     staleTime: 0,
   });
@@ -22,7 +22,7 @@ export const useProducts = (
 // -------- Get Single Product --------
 export const useSingleProduct = (productId: string) => {
   return useQuery({
-    queryKey: ["PRODUCT", productId],
+    queryKey: ['PRODUCT', productId],
     queryFn: () => getSingleProduct(productId),
     enabled: !!productId,
     staleTime: 0,
@@ -36,7 +36,7 @@ export const useAddProduct = (accessToken: string) => {
   return useMutation({
     mutationFn: (productData: FormData) => addProduct(productData, accessToken),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["PRODUCTS"] });
+      queryClient.invalidateQueries({ queryKey: ['PRODUCTS'] });
     },
   });
 };
@@ -56,8 +56,10 @@ export const useUpdateProduct = (accessToken: string) => {
 
     onSuccess: (_data, variables) => {
       // Invalidate product list and specific product cache
-      queryClient.invalidateQueries({ queryKey: ["PRODUCTS"] });
-      queryClient.invalidateQueries({ queryKey: ["PRODUCT", variables.productId] });
+      queryClient.invalidateQueries({ queryKey: ['PRODUCTS'] });
+      queryClient.invalidateQueries({
+        queryKey: ['PRODUCT', variables.productId],
+      });
     },
   });
 };
@@ -68,14 +70,14 @@ export const useDeleteProduct = (accessToken: string) => {
   return useMutation({
     mutationFn: (productId: string) =>
       fetch(`${process.env.NEXT_PUBLIC_BASE_API}/product/${productId}`, {
-        method: "DELETE",
+        method: 'DELETE',
         headers: {
           Authorization: accessToken,
         },
       }).then((res) => res.json()),
 
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["PRODUCTS"] });
+      queryClient.invalidateQueries({ queryKey: ['PRODUCTS'] });
     },
   });
-}
+};

@@ -1,6 +1,5 @@
-import { registerFcmToken } from "@/services/notification";
-import messaging from "@react-native-firebase/messaging";
-
+import { registerFcmToken } from '@/services/notification';
+import messaging from '@react-native-firebase/messaging';
 
 /**
  * Request user permission to receive notifications
@@ -21,19 +20,19 @@ export const setupFcmToken = async () => {
   try {
     const granted = await requestUserPermission();
     if (!granted) {
-      console.log("🔒 Notification permission not granted");
+      console.log('🔒 Notification permission not granted');
       return;
     }
 
     const token = await messaging().getToken();
-    console.log("📱 Device FCM Token:", token);
+    console.log('📱 Device FCM Token:', token);
 
     // Register this FCM token to backend
     await registerFcmToken(token);
 
-    console.log("✅ FCM token registered successfully with backend");
+    console.log('✅ FCM token registered successfully with backend');
   } catch (err) {
-    console.error("❌ Error in setupFcmToken:", err);
+    console.error('❌ Error in setupFcmToken:', err);
   }
 };
 

@@ -2,14 +2,14 @@ import {
   createFavoriteProduct,
   deleteFavoriteProduct,
   getAllFavoriteProducts,
-} from "@/services/FavoriteProduct";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import Toast from "react-native-toast-message";
+} from '@/services/FavoriteProduct';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import Toast from 'react-native-toast-message';
 
 // -----------------------Fetch all favorite products-----------------
 export const useGetFavorite = () => {
   return useQuery({
-    queryKey: ["FAVORITE_PRODUCTS"],
+    queryKey: ['FAVORITE_PRODUCTS'],
     queryFn: getAllFavoriteProducts,
     staleTime: 0,
   });
@@ -24,19 +24,19 @@ export const useAddToFavorite = (userId: string) => {
       return createFavoriteProduct({ userId, productId });
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["FAVORITE_PRODUCTS"] });
+      queryClient.invalidateQueries({ queryKey: ['FAVORITE_PRODUCTS'] });
       Toast.show({
-        type: "success",
-        text1: "Added to favorites!",
-        position: "bottom",
+        type: 'success',
+        text1: 'Added to favorites!',
+        position: 'bottom',
         visibilityTime: 2000,
       });
     },
     onError: (error: any) => {
       Toast.show({
-        type: "error",
-        text1: error?.message || "Failed to add favorite.",
-        position: "bottom",
+        type: 'error',
+        text1: error?.message || 'Failed to add favorite.',
+        position: 'bottom',
         visibilityTime: 2500,
       });
     },
@@ -52,19 +52,19 @@ export const useDeleteFavorite = () => {
       return deleteFavoriteProduct(favoriteProductId);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["FAVORITE_PRODUCTS"] });
+      queryClient.invalidateQueries({ queryKey: ['FAVORITE_PRODUCTS'] });
       Toast.show({
-        type: "success",
-        text1: "Removed from favorites!",
-        position: "bottom",
+        type: 'success',
+        text1: 'Removed from favorites!',
+        position: 'bottom',
         visibilityTime: 2000,
       });
     },
     onError: (error: any) => {
       Toast.show({
-        type: "error",
-        text1: error?.message || "Failed to remove favorite.",
-        position: "bottom",
+        type: 'error',
+        text1: error?.message || 'Failed to remove favorite.',
+        position: 'bottom',
         visibilityTime: 2500,
       });
     },

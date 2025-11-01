@@ -1,15 +1,15 @@
-const API_URL= process.env.EXPO_PUBLIC_BASE_API || "http://localhost:5000/api/v1";
+const API_URL =
+  process.env.EXPO_PUBLIC_BASE_API || 'http://localhost:5000/api/v1';
 
 // ----------GET CATEGORIES----------
 
 export const getAllBrand = async () => {
   const res = await fetch(`${API_URL}/brand`);
-  if (!res.ok) throw new Error("Failed to fetch brand");
+  if (!res.ok) throw new Error('Failed to fetch brand');
   return res.json();
 };
 //----------- create a category----------
 export const createBrand = async ({
-  
   data,
   token,
 }: {
@@ -17,14 +17,14 @@ export const createBrand = async ({
   token: string;
 }) => {
   const res = await fetch(`${API_URL}/brand`, {
-    method: "POST",
+    method: 'POST',
     headers: {
       Authorization: token,
     },
     body: data,
   });
 
-  if (!res.ok) throw new Error("Failed to create brand");
+  if (!res.ok) throw new Error('Failed to create brand');
   return res.json();
 };
 
@@ -37,32 +37,32 @@ export const deleteBrand = async ({
   token: string;
 }) => {
   const res = await fetch(`${API_URL}/brand/${brandId}`, {
-    method: "DELETE",
+    method: 'DELETE',
     headers: {
       Authorization: token,
     },
   });
-  if(!res.ok) throw new Error("Failed to delete brand");
+  if (!res.ok) throw new Error('Failed to delete brand');
   return res.json();
 };
 // ---------------- update a category-----------------
 export const updateBrand = async ({
-    brandId,
-    data,
-    token,
-    }: {
-   brandId: string;
-    data: FormData;
-    token: string;
-    }) => {
-    const res = await fetch(`${API_URL}/category/${brandId}`, {
-        method: "PATCH",
-        headers: {
-        Authorization: token,
-        },
-        body: data,
-    });
-    
-    if (!res.ok) throw new Error("Failed to update brand");
-    return res.json();
-    }
+  brandId,
+  data,
+  token,
+}: {
+  brandId: string;
+  data: FormData;
+  token: string;
+}) => {
+  const res = await fetch(`${API_URL}/category/${brandId}`, {
+    method: 'PATCH',
+    headers: {
+      Authorization: token,
+    },
+    body: data,
+  });
+
+  if (!res.ok) throw new Error('Failed to update brand');
+  return res.json();
+};

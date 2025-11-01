@@ -3,9 +3,9 @@ import { useUser } from "@/context/UserContext";
 import { useAddToFavorite } from "@/hooks/useFavorite";
 import { useSingleProduct } from "@/hooks/useProduct";
 import LoadingScreen from "@/utils/Loading";
-import { AntDesign, Ionicons } from "@expo/vector-icons";
-import { useNavigation } from "@react-navigation/native";
-import { router, useLocalSearchParams } from "expo-router";
+import { Ionicons } from "@expo/vector-icons";
+import { useNavigation, useLocalSearchParams } from "expo-router";
+import { router } from "expo-router";
 import {
   Image,
   SafeAreaView,
@@ -18,7 +18,7 @@ import {
 const PageDetails = () => {
   const { user, setIsLoading } = useUser();
   console.log("user", user);
-  const userId = user?._id ||  "";
+  const userId = user?._id || "";
   const navigation = useNavigation();
   const params = useLocalSearchParams();
   const productId = params.productId as string;
@@ -27,6 +27,22 @@ const PageDetails = () => {
   const product = data?.data;
   const addToFavoriteMutation = useAddToFavorite(userId);
 
+  if (!user) {
+    return (
+      <SafeAreaView className="flex-1 justify-center items-center bg-white">
+        <Text className="text-red-500">
+          Please login to view product details.
+        </Text>
+        <TouchableOpacity
+          onPress={() => router.push("/login")}
+          className="flex-row items-center mt-4"
+        >
+          <Text className="text-[#7A1CAC] mr-1 font-medium">Login</Text>
+          <Ionicons name="chevron-forward" size={20} color="#7A1CAC" />
+        </TouchableOpacity>
+      </SafeAreaView>
+    );
+  }
   if (isLoading) {
     return (
       <SafeAreaView className="flex-1 justify-center items-center bg-white">
@@ -92,9 +108,7 @@ const PageDetails = () => {
                 }
               }}
               className="w-12 h-12 border rounded-full justify-center items-center border-gray-300"
-            >
-              <AntDesign name="hearto" size={22} color="red" />
-            </TouchableOpacity>
+            ></TouchableOpacity>
 
             <TouchableOpacity
               onPress={() => {
@@ -140,7 +154,7 @@ const PageDetails = () => {
                     <Text key={index} className="text-gray-600">
                       • {key}: {String(value)}
                     </Text>
-                  )
+                  ),
                 )}
             </View>
           )}

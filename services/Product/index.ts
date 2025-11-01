@@ -1,4 +1,5 @@
-const BASE_API = process.env.EXPO_PUBLIC_BASE_API || "http://localhost:5000/api/v1";
+const BASE_API =
+  process.env.EXPO_PUBLIC_BASE_API || 'http://localhost:5000/api/v1';
 
 export const getAllProducts = async (
   page?: string,
@@ -8,18 +9,18 @@ export const getAllProducts = async (
   const params = new URLSearchParams();
 
   if (query?.price) {
-    params.append("minPrice", "0");
-    params.append("maxPrice", query?.price.toString());
+    params.append('minPrice', '0');
+    params.append('maxPrice', query?.price.toString());
   }
 
   if (query?.category) {
-    params.append("categories", query?.category.toString());
+    params.append('categories', query?.category.toString());
   }
   if (query?.brand) {
-    params.append("brands", query?.brand.toString());
+    params.append('brands', query?.brand.toString());
   }
   if (query?.rating) {
-    params.append("ratings", query?.rating.toString());
+    params.append('ratings', query?.rating.toString());
   }
 
   try {
@@ -29,7 +30,7 @@ export const getAllProducts = async (
     const data = await res.json();
     return data;
   } catch (error: any) {
-    console.error("Error fetching products:", error);
+    console.error('Error fetching products:', error);
     throw error;
   }
 };
@@ -40,15 +41,18 @@ export const getSingleProduct = async (productId: string) => {
     const data = await res.json();
     return data;
   } catch (error: any) {
-    console.error("Error fetching product:", error);
+    console.error('Error fetching product:', error);
     throw error;
   }
 };
 
-export const addProduct = async (productData: FormData, accessToken: string): Promise<any> => {
+export const addProduct = async (
+  productData: FormData,
+  accessToken: string
+): Promise<any> => {
   try {
     const res = await fetch(`${BASE_API}/product`, {
-      method: "POST",
+      method: 'POST',
       body: productData,
       headers: {
         Authorization: accessToken,
@@ -56,7 +60,7 @@ export const addProduct = async (productData: FormData, accessToken: string): Pr
     });
     return res.json();
   } catch (error: any) {
-    console.error("Error adding product:", error);
+    console.error('Error adding product:', error);
     throw error;
   }
 };
@@ -68,7 +72,7 @@ export const updateProduct = async (
 ): Promise<any> => {
   try {
     const res = await fetch(`${BASE_API}/product/${productId}`, {
-      method: "PATCH",
+      method: 'PATCH',
       body: productData,
       headers: {
         Authorization: accessToken,
@@ -76,7 +80,7 @@ export const updateProduct = async (
     });
     return res.json();
   } catch (error: any) {
-    console.error("Error updating product:", error);
+    console.error('Error updating product:', error);
     throw error;
   }
 };

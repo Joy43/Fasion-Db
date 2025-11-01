@@ -12,17 +12,19 @@ export const uploadToCloudinary = async (file: {
     type: file.type,
     name: file.name,
   } as any);
-  formData.append('upload_preset', 'upload_car'); 
+  formData.append('upload_preset', 'upload_car');
 
   try {
-    const response = await fetch('https://api.cloudinary.com/v1_1/dluuillmt/image/upload', {
-      method: 'POST',
-      body: formData,
-      headers: {
-        Accept: 'application/json',
-        
-      },
-    });
+    const response = await fetch(
+      'https://api.cloudinary.com/v1_1/dluuillmt/image/upload',
+      {
+        method: 'POST',
+        body: formData,
+        headers: {
+          Accept: 'application/json',
+        },
+      }
+    );
 
     const data = await response.json();
 

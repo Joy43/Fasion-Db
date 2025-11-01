@@ -1,15 +1,15 @@
-const API_URL= process.env.EXPO_PUBLIC_BASE_API || "http://localhost:5000/api/v1";
+const API_URL =
+  process.env.EXPO_PUBLIC_BASE_API || 'http://localhost:5000/api/v1';
 
 // ----------GET CATEGORIES----------
 
 export const getAllCategories = async () => {
   const res = await fetch(`${API_URL}/category`);
-  if (!res.ok) throw new Error("Failed to fetch categories");
+  if (!res.ok) throw new Error('Failed to fetch categories');
   return res.json();
 };
 //----------- create a category----------
 export const createCategory = async ({
-  
   data,
   token,
 }: {
@@ -17,14 +17,14 @@ export const createCategory = async ({
   token: string;
 }) => {
   const res = await fetch(`${API_URL}/category`, {
-    method: "POST",
+    method: 'POST',
     headers: {
       Authorization: token,
     },
     body: data,
   });
 
-  if (!res.ok) throw new Error("Failed to create category");
+  if (!res.ok) throw new Error('Failed to create category');
   return res.json();
 };
 
@@ -37,32 +37,32 @@ export const deleteCategory = async ({
   token: string;
 }) => {
   const res = await fetch(`${API_URL}/category/${categoryId}`, {
-    method: "DELETE",
+    method: 'DELETE',
     headers: {
       Authorization: token,
     },
   });
-  if(!res.ok) throw new Error("Failed to delete category");
+  if (!res.ok) throw new Error('Failed to delete category');
   return res.json();
 };
 // ---------------- update a category-----------------
 export const updateCategory = async ({
-    categoryId,
-    data,
-    token,
-    }: {
-    categoryId: string;
-    data: FormData;
-    token: string;
-    }) => {
-    const res = await fetch(`${API_URL}/category/${categoryId}`, {
-        method: "PATCH",
-        headers: {
-        Authorization: token,
-        },
-        body: data,
-    });
-    
-    if (!res.ok) throw new Error("Failed to update category");
-    return res.json();
-    }
+  categoryId,
+  data,
+  token,
+}: {
+  categoryId: string;
+  data: FormData;
+  token: string;
+}) => {
+  const res = await fetch(`${API_URL}/category/${categoryId}`, {
+    method: 'PATCH',
+    headers: {
+      Authorization: token,
+    },
+    body: data,
+  });
+
+  if (!res.ok) throw new Error('Failed to update category');
+  return res.json();
+};

@@ -1,6 +1,6 @@
-import { getUserProfile } from "@/services/AuthService";
-import { IUserProfile } from "@/types/userprofile";
-import React, { useEffect, useState } from "react";
+import { getUserProfile } from '@/services/AuthService';
+import { IUserProfile } from '@/types/userprofile';
+import React, { useEffect, useState } from 'react';
 import {
   Image,
   Modal,
@@ -9,11 +9,11 @@ import {
   Text,
   TouchableOpacity,
   View,
-} from "react-native";
+} from 'react-native';
 
-import { Feather } from "@expo/vector-icons";
-import Notification from "./Notification";
-import { useUser } from "@/context/UserContext";
+import { Feather } from '@expo/vector-icons';
+import Notification from './Notification';
+import { useUser } from '@/context/UserContext';
 const HomeProfile = () => {
   const [profile, setProfile] = useState<IUserProfile | null>(null);
   const { user } = useUser();
@@ -23,14 +23,13 @@ const HomeProfile = () => {
       if (result.success) {
         setProfile(result.data);
       } else {
-        console.warn("Failed to load profile:", result.message);
+        console.warn('Failed to load profile:', result.message);
       }
     };
     fetchProfile();
   }, []);
   // console.log("Profile data:", profile);
   // -----------------MODAL------------
-
 
   return (
     <SafeAreaView>
@@ -60,7 +59,7 @@ const HomeProfile = () => {
         {/* Right side: icons */}
         <View className="flex-row space-x-4 gap-3">
           {/* ---------- notification------------ */}
-          <TouchableOpacity >
+          <TouchableOpacity>
             <Feather name="bell" size={24} color="black" />
           </TouchableOpacity>
           {/* --------------stting--------- */}
@@ -72,7 +71,7 @@ const HomeProfile = () => {
 
       {/* Greeting */}
       <Text className="text-2xl font-bold mb-4">
-        Hello, {profile?.name || "User"}!
+        Hello, {profile?.name || 'User'}!
       </Text>
 
       {/* Announcement */}
@@ -102,8 +101,6 @@ const HomeProfile = () => {
           <Text className="text-blue-700 font-semibold">To Review</Text>
         </TouchableOpacity>
       </View>
-
-
     </SafeAreaView>
   );
 };

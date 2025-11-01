@@ -1,8 +1,8 @@
-import { useBrands } from "@/hooks/useBrand";
-import { IBrand } from "@/types/band.types";
-import { Ionicons } from "@expo/vector-icons";
-import { router } from "expo-router";
-import React from "react";
+import { useBrands } from '@/hooks/useBrand';
+import { IBrand } from '@/types/band.types';
+import { Ionicons } from '@expo/vector-icons';
+import { router } from 'expo-router';
+import React from 'react';
 import {
   FlatList,
   Image,
@@ -10,7 +10,7 @@ import {
   Text,
   TouchableOpacity,
   View,
-} from "react-native";
+} from 'react-native';
 
 const Brands = () => {
   const { data, isLoading, isError } = useBrands();
@@ -18,7 +18,7 @@ const Brands = () => {
   const handleBrandPress = (brandId: string) => {
     // Navigate to product page with brand filter applied
     router.push({
-      pathname: "/product",
+      pathname: '/product',
       params: { brand: brandId }, // 👈 pass filter param
     });
   };
@@ -30,7 +30,7 @@ const Brands = () => {
     >
       <Image
         source={{
-          uri: item.logo || "https://via.placeholder.com/150",
+          uri: item.logo || 'https://via.placeholder.com/150',
         }}
         className="w-16 h-16 rounded-full mb-2"
         resizeMode="cover"
@@ -47,7 +47,7 @@ const Brands = () => {
       <View className="flex-row justify-between items-center px-5 py-4">
         <Text className="text-2xl font-bold text-gray-900">Brands</Text>
         <TouchableOpacity
-          onPress={() => router.push("/product")}
+          onPress={() => router.push('/product')}
           className="flex-row items-center"
         >
           <Text className="text-[#7A1CAC] mr-1 font-medium">See All</Text>

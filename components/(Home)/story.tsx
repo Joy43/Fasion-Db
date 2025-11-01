@@ -1,5 +1,5 @@
-import { FontAwesome } from "@expo/vector-icons";
-import React, { useRef, useState } from "react";
+import { FontAwesome } from '@expo/vector-icons';
+import React, { useRef, useState } from 'react';
 import {
   ActivityIndicator,
   Dimensions,
@@ -10,27 +10,27 @@ import {
   Text,
   TouchableOpacity,
   View,
-} from "react-native";
-import YouTube from "react-native-youtube-iframe";
+} from 'react-native';
+import YouTube from 'react-native-youtube-iframe';
 
 const storiesData = [
   {
     id: 1,
     thumbnail:
-      "https://images.pexels.com/photos/19929726/pexels-photo-19929726/free-photo-of-portrait-of-woman-in-jacket.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
-    videoId: "SQeHEUoyj4c",
+      'https://images.pexels.com/photos/19929726/pexels-photo-19929726/free-photo-of-portrait-of-woman-in-jacket.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load',
+    videoId: 'SQeHEUoyj4c',
     live: true,
   },
   {
     id: 2,
     thumbnail:
-      "https://images.pexels.com/photos/6665048/pexels-photo-6665048.jpeg",
-    videoId: "dQw4w9WgXcQ",
+      'https://images.pexels.com/photos/6665048/pexels-photo-6665048.jpeg',
+    videoId: 'dQw4w9WgXcQ',
   },
   {
     id: 3,
-    thumbnail: "https://img.youtube.com/vi/3JZ_D3ELwOQ/0.jpg",
-    videoId: "3JZ_D3ELwOQ",
+    thumbnail: 'https://img.youtube.com/vi/3JZ_D3ELwOQ/0.jpg',
+    videoId: '3JZ_D3ELwOQ',
   },
 ];
 
@@ -39,7 +39,7 @@ export default function StoriesSection() {
   const [playing, setPlaying] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const screenWidth = Dimensions.get("window").width;
+  const screenWidth = Dimensions.get('window').width;
   const playerRef = useRef<any>(null);
 
   const handleCloseModal = async () => {
@@ -48,8 +48,8 @@ export default function StoriesSection() {
         await playerRef.current.getYoutubePlayer().pauseVideo();
       }
     } catch (err) {
-      console.error("Error pausing video:", err);
-      setError("Failed to pause video");
+      console.error('Error pausing video:', err);
+      setError('Failed to pause video');
     }
     setSelectedVideoId(null);
     setPlaying(true);
@@ -67,8 +67,8 @@ export default function StoriesSection() {
         setPlaying(!playing);
       }
     } catch (err) {
-      console.error("Error toggling play/pause:", err);
-      setError("Failed to control video playback");
+      console.error('Error toggling play/pause:', err);
+      setError('Failed to control video playback');
     }
   };
 
@@ -144,15 +144,15 @@ export default function StoriesSection() {
               width={screenWidth - 40}
               onReady={() => setIsLoading(false)}
               onError={(e: any) => {
-                console.log("YouTube Player Error:", e);
-                setError("Failed to load video");
+                console.log('YouTube Player Error:', e);
+                setError('Failed to load video');
                 setIsLoading(false);
               }}
               onChangeState={(event: string) => {
-                if (event === "paused") setPlaying(false);
-                if (event === "playing") setPlaying(true);
-                if (event === "buffering") setIsLoading(true);
-                if (event === "ended") setPlaying(false);
+                if (event === 'paused') setPlaying(false);
+                if (event === 'playing') setPlaying(true);
+                if (event === 'buffering') setIsLoading(true);
+                if (event === 'ended') setPlaying(false);
               }}
             />
           )}
@@ -162,7 +162,7 @@ export default function StoriesSection() {
             className="absolute bottom-5 self-center bg-white/70 p-3 rounded-full z-50"
           >
             <FontAwesome
-              name={playing ? "pause" : "play"}
+              name={playing ? 'pause' : 'play'}
               size={24}
               color="#000"
             />

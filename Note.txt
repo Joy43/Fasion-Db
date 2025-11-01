@@ -14,3 +14,26 @@ https://github.com/Apollo-Level2-Web-Dev/NextMart-Client/tree/part-6
 npx expo start --clear
 yarn add @react-native-firebase/app @react-native-firebase/messaging
 yarn add expo-notifications expo-device expo-permissions
+
+
+# Format code (Prettier)
+yarn format
+
+# Lint and auto-fix (ESLint via Expo)
+yarn lint
+
+# Type-check only (TS)
+yarn type-check  # Or directly: npx tsc --noEmit
+
+# Full build check (formats, lints, types)
+yarn build:check
+
+# Start dev server
+yarn start
+
+# Run iOS/Android
+yarn ios
+yarn android
+
+# Reset project (with your error-checked script)
+yarn reset-project

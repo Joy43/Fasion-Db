@@ -1,7 +1,7 @@
-import { getValidToken } from "@/lib/tokenUtils";
+import { getValidToken } from '@/lib/tokenUtils';
 
 const BASE_API =
-  process.env.EXPO_PUBLIC_BASE_API || "http://localhost:5000/api/v1";
+  process.env.EXPO_PUBLIC_BASE_API || 'http://localhost:5000/api/v1';
 
 /**
  * Register the device's FCM token with the backend
@@ -10,10 +10,10 @@ export const registerFcmToken = async (fcmToken: string) => {
   const token = await getValidToken();
 
   const res = await fetch(`${BASE_API}/notification/register`, {
-    method: "POST",
+    method: 'POST',
     headers: {
-      Authorization: token || "",
-      "Content-Type": "application/json",
+      Authorization: token || '',
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify({ token: fcmToken }),
   });
@@ -21,7 +21,7 @@ export const registerFcmToken = async (fcmToken: string) => {
   const json = await res.json();
 
   if (!res.ok) {
-    throw new Error(json.error || "Failed to register FCM token");
+    throw new Error(json.error || 'Failed to register FCM token');
   }
 
   return json;
@@ -42,10 +42,10 @@ export const sendTestNotification = async ({
   const token = await getValidToken();
 
   const res = await fetch(`${BASE_API}/notification/send`, {
-    method: "POST",
+    method: 'POST',
     headers: {
-      Authorization: token || "",
-      "Content-Type": "application/json",
+      Authorization: token || '',
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify({ userId, title, body }),
   });
@@ -53,7 +53,7 @@ export const sendTestNotification = async ({
   const json = await res.json();
 
   if (!res.ok) {
-    throw new Error(json.message || "Failed to send notification");
+    throw new Error(json.message || 'Failed to send notification');
   }
 
   return json;

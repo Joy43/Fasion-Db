@@ -1,9 +1,9 @@
-import UpdateProfileForm from "@/components/modules/auth/updateprofile/UpdateProfileFrom";
-import Userprofile from "@/components/modules/auth/userprofile/Userprofile";
-import LoginForm from "@/components/modules/auth/login/LoginFrom";
-import { useUser } from "@/context/UserContext";
+import UpdateProfileForm from '@/components/modules/auth/updateprofile/UpdateProfileFrom';
+import Userprofile from '@/components/modules/auth/userprofile/Userprofile';
+import LoginForm from '@/components/modules/auth/login/LoginFrom';
+import { useUser } from '@/context/UserContext';
 
-import { SafeAreaView } from "react-native-safe-area-context";
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const Profile = () => {
   const { user } = useUser();
@@ -19,8 +19,6 @@ const Profile = () => {
 
   return (
     <SafeAreaView className="flex-1 bg-[#f9fafb] px-5 pt-6">
-      {/* Additional Info */}
-
       <Userprofile />
     </SafeAreaView>
   );

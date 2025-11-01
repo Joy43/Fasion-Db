@@ -1,29 +1,29 @@
-import { Feather } from "@expo/vector-icons";
-import { Image, ScrollView, Text, TouchableOpacity, View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
-import Ionicons from "react-native-vector-icons/Ionicons";
+import { Feather } from '@expo/vector-icons';
+import { Image, ScrollView, Text, TouchableOpacity, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const products = [
   {
     id: 1,
-    title: "Elegant Women Dress",
-    price: "$120",
+    title: 'Elegant Women Dress',
+    price: '$120',
     image:
-      "https://res.cloudinary.com/dluuillmt/image/upload/v1738922109/BC05CHS222_zulz50.jpg",
+      'https://res.cloudinary.com/dluuillmt/image/upload/v1738922109/BC05CHS222_zulz50.jpg',
   },
   {
     id: 2,
-    title: "Stylish Handbag",
-    price: "$85",
+    title: 'Stylish Handbag',
+    price: '$85',
     image:
-      "https://res.cloudinary.com/dluuillmt/image/upload/v1738922084/BC05BHS088-317x462_ltgoin.jpg",
+      'https://res.cloudinary.com/dluuillmt/image/upload/v1738922084/BC05BHS088-317x462_ltgoin.jpg',
   },
   {
     id: 3,
-    title: "Trendy Sunglasses",
-    price: "$50",
+    title: 'Trendy Sunglasses',
+    price: '$50',
     image:
-      "https://images.pexels.com/photos/1115128/pexels-photo-1115128.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500",
+      'https://images.pexels.com/photos/1115128/pexels-photo-1115128.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500',
   },
 ];
 

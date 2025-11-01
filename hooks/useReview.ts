@@ -1,17 +1,17 @@
-import { getValidToken } from "@/lib/tokenUtils";
+import { getValidToken } from '@/lib/tokenUtils';
 import {
   createReview,
   deleteReview,
   getAllReview,
   updateReview,
-} from "./../services/review/index";
+} from './../services/review/index';
 
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 // ----------- Get all reviews ----------------
 export const useReviews = () => {
   return useQuery({
-    queryKey: ["REVIEW"],
+    queryKey: ['REVIEW'],
     queryFn: getAllReview,
     staleTime: 0,
   });
@@ -31,13 +31,13 @@ export const useCreateReview = () => {
   return useMutation({
     mutationFn: async (payload: CreateReviewPayload) => {
       const token = await getValidToken();
-      if (!token) throw new Error("Missing or expired token");
+      if (!token) throw new Error('Missing or expired token');
 
       // Send JSON directly instead of FormData
       return createReview({ data: payload, token });
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["REVIEW"] });
+      queryClient.invalidateQueries({ queryKey: ['REVIEW'] });
     },
   });
 };
@@ -49,7 +49,7 @@ export const useDeleteReview = (token: string) => {
   return useMutation({
     mutationFn: (reviewId: string) => deleteReview({ reviewId, token }),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["REVIEW"] }); // refetch reviews
+      queryClient.invalidateQueries({ queryKey: ['REVIEW'] }); // refetch reviews
     },
   });
 };
@@ -62,7 +62,7 @@ export const useUpdateReview = (token: string) => {
     mutationFn: ({ reviewId, data }: { reviewId: string; data: FormData }) =>
       updateReview({ reviewId, data, token }),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["REVIEW"] });
+      queryClient.invalidateQueries({ queryKey: ['REVIEW'] });
     },
   });
 };

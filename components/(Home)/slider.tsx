@@ -1,42 +1,42 @@
-import { LinearGradient } from "expo-linear-gradient";
-import React from "react";
-import { Dimensions, Image, Text, TouchableOpacity, View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
-import Swiper from "react-native-swiper";
+import { LinearGradient } from 'expo-linear-gradient';
+import React from 'react';
+import { Dimensions, Image, Text, TouchableOpacity, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import Swiper from 'react-native-swiper';
 
-const { height } = Dimensions.get("window");
+const { height } = Dimensions.get('window');
 const SLIDE_HEIGHT = height * 0.3;
 
 const slides = [
   {
-    subtitle: "Up to 50% Off",
-    description: "Happening Now",
+    subtitle: 'Up to 50% Off',
+    description: 'Happening Now',
     image:
-      "https://res.cloudinary.com/dwgsx0ibw/image/upload/v1749179976/Placeholder_01_2x_2_gpazog.png",
+      'https://res.cloudinary.com/dwgsx0ibw/image/upload/v1749179976/Placeholder_01_2x_2_gpazog.png',
   },
   {
-    subtitle: "New Summer Styles",
-    description: "Just Arrived",
+    subtitle: 'New Summer Styles',
+    description: 'Just Arrived',
     image:
-      "https://res.cloudinary.com/dwgsx0ibw/image/upload/v1749179976/03_zlhikb.png",
+      'https://res.cloudinary.com/dwgsx0ibw/image/upload/v1749179976/03_zlhikb.png',
   },
   {
-    subtitle: "Urban Streetwear",
-    description: "Limited Drops",
+    subtitle: 'Urban Streetwear',
+    description: 'Limited Drops',
     image:
-      "https://res.cloudinary.com/dwgsx0ibw/image/upload/v1749535205/fasiobn1_vxi5bv.jpg",
+      'https://res.cloudinary.com/dwgsx0ibw/image/upload/v1749535205/fasiobn1_vxi5bv.jpg',
   },
   {
-    subtitle: "Flash Sale",
-    description: "Ends Tonight",
+    subtitle: 'Flash Sale',
+    description: 'Ends Tonight',
     image:
-      "https://res.cloudinary.com/dwgsx0ibw/image/upload/v1749535206/fasion3_fn23vp.png",
+      'https://res.cloudinary.com/dwgsx0ibw/image/upload/v1749535206/fasion3_fn23vp.png',
   },
 ];
 
 const Slider = () => {
   const handleSlidePress = (slide: (typeof slides)[0]) => {
-    console.log("Clicked slide:", slide.subtitle);
+    console.log('Clicked slide:', slide.subtitle);
   };
 
   return (
@@ -70,7 +70,7 @@ const Slider = () => {
 
                 {/* Gradient Overlay */}
                 <LinearGradient
-                  colors={["transparent", "rgba(0,0,0,0.6)"]}
+                  colors={['transparent', 'rgba(0,0,0,0.6)']}
                   className="absolute bottom-0 w-full h-1/2 rounded-b-3xl"
                 />
 

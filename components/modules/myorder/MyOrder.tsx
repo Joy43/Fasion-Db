@@ -1,6 +1,6 @@
-import { View, Text, ScrollView } from "react-native";
-import React from "react";
-import { useGetOrders } from "@/hooks/useOrder";
+import { View, Text, ScrollView } from 'react-native';
+import React from 'react';
+import { useGetOrders } from '@/hooks/useOrder';
 
 const MyOrder = () => {
   const { data, isLoading, error } = useGetOrders() || {};
@@ -30,11 +30,11 @@ const MyOrder = () => {
 
               <View className="space-y-1">
                 <Text className="text-base text-gray-800">
-                  <Text className="font-semibold">Shipping:</Text>{" "}
+                  <Text className="font-semibold">Shipping:</Text>{' '}
                   {order.shippingAddress}
                 </Text>
                 <Text className="text-base text-gray-800">
-                  <Text className="font-semibold">Payment:</Text>{" "}
+                  <Text className="font-semibold">Payment:</Text>{' '}
                   {order.paymentMethod}
                 </Text>
                 <Text className="text-base text-gray-800">

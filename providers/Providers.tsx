@@ -1,10 +1,7 @@
-// providers/Providers.tsx
-import UserProvider from "@/context/UserContext";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import React from "react";
-import StoreProvider from "./StoreProvider";
+import React from 'react';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import UserProvider from '@/context/UserContext';
 
-// Create a QueryClient instance
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -23,9 +20,7 @@ const queryClient = new QueryClient({
 const Providers = ({ children }: { children: React.ReactNode }) => {
   return (
     <UserProvider>
-      <QueryClientProvider client={queryClient}>
-        <StoreProvider>{children}</StoreProvider>
-      </QueryClientProvider>
+      <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
     </UserProvider>
   );
 };

@@ -3,7 +3,6 @@ export default function ProductLayout() {
   return (
     <Stack>
       <Stack.Screen name="product" options={{ headerShown: false }} />
-       
     </Stack>
   );
 }

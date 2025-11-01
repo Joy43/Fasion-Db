@@ -1,11 +1,11 @@
-import axios from "axios";
+import axios from 'axios';
 const API_URL =
-  process.env.EXPO_PUBLIC_BASE_API || "http://localhost:5000/api/v1";
+  process.env.EXPO_PUBLIC_BASE_API || 'http://localhost:5000/api/v1';
 
 // ----------GET REVIEWS----------
 export const getAllReview = async () => {
   const res = await fetch(`${API_URL}/review`);
-  if (!res.ok) throw new Error("Failed to fetch reviews");
+  if (!res.ok) throw new Error('Failed to fetch reviews');
   return res.json();
 };
 
@@ -23,9 +23,9 @@ export const createReview = async ({
   token: string;
 }) => {
   const res = await fetch(`${API_URL}/review`, {
-    method: "POST",
+    method: 'POST',
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
       Authorization: token,
     },
     body: JSON.stringify(data),
@@ -48,12 +48,12 @@ export const deleteReview = async ({
   token: string;
 }) => {
   const res = await fetch(`${API_URL}/review/${reviewId}`, {
-    method: "DELETE",
+    method: 'DELETE',
     headers: {
       Authorization: token,
     },
   });
-  if (!res.ok) throw new Error("Failed to delete review");
+  if (!res.ok) throw new Error('Failed to delete review');
   return res.json();
 };
 // ---------------- update a category-----------------
@@ -67,13 +67,13 @@ export const updateReview = async ({
   token: string;
 }) => {
   const res = await fetch(`${API_URL}/review/${reviewId}`, {
-    method: "PATCH",
+    method: 'PATCH',
     headers: {
       Authorization: token,
     },
     body: data,
   });
 
-  if (!res.ok) throw new Error("Failed to update review");
+  if (!res.ok) throw new Error('Failed to update review');
   return res.json();
 };

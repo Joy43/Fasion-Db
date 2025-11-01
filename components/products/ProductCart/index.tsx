@@ -8,8 +8,8 @@ const ProductCard = ({ product }: { product: IProduct }) => {
       onPress={() => {
         if (product._id) {
           router.push({
-            pathname: '/productdetials', 
-            params: { productId: product._id }, 
+            pathname: '/productdetials',
+            params: { productId: product._id },
           });
         } else {
           console.warn('Product ID is undefined, navigation prevented.');
@@ -18,10 +18,7 @@ const ProductCard = ({ product }: { product: IProduct }) => {
       className="w-48 rounded-2xl shadow-md overflow-hidden bg-white"
     >
       {product.imageUrls?.length > 0 && (
-        <Image
-          source={{ uri: product.imageUrls[0] }}
-          className="w-full h-56"
-        />
+        <Image source={{ uri: product.imageUrls[0] }} className="w-full h-56" />
       )}
       <View className="p-2">
         <Text className="text-base font-semibold">{product.name}</Text>
