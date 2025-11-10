@@ -13,6 +13,7 @@ import {
 
 import { Feather } from '@expo/vector-icons';
 import Announcement from './Annoucement';
+import { router } from 'expo-router';
 
 const HomeProfile = () => {
   const [profile, setProfile] = useState<IUserProfile | null>(null);
@@ -51,7 +52,7 @@ const HomeProfile = () => {
       >
         <TouchableOpacity
           activeOpacity={1}
-          className="absolute right-0 top-16 bottom-62 w-80 bg-white"
+          className="absolute right-0 top-0 bottom-6 w-80 bg-white"
           onPress={(e) => e.stopPropagation()}
         >
           <SafeAreaView className="flex-1">
@@ -65,29 +66,32 @@ const HomeProfile = () => {
               </View>
 
               {/*-----------Menu Items -----------*/}
-              <TouchableOpacity className="p-4 border-b border-gray-100 flex-row items-center">
+              {/* <TouchableOpacity onPress={() => {router.push('/'); setDrawerVisible(false);}} className="p-4 border-b border-gray-100 flex-row items-center">
                 <Feather name="home" size={20} color="gray" />
                 <Text className="ml-3 text-lg">Home</Text>
-              </TouchableOpacity>
+              </TouchableOpacity> */}
 
-              <TouchableOpacity className="p-4 border-b border-gray-100 flex-row items-center">
+              <TouchableOpacity
+                onPress={() => {router.push('/profile'); setDrawerVisible(false);}}
+                className="p-4 border-b border-gray-100 flex-row items-center"
+              >
                 <Feather name="user" size={20} color="gray" />
                 <Text className="ml-3 text-lg">Profile</Text>
               </TouchableOpacity>
 
-              <TouchableOpacity className="p-4 border-b border-gray-100 flex-row items-center">
+              <TouchableOpacity onPress={() => {router.push('/account-settings' as any); setDrawerVisible(false);}} className="p-4 border-b border-gray-100 flex-row items-center">
                 <Feather name="settings" size={20} color="gray" />
                 <Text className="ml-3 text-lg">Account Settings</Text>
               </TouchableOpacity>
 
-              <TouchableOpacity className="p-4 border-b border-gray-100 flex-row items-center">
+              <TouchableOpacity onPress={() => {router.push('/privacy'); setDrawerVisible(false);}} className="p-4 border-b border-gray-100 flex-row items-center">
                 <Feather name="lock" size={20} color="gray" />
                 <Text className="ml-3 text-lg">Privacy</Text>
               </TouchableOpacity>
 
-              <TouchableOpacity className="p-4 border-b border-gray-100 flex-row items-center">
+              <TouchableOpacity onPress={() => {router.push('/terms'); setDrawerVisible(false);}} className="p-4 border-b border-gray-100 flex-row items-center">
                 <Feather name="bell" size={20} color="gray" />
-                <Text className="ml-3 text-lg">Notifications</Text>
+                <Text className="ml-3 text-lg">Terms & condition</Text>
               </TouchableOpacity>
 
               <TouchableOpacity className="p-4 border-b border-gray-100 flex-row items-center">
@@ -117,7 +121,7 @@ const HomeProfile = () => {
     </Modal>
   );
 
-  // -------------- Notifications Modal
+  // -------------- Notifications Modal----------------
   const NotificationsModal = () => (
     <Modal
       animationType="slide"
@@ -225,10 +229,10 @@ const HomeProfile = () => {
           Hello, {profile?.name || 'User'}!
         </Text>
 
-        {/* -------------Announcement */}
+        {/* -------------Announcement -----------*/}
 
         <Announcement
-          autoChangeInterval={5000} // Change every 5 seconds
+          autoChangeInterval={5000}
           onAnnouncementPress={handleAnnouncementPress}
           onToPayPress={() => console.log('To Pay')}
           onToReceivePress={() => console.log('To Receive')}
