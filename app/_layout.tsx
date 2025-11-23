@@ -37,7 +37,7 @@ export default function RootLayout() {
             <Stack.Screen name="(order)" options={{ headerShown: false }} />
             <Stack.Screen name="(login)" options={{ headerShown: false }} />
             <Stack.Screen name="(cart)" options={{ headerShown: false }} />
-           
+
             <Stack.Screen name="(settings)" options={{ headerShown: false }} />
             <Stack.Screen name="+not-found" />
           </Stack>

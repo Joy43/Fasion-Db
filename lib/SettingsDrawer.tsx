@@ -1,8 +1,15 @@
 // components/SettingsDrawer.tsx
-import React from "react";
-import { Modal, TouchableOpacity, SafeAreaView, ScrollView, View, Text } from "react-native";
-import { Feather } from "@expo/vector-icons";
-import DrawerItem from "./DrawerItem";
+import React from 'react';
+import {
+  Modal,
+  TouchableOpacity,
+  SafeAreaView,
+  ScrollView,
+  View,
+  Text,
+} from 'react-native';
+import { Feather } from '@expo/vector-icons';
+import DrawerItem from './DrawerItem';
 
 interface SettingsDrawerProps {
   visible: boolean;
@@ -10,10 +17,23 @@ interface SettingsDrawerProps {
   onLogout?: () => void;
 }
 
-const SettingsDrawer = ({ visible, onClose, onLogout }: SettingsDrawerProps) => {
+const SettingsDrawer = ({
+  visible,
+  onClose,
+  onLogout,
+}: SettingsDrawerProps) => {
   return (
-    <Modal animationType="slide" transparent={true} visible={visible} onRequestClose={onClose}>
-      <TouchableOpacity className="flex-1 bg-black/50" activeOpacity={1} onPress={onClose}>
+    <Modal
+      animationType="slide"
+      transparent={true}
+      visible={visible}
+      onRequestClose={onClose}
+    >
+      <TouchableOpacity
+        className="flex-1 bg-black/50"
+        activeOpacity={1}
+        onPress={onClose}
+      >
         <TouchableOpacity
           activeOpacity={1}
           className="absolute right-0 top-0 bottom-0 w-80 bg-white"
@@ -32,10 +52,26 @@ const SettingsDrawer = ({ visible, onClose, onLogout }: SettingsDrawerProps) => 
               {/* Menu Items */}
               <DrawerItem icon="home" label="Home" href="/" />
               <DrawerItem icon="user" label="Profile" href="/profile" />
-              <DrawerItem icon="settings" label="Account Settings" href="/settings/account" />
-              <DrawerItem icon="lock" label="Privacy" href="/settings/privacy" />
-              <DrawerItem icon="bell" label="Notifications" href="/settings/notifications" />
-              <DrawerItem icon="help-circle" label="Help & Support" href="/settings/help" />
+              <DrawerItem
+                icon="settings"
+                label="Account Settings"
+                href="/settings/account"
+              />
+              <DrawerItem
+                icon="lock"
+                label="Privacy"
+                href="/settings/privacy"
+              />
+              <DrawerItem
+                icon="bell"
+                label="Notifications"
+                href="/settings/notifications"
+              />
+              <DrawerItem
+                icon="help-circle"
+                label="Help & Support"
+                href="/settings/help"
+              />
 
               {/* Logout */}
               <View className="p-4 mt-6">

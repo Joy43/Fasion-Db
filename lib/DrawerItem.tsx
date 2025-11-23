@@ -1,8 +1,8 @@
 // components/DrawerItem.tsx
-import React from "react";
-import { TouchableOpacity, Text, View } from "react-native";
-import { Feather } from "@expo/vector-icons";
-import { Link } from "expo-router";
+import React from 'react';
+import { TouchableOpacity, Text, View } from 'react-native';
+import { Feather } from '@expo/vector-icons';
+import { Link } from 'expo-router';
 
 interface DrawerItemProps {
   icon: keyof typeof Feather.glyphMap;

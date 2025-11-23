@@ -72,29 +72,56 @@ const HomeProfile = () => {
               </TouchableOpacity> */}
 
               <TouchableOpacity
-                onPress={() => {router.push('/profile'); setDrawerVisible(false);}}
+                onPress={() => {
+                  router.push('/profile');
+                  setDrawerVisible(false);
+                }}
                 className="p-4 border-b border-gray-100 flex-row items-center"
               >
                 <Feather name="user" size={20} color="gray" />
                 <Text className="ml-3 text-lg">Profile</Text>
               </TouchableOpacity>
 
-              <TouchableOpacity onPress={() => {router.push('/account-settings' as any); setDrawerVisible(false);}} className="p-4 border-b border-gray-100 flex-row items-center">
+              <TouchableOpacity
+                onPress={() => {
+                  router.push('/account-manage' as any);
+                  setDrawerVisible(false);
+                }}
+                className="p-4 border-b border-gray-100 flex-row items-center"
+              >
                 <Feather name="settings" size={20} color="gray" />
                 <Text className="ml-3 text-lg">Account Settings</Text>
               </TouchableOpacity>
 
-              <TouchableOpacity onPress={() => {router.push('/privacy'); setDrawerVisible(false);}} className="p-4 border-b border-gray-100 flex-row items-center">
+              <TouchableOpacity
+                onPress={() => {
+                  router.push('/privacy');
+                  setDrawerVisible(false);
+                }}
+                className="p-4 border-b border-gray-100 flex-row items-center"
+              >
                 <Feather name="lock" size={20} color="gray" />
                 <Text className="ml-3 text-lg">Privacy</Text>
               </TouchableOpacity>
 
-              <TouchableOpacity onPress={() => {router.push('/terms'); setDrawerVisible(false);}} className="p-4 border-b border-gray-100 flex-row items-center">
+              <TouchableOpacity
+                onPress={() => {
+                  router.push('/terms');
+                  setDrawerVisible(false);
+                }}
+                className="p-4 border-b border-gray-100 flex-row items-center"
+              >
                 <Feather name="bell" size={20} color="gray" />
                 <Text className="ml-3 text-lg">Terms & condition</Text>
               </TouchableOpacity>
 
-              <TouchableOpacity className="p-4 border-b border-gray-100 flex-row items-center">
+              <TouchableOpacity
+                onPress={() => {
+                  router.push('/support' as any);
+                  setDrawerVisible(false);
+                }}
+                className="p-4 border-b border-gray-100 flex-row items-center"
+              >
                 <Feather name="help-circle" size={20} color="gray" />
                 <Text className="ml-3 text-lg">Help & Support</Text>
               </TouchableOpacity>

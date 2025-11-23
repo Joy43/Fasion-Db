@@ -1,5 +1,5 @@
 import { LinearGradient } from 'expo-linear-gradient';
-import  { useState } from 'react';
+import { useState } from 'react';
 import {
   Dimensions,
   Image,

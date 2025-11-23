@@ -5,14 +5,15 @@ import { Text, ScrollView, Linking, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 const Terms = () => {
-    const navigation = useNavigation();
+  const navigation = useNavigation();
   return (
     <SafeAreaView className="">
-         <TouchableOpacity
+      <TouchableOpacity
         onPress={() => navigation.goBack()}
         className="absolute top-10 left-4 z-50 bg-white/70 p-2 rounded-full"
-      > <Ionicons name="arrow-back" size={24} color="black" />
-      
+      >
+        {' '}
+        <Ionicons name="arrow-back" size={24} color="black" />
       </TouchableOpacity>
       <ScrollView
         contentContainerStyle={{ paddingBottom: 40 }}
