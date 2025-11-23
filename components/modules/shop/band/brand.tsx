@@ -19,7 +19,7 @@ const Brands = () => {
     // Navigate to product page with brand filter applied
     router.push({
       pathname: '/product',
-      params: { brand: brandId }, // 👈 pass filter param
+      params: { brand: brandId },
     });
   };
 

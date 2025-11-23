@@ -40,9 +40,14 @@ const FavoriteProduct = () => {
 
   return (
     <ScrollView className=" p-4">
-      <Text className="text-2xl font-bold text-gray-800 mb-4 text-center m-4 space-x-2 mb-2">
-        Favorite Products
-      </Text>
+      <View className="mb-6">
+        <Text className="text-2xl font-bold text-gray-800">
+          Favorite Products
+        </Text>
+        <Text className="text-gray-600 mt-2">
+          {data.data.length} list of favorite products.
+        </Text>
+      </View>
       {data.data.map((item: FavoriteProductItem) => (
         <View
           key={item._id}

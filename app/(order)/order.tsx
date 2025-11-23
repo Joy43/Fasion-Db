@@ -1,12 +1,12 @@
-import { useUser } from "@/context/UserContext";
-import { useAddOrder } from "@/hooks/useOrder";
-import { useSingleProduct } from "@/hooks/useProduct";
-import LoadingScreen from "@/utils/Loading";
-import { Ionicons } from "@expo/vector-icons";
-import { useNavigation } from "expo-router";
-import { useLocalSearchParams } from "expo-router";
-import * as WebBrowser from "expo-web-browser";
-import { useState, useEffect } from "react";
+import { useUser } from '@/context/UserContext';
+import { useAddOrder } from '@/hooks/useOrder';
+import { useSingleProduct } from '@/hooks/useProduct';
+import LoadingScreen from '@/utils/Loading';
+import { Ionicons } from '@expo/vector-icons';
+import { useNavigation } from 'expo-router';
+import { useLocalSearchParams } from 'expo-router';
+import * as WebBrowser from 'expo-web-browser';
+import { useState, useEffect } from 'react';
 import {
   Image,
   SafeAreaView,
@@ -15,8 +15,8 @@ import {
   TextInput,
   TouchableOpacity,
   View,
-} from "react-native";
-import { any } from "zod";
+} from 'react-native';
+import { any } from 'zod';
 
 const PageOrder = () => {
   const { mutateAsync: createOrder, isPending } = useAddOrder();
@@ -29,8 +29,8 @@ const PageOrder = () => {
 
   const [selectedColor, setSelectedColor] = useState(0);
   const [quantity, setQuantity] = useState(1);
-  const [shippingAddress, setShippingAddress] = useState("");
-  const [coupon, setCoupon] = useState("");
+  const [shippingAddress, setShippingAddress] = useState('');
+  const [coupon, setCoupon] = useState('');
   const [discount, setDiscount] = useState(0); // For preview purposes
 
   useEffect(() => {
@@ -42,7 +42,7 @@ const PageOrder = () => {
   }, [user]);
 
   const selectedColorName =
-    product?.availableColors?.[selectedColor] || "Default";
+    product?.availableColors?.[selectedColor] || 'Default';
   const unitPrice = product?.price || 0;
   const totalAmount = quantity * unitPrice;
   const deliveryCharge = 30;
@@ -50,17 +50,17 @@ const PageOrder = () => {
   const finalAmount = subtotal + deliveryCharge;
 
   const applyCoupon = () => {
-    if (coupon === "TEST1") {
+    if (coupon === 'TEST1') {
       setDiscount(50);
     } else {
       setDiscount(0);
-      if (coupon) alert("Invalid coupon code here");
+      if (coupon) alert('Invalid coupon code here');
     }
   };
 
   const handleOrder = async () => {
-    if (!product?._id) return alert("Invalid product ID");
-    if (!shippingAddress.trim()) return alert("Please enter shipping address");
+    if (!product?._id) return alert('Invalid product ID');
+    if (!shippingAddress.trim()) return alert('Please enter shipping address');
 
     const payload = {
       shop: product.shop, // Shop ID from product
@@ -78,21 +78,21 @@ const PageOrder = () => {
       deliveryCharge,
       finalAmount,
       shippingAddress,
-      paymentMethod: "Online",
+      paymentMethod: 'Online',
     };
 
     try {
       const response = await createOrder(payload as any);
-      console.log("Order Response:", response);
+      console.log('Order Response:', response);
 
       if (response?.success && response?.data?.paymentUrl) {
         await WebBrowser.openBrowserAsync(response.data.paymentUrl);
       } else {
-        alert(response?.message || "Order placed but no payment URL returned.");
+        alert(response?.message || 'Order placed but no payment URL returned.');
       }
     } catch (err: any) {
-      console.error("Error creating order:", err.message || err);
-      alert(err.message || "Failed to place order.");
+      console.error('Error creating order:', err.message || err);
+      alert(err.message || 'Failed to place order.');
     }
   };
 
@@ -163,8 +163,8 @@ const PageOrder = () => {
                 onPress={() => setSelectedColor(index)}
                 className={`mr-3 rounded-xl border-2 ${
                   selectedColor === index
-                    ? "border-blue-500"
-                    : "border-transparent"
+                    ? 'border-blue-500'
+                    : 'border-transparent'
                 }`}
               >
                 <Image source={{ uri: url }} className="w-20 h-20 rounded-xl" />
@@ -258,11 +258,11 @@ const PageOrder = () => {
               onPress={handleOrder}
               disabled={isPending}
               className={`flex-1 ${
-                isPending ? "bg-gray-400" : "bg-[#0d700d]"
+                isPending ? 'bg-gray-400' : 'bg-[#0d700d]'
               } py-3 px-3 rounded-xl items-center`}
             >
               <Text className="text-white font-semibold text-base">
-                {isPending ? "Processing..." : `Pay $${finalAmount}`}
+                {isPending ? 'Processing...' : `Pay $${finalAmount}`}
               </Text>
             </TouchableOpacity>
           </View>
@@ -294,13 +294,13 @@ const PageOrder = () => {
                     • {spec}
                   </Text>
                 ))
-              ) : typeof product.specification === "object" ? (
+              ) : typeof product.specification === 'object' ? (
                 Object.entries(product.specification).map(
                   ([key, value], index) => (
                     <Text key={index} className="text-gray-600">
                       • {key}: {String(value)}
                     </Text>
-                  ),
+                  )
                 )
               ) : (
                 <Text className="text-gray-600">• {product.specification}</Text>

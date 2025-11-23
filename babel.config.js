@@ -16,6 +16,6 @@ module.exports = function (api) {
       ['babel-preset-expo', { jsxImportSource: 'nativewind' }],
       'nativewind/babel',
     ],
-    // Remove the plugins array entirely, or set it to an empty array: plugins: [],
+    plugins: ['react-native-reanimated/plugin'],
   };
 };
