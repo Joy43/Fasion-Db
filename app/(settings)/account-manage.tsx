@@ -19,8 +19,6 @@ const AccountManage = () => {
         </Text>
         <View className="w-8" />
       </View>
-    </View>
-  );
-};
+    </View> ) };
 
 export default AccountManage;
