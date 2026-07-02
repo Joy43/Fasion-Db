@@ -11,7 +11,8 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.anonymous.fasionDB",
-       "UIBackgroundModes": ["remote-notification"]
+      "googleServicesFile": "./GoogleService-Info.plist",
+      "UIBackgroundModes": ["remote-notification"]
     },
     "android": {
       "adaptiveIcon": {
@@ -20,7 +21,8 @@
       },
       "edgeToEdgeEnabled": true,
       "permissions": [],
-      "package": "com.anonymous.fasionDB"
+      "package": "com.anonymous.fasionDB",
+      "googleServicesFile": "./google-services.json"
     },
     "web": {
       "bundler": "metro",
@@ -29,6 +31,7 @@
     },
     "plugins": [
       "expo-router",
+      "@react-native-firebase/app",
       [
         "expo-splash-screen",
         {
