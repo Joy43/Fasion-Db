@@ -10,7 +10,7 @@
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.anonymous.fasionDB",
+      "bundleIdentifier": "com.anonymous.communicationapp",
       "googleServicesFile": "./GoogleService-Info.plist",
       "UIBackgroundModes": ["remote-notification"]
     },
@@ -21,7 +21,7 @@
       },
       "edgeToEdgeEnabled": true,
       "permissions": [],
-      "package": "com.anonymous.fasionDB",
+      "package": "com.ssjoy43.communicationapp",
       "googleServicesFile": "./google-services.json"
     },
     "web": {

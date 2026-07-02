@@ -87,9 +87,9 @@ android {
     buildToolsVersion rootProject.ext.buildToolsVersion
     compileSdk rootProject.ext.compileSdkVersion
 
-    namespace 'com.anonymous.fasionDB'
+    namespace 'com.ssjoy43.communicationapp'
     defaultConfig {
-        applicationId 'com.anonymous.fasionDB'
+        applicationId 'com.ssjoy43.communicationapp'
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1

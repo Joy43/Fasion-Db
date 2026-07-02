@@ -28,7 +28,7 @@
         <key>CFBundleURLSchemes</key>
         <array>
           <string>fasiondb</string>
-          <string>com.anonymous.fasionDB</string>
+          <string>com.anonymous.communicationapp</string>
         </array>
       </dict>
       <dict>

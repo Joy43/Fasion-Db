@@ -5,9 +5,31 @@ import './globals.css';
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaView, Platform, View } from 'react-native';
 import Providers from '@/providers/Providers';
+import { useEffect } from 'react';
+import messaging from '@react-native-firebase/messaging';
+import { setupFcmToken } from '@/utils/notificationUtils';
 
 export default function RootLayout() {
   const appColor = '#10B981';
+
+  useEffect(() => {
+    // Register FCM Token
+    setupFcmToken();
+
+    // Foreground notification listener
+    const unsubscribe = messaging().onMessage(async (remoteMessage) => {
+      console.log('Foreground Message received:', remoteMessage);
+      Toast.show({
+        type: 'info',
+        text1: remoteMessage.notification?.title || 'Notification',
+        text2: remoteMessage.notification?.body || 'New message received',
+        position: 'top',
+        visibilityTime: 4000,
+      });
+    });
+
+    return unsubscribe;
+  }, []);
 
   return (
     <Providers>
