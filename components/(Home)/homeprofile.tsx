@@ -9,16 +9,20 @@ import {
   TouchableOpacity,
   View,
   ScrollView,
+  DeviceEventEmitter,
 } from 'react-native';
 
 import { Feather } from '@expo/vector-icons';
 import Announcement from './Annoucement';
 import { router } from 'expo-router';
+import { getNotifications, clearAllNotifications, SavedNotification } from '@/utils/notificationUtils';
 
 const HomeProfile = () => {
   const [profile, setProfile] = useState<IUserProfile | null>(null);
   const [drawerVisible, setDrawerVisible] = useState(false);
   const [notificationsVisible, setNotificationsVisible] = useState(false);
+  const [notifications, setNotifications] = useState<SavedNotification[]>([]);
+
   const handleAnnouncementPress = (announcement: any) => {
     console.log('Announcement pressed:', announcement);
     // Navigate to announcement details
@@ -35,6 +39,27 @@ const HomeProfile = () => {
       }
     };
     fetchProfile();
+  }, []);
+
+  useEffect(() => {
+    const fetchNotifications = async () => {
+      const list = await getNotifications();
+      setNotifications(list);
+    };
+    fetchNotifications();
+
+    const newSub = DeviceEventEmitter.addListener('NEW_NOTIFICATION', (newNotif: SavedNotification) => {
+      setNotifications((prev) => [newNotif, ...prev]);
+    });
+
+    const clearSub = DeviceEventEmitter.addListener('NOTIFICATIONS_CLEARED', () => {
+      setNotifications([]);
+    });
+
+    return () => {
+      newSub.remove();
+      clearSub.remove();
+    };
   }, []);
 
   // ---------Settings Drawer Modal---------------
@@ -160,55 +185,59 @@ const HomeProfile = () => {
         <View className="bg-white rounded-t-3xl h-4/5">
           <SafeAreaView className="flex-1">
             <View className="p-4 border-b border-gray-200 flex-row justify-between items-center">
-              <Text className="text-xl font-bold">Notifications</Text>
-              <TouchableOpacity onPress={() => setNotificationsVisible(false)}>
-                <Feather name="x" size={24} color="black" />
-              </TouchableOpacity>
+              <View>
+                <Text className="text-xl font-bold">Notifications</Text>
+              </View>
+              <View className="flex-row items-center gap-4">
+                {notifications.length > 0 && (
+                  <TouchableOpacity onPress={clearAllNotifications}>
+                    <Text className="text-red-500 font-semibold text-sm">Clear All</Text>
+                  </TouchableOpacity>
+                )}
+                <TouchableOpacity onPress={() => setNotificationsVisible(false)}>
+                  <Feather name="x" size={24} color="black" />
+                </TouchableOpacity>
+              </View>
             </View>
 
             <ScrollView className="p-4">
-              <View className="bg-blue-50 p-4 rounded-lg mb-3 flex-row items-start">
-                <View className="w-10 h-10 bg-blue-500 rounded-full items-center justify-center mr-3">
-                  <Feather name="bell" size={20} color="white" />
+              {notifications.length === 0 ? (
+                <View className="items-center justify-center py-20">
+                  <Feather name="bell-off" size={48} color="gray" />
+                  <Text className="text-gray-500 mt-4 text-base">No notifications yet</Text>
                 </View>
-                <View className="flex-1">
-                  <Text className="font-semibold mb-1">New Order Received</Text>
-                  <Text className="text-gray-600 text-sm">
-                    You have a new order #12345
-                  </Text>
-                  <Text className="text-gray-400 text-xs mt-1">
-                    2 hours ago
-                  </Text>
-                </View>
-              </View>
-
-              <View className="bg-green-50 p-4 rounded-lg mb-3 flex-row items-start">
-                <View className="w-10 h-10 bg-green-500 rounded-full items-center justify-center mr-3">
-                  <Feather name="check-circle" size={20} color="white" />
-                </View>
-                <View className="flex-1">
-                  <Text className="font-semibold mb-1">Payment Confirmed</Text>
-                  <Text className="text-gray-600 text-sm">
-                    Your payment has been processed
-                  </Text>
-                  <Text className="text-gray-400 text-xs mt-1">
-                    5 hours ago
-                  </Text>
-                </View>
-              </View>
-
-              <View className="bg-yellow-50 p-4 rounded-lg mb-3 flex-row items-start">
-                <View className="w-10 h-10 bg-yellow-500 rounded-full items-center justify-center mr-3">
-                  <Feather name="alert-circle" size={20} color="white" />
-                </View>
-                <View className="flex-1">
-                  <Text className="font-semibold mb-1">Update Available</Text>
-                  <Text className="text-gray-600 text-sm">
-                    New version is ready to install
-                  </Text>
-                  <Text className="text-gray-400 text-xs mt-1">1 day ago</Text>
-                </View>
-              </View>
+              ) : (
+                notifications.map((notif) => {
+                  // Format time simple
+                  const date = new Date(notif.receivedAt);
+                  const timeStr = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                  
+                  return (
+                    <View key={notif.id} className="bg-blue-50 p-4 rounded-lg mb-3 flex-row items-start">
+                      {notif.imageUrl ? (
+                        <Image
+                          source={{ uri: notif.imageUrl }}
+                          className="w-10 h-10 rounded-full mr-3"
+                          resizeMode="cover"
+                        />
+                      ) : (
+                        <View className="w-10 h-10 bg-blue-500 rounded-full items-center justify-center mr-3">
+                          <Feather name="bell" size={20} color="white" />
+                        </View>
+                      )}
+                      <View className="flex-1">
+                        <Text className="font-semibold mb-1">{notif.title}</Text>
+                        <Text className="text-gray-600 text-sm">
+                          {notif.body}
+                        </Text>
+                        <Text className="text-gray-400 text-xs mt-1">
+                          {timeStr}
+                        </Text>
+                      </View>
+                    </View>
+                  );
+                })
+              )}
             </ScrollView>
           </SafeAreaView>
         </View>
@@ -242,8 +271,13 @@ const HomeProfile = () => {
 
           {/*----- Right side: icons -------*/}
           <View className="flex-row gap-3">
-            <TouchableOpacity onPress={() => setNotificationsVisible(true)}>
+            <TouchableOpacity className="relative" onPress={() => setNotificationsVisible(true)}>
               <Feather name="bell" size={24} color="black" />
+              {notifications.length > 0 && (
+                <View className="absolute -top-1 -right-1 bg-red-500 w-4 h-4 rounded-full items-center justify-center">
+                  <Text className="text-white text-[9px] font-bold">{notifications.length}</Text>
+                </View>
+              )}
             </TouchableOpacity>
             <TouchableOpacity onPress={() => setDrawerVisible(true)}>
               <Feather name="settings" size={24} color="black" />

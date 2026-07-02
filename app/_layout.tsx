@@ -7,7 +7,7 @@ import { SafeAreaView, Platform, View } from 'react-native';
 import Providers from '@/providers/Providers';
 import { useEffect } from 'react';
 import messaging from '@react-native-firebase/messaging';
-import { setupFcmToken } from '@/utils/notificationUtils';
+import { setupFcmToken, saveNotification } from '@/utils/notificationUtils';
 import * as Notifications from 'expo-notifications';
 
 // Configure how notifications should be handled when received in the foreground
@@ -16,6 +16,8 @@ Notifications.setNotificationHandler({
     shouldShowAlert: true,
     shouldPlaySound: true,
     shouldSetBadge: false,
+    shouldShowBanner: true,
+    shouldShowList: true,
   }),
 });
 
@@ -42,10 +44,18 @@ export default function RootLayout() {
       
       // Trigger a native local notification banner immediately
       if (remoteMessage.notification) {
+        const title = remoteMessage.notification.title || 'Notification';
+        const body = remoteMessage.notification.body || '';
+        const imageUrl = (remoteMessage.notification as any).imageUrl || 
+                         remoteMessage.notification.android?.imageUrl || 
+                         remoteMessage.data?.imageUrl;
+        
+        await saveNotification(title, body, imageUrl);
+
         await Notifications.scheduleNotificationAsync({
           content: {
-            title: remoteMessage.notification.title || 'Notification',
-            body: remoteMessage.notification.body || '',
+            title,
+            body,
             data: remoteMessage.data,
           },
           trigger: null,
