@@ -11,8 +11,6 @@ PODS:
     - ExpoModulesCore
   - EXNotifications (0.32.13):
     - ExpoModulesCore
-  - EXPermissions (14.4.0):
-    - ExpoModulesCore
   - Expo (54.0.25):
     - ExpoModulesCore
     - hermes-engine
@@ -235,7 +233,7 @@ PODS:
     - ExpoModulesCore
   - ExpoKeepAwake (15.0.7):
     - ExpoModulesCore
-  - ExpoLinearGradient (15.0.7):
+  - ExpoLinearGradient (15.0.8):
     - ExpoModulesCore
   - ExpoLinking (8.0.9):
     - ExpoModulesCore
@@ -273,11 +271,65 @@ PODS:
   - EXUpdatesInterface (2.0.0):
     - ExpoModulesCore
   - FBLazyVector (0.81.5)
+  - Firebase/CoreOnly (12.15.0):
+    - FirebaseCore (~> 12.15.0)
+  - Firebase/Messaging (12.15.0):
+    - Firebase/CoreOnly
+    - FirebaseMessaging (~> 12.15.0)
+  - FirebaseCore (12.15.0):
+    - FirebaseCoreInternal (~> 12.15.0)
+    - GoogleUtilities/Environment (~> 8.1)
+    - GoogleUtilities/Logger (~> 8.1)
+  - FirebaseCoreExtension (12.15.0):
+    - FirebaseCore (~> 12.15.0)
+  - FirebaseCoreInternal (12.15.0):
+    - "GoogleUtilities/NSData+zlib (~> 8.1)"
+  - FirebaseInstallations (12.15.0):
+    - FirebaseCore (~> 12.15.0)
+    - GoogleUtilities/Environment (~> 8.1)
+    - GoogleUtilities/UserDefaults (~> 8.1)
+    - PromisesObjC (~> 2.4)
+  - FirebaseMessaging (12.15.0):
+    - FirebaseCore (~> 12.15.0)
+    - FirebaseInstallations (~> 12.15.0)
+    - GoogleDataTransport (~> 10.1)
+    - GoogleUtilities/AppDelegateSwizzler (~> 8.1)
+    - GoogleUtilities/Environment (~> 8.1)
+    - GoogleUtilities/Reachability (~> 8.1)
+    - GoogleUtilities/UserDefaults (~> 8.1)
+    - nanopb (~> 3.30910.0)
+  - GoogleDataTransport (10.1.0):
+    - nanopb (~> 3.30910.0)
+    - PromisesObjC (~> 2.4)
+  - GoogleUtilities/AppDelegateSwizzler (8.1.2):
+    - GoogleUtilities/Environment
+    - GoogleUtilities/Logger
+    - GoogleUtilities/Network
+    - GoogleUtilities/Privacy
+  - GoogleUtilities/Environment (8.1.2):
+    - GoogleUtilities/Privacy
+  - GoogleUtilities/Logger (8.1.2):
+    - GoogleUtilities/Environment
+    - GoogleUtilities/Privacy
+  - GoogleUtilities/Network (8.1.2):
+    - GoogleUtilities/Logger
+    - "GoogleUtilities/NSData+zlib"
+    - GoogleUtilities/Privacy
+    - GoogleUtilities/Reachability
+  - "GoogleUtilities/NSData+zlib (8.1.2)":
+    - GoogleUtilities/Privacy
+  - GoogleUtilities/Privacy (8.1.2)
+  - GoogleUtilities/Reachability (8.1.2):
+    - GoogleUtilities/Logger
+    - GoogleUtilities/Privacy
+  - GoogleUtilities/UserDefaults (8.1.2):
+    - GoogleUtilities/Logger
+    - GoogleUtilities/Privacy
   - hermes-engine (0.81.5):
     - hermes-engine/Pre-built (= 0.81.5)
   - hermes-engine/Pre-built (0.81.5)
-  - libavif/core (0.11.1)
-  - libavif/libdav1d (0.11.1):
+  - libavif/core (1.0.0)
+  - libavif/libdav1d (1.0.0):
     - libavif/core
     - libdav1d (>= 0.6.0)
   - libdav1d (1.2.0)
@@ -293,6 +345,12 @@ PODS:
   - libwebp/sharpyuv (1.5.0)
   - libwebp/webp (1.5.0):
     - libwebp/sharpyuv
+  - nanopb (3.30910.0):
+    - nanopb/decode (= 3.30910.0)
+    - nanopb/encode (= 3.30910.0)
+  - nanopb/decode (3.30910.0)
+  - nanopb/encode (3.30910.0)
+  - PromisesObjC (2.4.1)
   - RCTDeprecation (0.81.5)
   - RCTRequired (0.81.5)
   - RCTTypeSafety (0.81.5):
@@ -1594,28 +1652,6 @@ PODS:
     - ReactCommon/turbomodule/core
     - ReactNativeDependencies
     - Yoga
-  - react-native-pager-view (6.9.1):
-    - hermes-engine
-    - RCTRequired
-    - RCTTypeSafety
-    - React-Core
-    - React-Core-prebuilt
-    - React-debug
-    - React-Fabric
-    - React-featureflags
-    - React-graphics
-    - React-ImageManager
-    - React-jsi
-    - React-NativeModulesApple
-    - React-RCTFabric
-    - React-renderercss
-    - React-rendererdebug
-    - React-utils
-    - ReactCodegen
-    - ReactCommon/turbomodule/bridging
-    - ReactCommon/turbomodule/core
-    - ReactNativeDependencies
-    - Yoga
   - react-native-safe-area-context (5.6.2):
     - hermes-engine
     - RCTRequired
@@ -2214,6 +2250,54 @@ PODS:
     - ReactCommon/turbomodule/core
     - ReactNativeDependencies
     - Yoga
+  - RNFBApp (25.1.0):
+    - Firebase/CoreOnly (= 12.15.0)
+    - hermes-engine
+    - RCTRequired
+    - RCTTypeSafety
+    - React-Core
+    - React-Core-prebuilt
+    - React-debug
+    - React-Fabric
+    - React-featureflags
+    - React-graphics
+    - React-ImageManager
+    - React-jsi
+    - React-NativeModulesApple
+    - React-RCTFabric
+    - React-renderercss
+    - React-rendererdebug
+    - React-utils
+    - ReactCodegen
+    - ReactCommon/turbomodule/bridging
+    - ReactCommon/turbomodule/core
+    - ReactNativeDependencies
+    - Yoga
+  - RNFBMessaging (25.1.0):
+    - Firebase/Messaging (= 12.15.0)
+    - FirebaseCoreExtension
+    - hermes-engine
+    - RCTRequired
+    - RCTTypeSafety
+    - React-Core
+    - React-Core-prebuilt
+    - React-debug
+    - React-Fabric
+    - React-featureflags
+    - React-graphics
+    - React-ImageManager
+    - React-jsi
+    - React-NativeModulesApple
+    - React-RCTFabric
+    - React-renderercss
+    - React-rendererdebug
+    - React-utils
+    - ReactCodegen
+    - ReactCommon/turbomodule/bridging
+    - ReactCommon/turbomodule/core
+    - ReactNativeDependencies
+    - RNFBApp
+    - Yoga
   - RNGestureHandler (2.28.0):
     - hermes-engine
     - RCTRequired
@@ -2450,9 +2534,9 @@ PODS:
     - ReactCommon/turbomodule/core
     - ReactNativeDependencies
     - Yoga
-  - SDWebImage (5.21.3):
-    - SDWebImage/Core (= 5.21.3)
-  - SDWebImage/Core (5.21.3)
+  - SDWebImage (5.21.7):
+    - SDWebImage/Core (= 5.21.7)
+  - SDWebImage/Core (5.21.7)
   - SDWebImageAVIFCoder (0.11.1):
     - libavif/core (>= 0.11.0)
     - SDWebImage (~> 5.10)
@@ -2470,7 +2554,6 @@ DEPENDENCIES:
   - EXJSONUtils (from `../node_modules/expo-json-utils/ios`)
   - EXManifests (from `../node_modules/expo-manifests/ios`)
   - EXNotifications (from `../node_modules/expo-notifications/ios`)
-  - EXPermissions (from `../node_modules/expo-permissions/ios`)
   - Expo (from `../node_modules/expo`)
   - expo-dev-client (from `../node_modules/expo-dev-client/ios`)
   - expo-dev-launcher (from `../node_modules/expo-dev-launcher`)
@@ -2531,7 +2614,6 @@ DEPENDENCIES:
   - React-Mapbuffer (from `../node_modules/react-native/ReactCommon`)
   - React-microtasksnativemodule (from `../node_modules/react-native/ReactCommon/react/nativemodule/microtasks`)
   - react-native-image-picker (from `../node_modules/react-native-image-picker`)
-  - react-native-pager-view (from `../node_modules/react-native-pager-view`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
   - "react-native-slider (from `../node_modules/@react-native-community/slider`)"
   - react-native-video (from `../node_modules/react-native-video`)
@@ -2569,6 +2651,8 @@ DEPENDENCIES:
   - ReactNativeDependencies (from `../node_modules/react-native/third-party-podspecs/ReactNativeDependencies.podspec`)
   - "RNCAsyncStorage (from `../node_modules/@react-native-async-storage/async-storage`)"
   - "RNCPicker (from `../node_modules/@react-native-picker/picker`)"
+  - "RNFBApp (from `../node_modules/@react-native-firebase/app`)"
+  - "RNFBMessaging (from `../node_modules/@react-native-firebase/messaging`)"
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNScreens (from `../node_modules/react-native-screens`)
@@ -2578,9 +2662,19 @@ DEPENDENCIES:
 
 SPEC REPOS:
   trunk:
+    - Firebase
+    - FirebaseCore
+    - FirebaseCoreExtension
+    - FirebaseCoreInternal
+    - FirebaseInstallations
+    - FirebaseMessaging
+    - GoogleDataTransport
+    - GoogleUtilities
     - libavif
     - libdav1d
     - libwebp
+    - nanopb
+    - PromisesObjC
     - SDWebImage
     - SDWebImageAVIFCoder
     - SDWebImageSVGCoder
@@ -2599,8 +2693,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/expo-manifests/ios"
   EXNotifications:
     :path: "../node_modules/expo-notifications/ios"
-  EXPermissions:
-    :path: "../node_modules/expo-permissions/ios"
   Expo:
     :path: "../node_modules/expo"
   expo-dev-client:
@@ -2720,8 +2812,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/react/nativemodule/microtasks"
   react-native-image-picker:
     :path: "../node_modules/react-native-image-picker"
-  react-native-pager-view:
-    :path: "../node_modules/react-native-pager-view"
   react-native-safe-area-context:
     :path: "../node_modules/react-native-safe-area-context"
   react-native-slider:
@@ -2796,6 +2886,10 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-async-storage/async-storage"
   RNCPicker:
     :path: "../node_modules/@react-native-picker/picker"
+  RNFBApp:
+    :path: "../node_modules/@react-native-firebase/app"
+  RNFBMessaging:
+    :path: "../node_modules/@react-native-firebase/messaging"
   RNGestureHandler:
     :path: "../node_modules/react-native-gesture-handler"
   RNReanimated:
@@ -2816,7 +2910,6 @@ SPEC CHECKSUMS:
   EXJSONUtils: 1d3e4590438c3ee593684186007028a14b3686cd
   EXManifests: 26e15640538c3d5ef028077ebcaf004b744d4932
   EXNotifications: a62e1f8e3edd258dc3b155d3caa49f32920f1c6c
-  EXPermissions: 490e55ef5b334c5b2072e1ebd40e2bc1950cea73
   Expo: 111394d38f32be09385d4c7f70cc96d2da438d0d
   expo-dev-client: cc9491ad3e25a7a89f367c30f72884584c682b77
   expo-dev-launcher: 2c7725298ce170ea6fd2186b17cdbb4a585bae6b
@@ -2832,7 +2925,7 @@ SPEC CHECKSUMS:
   ExpoImage: 9c3428921c536ab29e5c6721d001ad5c1f469566
   ExpoImagePicker: d251aab45a1b1857e4156fed88511b278b4eee1c
   ExpoKeepAwake: 1a2e820692e933c94a565ec3fbbe38ac31658ffe
-  ExpoLinearGradient: a464898cb95153125e3b81894fd479bcb1c7dd27
+  ExpoLinearGradient: 809102bdb979f590083af49f7fa4805cd931bd58
   ExpoLinking: 77455aa013e9b6a3601de03ecfab09858ee1b031
   ExpoModulesCore: e8ec7f8727caf51a49d495598303dd420ca994bf
   ExpoSplashScreen: 268b2f128dc04284c21010540a6c4dd9f95003e3
@@ -2841,10 +2934,20 @@ SPEC CHECKSUMS:
   ExpoWebBrowser: b973e1351fdcf5fec0c400997b1851f5a8219ec3
   EXUpdatesInterface: 5adf50cb41e079c861da6d9b4b954c3db9a50734
   FBLazyVector: e95a291ad2dadb88e42b06e0c5fb8262de53ec12
+  Firebase: a8539b633d474fbeb654c7043f9c1649e274045b
+  FirebaseCore: 2e86a4ea1684d4381707069e4a6d89ac808e901e
+  FirebaseCoreExtension: 10d2a627977b39418759ad88ada80fbbd34f1c4f
+  FirebaseCoreInternal: 6ab6a02c94446c026d2cf35cf5383842ebaa4992
+  FirebaseInstallations: eb29ccbf64eaedf86fd5b2ccc7fabde567660b52
+  FirebaseMessaging: 40017d7bc8457ee295b0f41d480a80fdabc9994e
+  GoogleDataTransport: aae35b7ea0c09004c3797d53c8c41f66f219d6a7
+  GoogleUtilities: 766ace00c6b10d8148408f329d10c4f051931850
   hermes-engine: 9f4dfe93326146a1c99eb535b1cb0b857a3cd172
-  libavif: 84bbb62fb232c3018d6f1bab79beea87e35de7b7
+  libavif: 5f8e715bea24debec477006f21ef9e95432e254d
   libdav1d: 23581a4d8ec811ff171ed5e2e05cd27bad64c39f
   libwebp: 02b23773aedb6ff1fd38cec7a77b81414c6842a8
+  nanopb: fad817b59e0457d11a5dfbde799381cd727c1275
+  PromisesObjC: 752c3227f599e3467650e47ea36f433eeb10c273
   RCTDeprecation: 943572d4be82d480a48f4884f670135ae30bf990
   RCTRequired: 8f3cfc90cc25cf6e420ddb3e7caaaabc57df6043
   RCTTypeSafety: 16a4144ca3f959583ab019b57d5633df10b5e97c
@@ -2879,7 +2982,6 @@ SPEC CHECKSUMS:
   React-Mapbuffer: 9050ee10c19f4f7fca8963d0211b2854d624973e
   React-microtasksnativemodule: f775db9e991c6f3b8ccbc02bfcde22770f96e23b
   react-native-image-picker: 48d850454b4a389753053e1d7378b624d3b47d77
-  react-native-pager-view: c8817c1d9f4643417e68f0b846c51214b2252eea
   react-native-safe-area-context: 37e680fc4cace3c0030ee46e8987d24f5d3bdab2
   react-native-slider: 8c562583722c396a3682f451f0b6e68e351ec3b9
   react-native-video: f5982e21efab0dc356d92541a8a9e19581307f58
@@ -2917,17 +3019,19 @@ SPEC CHECKSUMS:
   ReactNativeDependencies: 71ce9c28beb282aa720ea7b46980fff9669f428a
   RNCAsyncStorage: 3a4f5e2777dae1688b781a487923a08569e27fe4
   RNCPicker: a7170edbcbf8288de8edb2502e08e7fc757fa755
+  RNFBApp: 4f75019130d78bc8a9760c5e5872978747b398c7
+  RNFBMessaging: a0c499846bc360e46ba4abb1a8b53e9a7a9ef932
   RNGestureHandler: 2914750df066d89bf9d8f48a10ad5f0051108ac3
   RNReanimated: 1442a577e066e662f0ce1cd1864a65c8e547aee0
   RNScreens: d8d6f1792f6e7ac12b0190d33d8d390efc0c1845
   RNVectorIcons: 4351544f100d4f12cac156a7c13399e60bab3e26
   RNWorklets: 43cd6af94c18f89cbca10ea83fee281b69d75da5
-  SDWebImage: 16309af6d214ba3f77a7c6f6fdda888cb313a50a
+  SDWebImage: e9fc87c1aab89a8ab1bbd74eba378c6f53be8abf
   SDWebImageAVIFCoder: afe194a084e851f70228e4be35ef651df0fc5c57
   SDWebImageSVGCoder: 15a300a97ec1c8ac958f009c02220ac0402e936c
   SDWebImageWebPCoder: e38c0a70396191361d60c092933e22c20d5b1380
   Yoga: 5934998fbeaef7845dbf698f698518695ab4cd1a
 
-PODFILE CHECKSUM: 2703648a5e52d9fa8c548ad4abc9386993017c3c
+PODFILE CHECKSUM: 83a0c89a451ac13aaa7134aa35c7f89b5f6d6904
 
 COCOAPODS: 1.16.2

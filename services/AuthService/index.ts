@@ -251,6 +251,7 @@ const getFcmToken = async (): Promise<string | undefined> => {
 
     if (enabled) {
       const token = await messaging().getToken();
+      console.log('🔑 FCM token retrieved:', token);
       return token;
     }
   } catch (error) {
