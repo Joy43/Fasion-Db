@@ -8,28 +8,28 @@
 
 /* Begin PBXBuildFile section */
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
-		2EEA76719D0934EBAA946DE0 /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97EA405344C0134514C86DD8 /* ExpoModulesProvider.swift */; };
 		3E461D99554A48A4959DE609 /* SplashScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */; };
+		8FA5CE276070423A951F1070 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 82EAF5FDB0987F0977876A62 /* PrivacyInfo.xcprivacy */; };
+		A32350871CAD36F963039023 /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD55847D7AA4208040339208 /* ExpoModulesProvider.swift */; };
 		BB2F792D24A3F905000567C9 /* Expo.plist in Resources */ = {isa = PBXBuildFile; fileRef = BB2F792C24A3F905000567C9 /* Expo.plist */; };
-		DFAB469C3205D713D2A78568 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = FE34A69F8A05A94E6CEDDF77 /* PrivacyInfo.xcprivacy */; };
-		E1A1640524441451EC96599F /* libPods-fasionDB.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 600EB1910100CEA0DACC9C90 /* libPods-fasionDB.a */; };
+		F06B95894C596C204D1F504F /* libPods-fasionDB.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C8288A711DE72D4B83BAC52 /* libPods-fasionDB.a */; };
 		F11748422D0307B40044C1D9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F11748412D0307B40044C1D9 /* AppDelegate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		049D9DCCA0970290A29AE247 /* Pods-fasionDB.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-fasionDB.debug.xcconfig"; path = "Target Support Files/Pods-fasionDB/Pods-fasionDB.debug.xcconfig"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* fasionDB.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = fasionDB.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = fasionDB/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = fasionDB/Info.plist; sourceTree = "<group>"; };
-		600EB1910100CEA0DACC9C90 /* libPods-fasionDB.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-fasionDB.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		97EA405344C0134514C86DD8 /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-fasionDB/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
+		3C8288A711DE72D4B83BAC52 /* libPods-fasionDB.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-fasionDB.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		5829B9535E6FF224B9E82DBF /* Pods-fasionDB.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-fasionDB.debug.xcconfig"; path = "Target Support Files/Pods-fasionDB/Pods-fasionDB.debug.xcconfig"; sourceTree = "<group>"; };
+		69DB955DA8A742DC2B982A36 /* Pods-fasionDB.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-fasionDB.release.xcconfig"; path = "Target Support Files/Pods-fasionDB/Pods-fasionDB.release.xcconfig"; sourceTree = "<group>"; };
+		82EAF5FDB0987F0977876A62 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; name = PrivacyInfo.xcprivacy; path = fasionDB/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = SplashScreen.storyboard; path = fasionDB/SplashScreen.storyboard; sourceTree = "<group>"; };
 		BB2F792C24A3F905000567C9 /* Expo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Expo.plist; sourceTree = "<group>"; };
-		DC504BC5BC223D77E72A3AD3 /* Pods-fasionDB.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-fasionDB.release.xcconfig"; path = "Target Support Files/Pods-fasionDB/Pods-fasionDB.release.xcconfig"; sourceTree = "<group>"; };
+		BD55847D7AA4208040339208 /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-fasionDB/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		F11748412D0307B40044C1D9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = fasionDB/AppDelegate.swift; sourceTree = "<group>"; };
 		F11748442D0722820044C1D9 /* fasionDB-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "fasionDB-Bridging-Header.h"; path = "fasionDB/fasionDB-Bridging-Header.h"; sourceTree = "<group>"; };
-		FE34A69F8A05A94E6CEDDF77 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; name = PrivacyInfo.xcprivacy; path = fasionDB/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -37,7 +37,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E1A1640524441451EC96599F /* libPods-fasionDB.a in Frameworks */,
+				F06B95894C596C204D1F504F /* libPods-fasionDB.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -53,7 +53,7 @@
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */,
-				FE34A69F8A05A94E6CEDDF77 /* PrivacyInfo.xcprivacy */,
+				82EAF5FDB0987F0977876A62 /* PrivacyInfo.xcprivacy */,
 			);
 			name = fasionDB;
 			sourceTree = "<group>";
@@ -62,17 +62,9 @@
 			isa = PBXGroup;
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
-				600EB1910100CEA0DACC9C90 /* libPods-fasionDB.a */,
+				3C8288A711DE72D4B83BAC52 /* libPods-fasionDB.a */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		76059C33A6937CA20C889DBC /* fasionDB */ = {
-			isa = PBXGroup;
-			children = (
-				97EA405344C0134514C86DD8 /* ExpoModulesProvider.swift */,
-			);
-			name = fasionDB;
 			sourceTree = "<group>";
 		};
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
@@ -89,8 +81,8 @@
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
-				8FB9B68C78CA11E15E684AA4 /* Pods */,
-				A829C1172B0768510243C1C6 /* ExpoModulesProviders */,
+				FA1BE199B57F43970738BC45 /* Pods */,
+				B147B1C0D2765F41F860FE98 /* ExpoModulesProviders */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -105,20 +97,18 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		8FB9B68C78CA11E15E684AA4 /* Pods */ = {
+		97A180ADB1C70B28796234B8 /* fasionDB */ = {
 			isa = PBXGroup;
 			children = (
-				049D9DCCA0970290A29AE247 /* Pods-fasionDB.debug.xcconfig */,
-				DC504BC5BC223D77E72A3AD3 /* Pods-fasionDB.release.xcconfig */,
+				BD55847D7AA4208040339208 /* ExpoModulesProvider.swift */,
 			);
-			name = Pods;
-			path = Pods;
+			name = fasionDB;
 			sourceTree = "<group>";
 		};
-		A829C1172B0768510243C1C6 /* ExpoModulesProviders */ = {
+		B147B1C0D2765F41F860FE98 /* ExpoModulesProviders */ = {
 			isa = PBXGroup;
 			children = (
-				76059C33A6937CA20C889DBC /* fasionDB */,
+				97A180ADB1C70B28796234B8 /* fasionDB */,
 			);
 			name = ExpoModulesProviders;
 			sourceTree = "<group>";
@@ -132,6 +122,16 @@
 			path = fasionDB/Supporting;
 			sourceTree = "<group>";
 		};
+		FA1BE199B57F43970738BC45 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				5829B9535E6FF224B9E82DBF /* Pods-fasionDB.debug.xcconfig */,
+				69DB955DA8A742DC2B982A36 /* Pods-fasionDB.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -140,13 +140,13 @@
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "fasionDB" */;
 			buildPhases = (
 				08A4A3CD28434E44B6B9DE2E /* [CP] Check Pods Manifest.lock */,
-				82CF1E50BCC7D63EF07E6848 /* [Expo] Configure project */,
+				3D414F8D1231E646B488BABF /* [Expo] Configure project */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
 				800E24972A6A228C8D4807E9 /* [CP] Copy Pods Resources */,
-				F6416B44E04DE7FA3E020F5C /* [CP] Embed Pods Frameworks */,
+				9D00280ADDE30D9BF0FD5A9D /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -196,7 +196,7 @@
 				BB2F792D24A3F905000567C9 /* Expo.plist in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				3E461D99554A48A4959DE609 /* SplashScreen.storyboard in Resources */,
-				DFAB469C3205D713D2A78568 /* PrivacyInfo.xcprivacy in Resources */,
+				8FA5CE276070423A951F1070 /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -241,6 +241,30 @@
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
+		};
+		3D414F8D1231E646B488BABF /* [Expo] Configure project */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/.xcode.env",
+				"$(SRCROOT)/.xcode.env.local",
+				"$(SRCROOT)/fasionDB/fasionDB.entitlements",
+				"$(SRCROOT)/Pods/Target Support Files/Pods-fasionDB/expo-configure-project.sh",
+			);
+			name = "[Expo] Configure project";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(SRCROOT)/Pods/Target Support Files/Pods-fasionDB/ExpoModulesProvider.swift",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# This script configures Expo modules and generates the modules provider file.\nbash -l -c \"./Pods/Target\\ Support\\ Files/Pods-fasionDB/expo-configure-project.sh\"\n";
 		};
 		800E24972A6A228C8D4807E9 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -324,31 +348,7 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-fasionDB/Pods-fasionDB-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		82CF1E50BCC7D63EF07E6848 /* [Expo] Configure project */ = {
-			isa = PBXShellScriptBuildPhase;
-			alwaysOutOfDate = 1;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"$(SRCROOT)/.xcode.env",
-				"$(SRCROOT)/.xcode.env.local",
-				"$(SRCROOT)/fasionDB/fasionDB.entitlements",
-				"$(SRCROOT)/Pods/Target Support Files/Pods-fasionDB/expo-configure-project.sh",
-			);
-			name = "[Expo] Configure project";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(SRCROOT)/Pods/Target Support Files/Pods-fasionDB/ExpoModulesProvider.swift",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "# This script configures Expo modules and generates the modules provider file.\nbash -l -c \"./Pods/Target\\ Support\\ Files/Pods-fasionDB/expo-configure-project.sh\"\n";
-		};
-		F6416B44E04DE7FA3E020F5C /* [CP] Embed Pods Frameworks */ = {
+		9D00280ADDE30D9BF0FD5A9D /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -378,7 +378,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F11748422D0307B40044C1D9 /* AppDelegate.swift in Sources */,
-				2EEA76719D0934EBAA946DE0 /* ExpoModulesProvider.swift in Sources */,
+				A32350871CAD36F963039023 /* ExpoModulesProvider.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -387,7 +387,7 @@
 /* Begin XCBuildConfiguration section */
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 049D9DCCA0970290A29AE247 /* Pods-fasionDB.debug.xcconfig */;
+			baseConfigurationReference = 5829B9535E6FF224B9E82DBF /* Pods-fasionDB.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -423,7 +423,7 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = DC504BC5BC223D77E72A3AD3 /* Pods-fasionDB.release.xcconfig */;
+			baseConfigurationReference = 69DB955DA8A742DC2B982A36 /* Pods-fasionDB.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;

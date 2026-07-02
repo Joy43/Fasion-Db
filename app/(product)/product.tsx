@@ -2,7 +2,7 @@ import AllProducts from '@/components/products';
 import { useProducts } from '@/hooks/useProduct';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from 'expo-router';
-import React from 'react';
+
 import { ScrollView, TouchableOpacity } from 'react-native';
 
 const AllProductsPage = () => {

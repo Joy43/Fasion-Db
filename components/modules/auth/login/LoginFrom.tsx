@@ -17,6 +17,8 @@ import { z } from 'zod';
 import Toast from 'react-native-toast-message';
 import { Feather, MaterialIcons } from '@expo/vector-icons';
 
+import { useUser } from '@/context/UserContext';
+
 const loginSchema = z.object({
   email: z.string().email({ message: 'Invalid email address' }),
   password: z
@@ -27,6 +29,7 @@ const loginSchema = z.object({
 type LoginFormInputs = z.infer<typeof loginSchema>;
 
 const LoginForm: React.FC = () => {
+  const { refreshUser } = useUser();
   const [rememberMe, setRememberMe] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
@@ -42,6 +45,7 @@ const LoginForm: React.FC = () => {
     try {
       const result = await loginUser(data);
       if (result.success) {
+        await refreshUser();
         Toast.show({
           type: 'success',
           text1: 'Login Successful',
