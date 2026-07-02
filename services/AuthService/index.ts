@@ -2,6 +2,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { FieldValues } from 'react-hook-form';
 import { jwtDecode } from 'jwt-decode';
 import messaging from '@react-native-firebase/messaging';
+import { Platform, PermissionsAndroid } from 'react-native';
 
 const BASE_API =
   process.env.EXPO_PUBLIC_BASE_API || 'http://localhost:5000/api/v1';
@@ -244,6 +245,22 @@ const apiRequest = async (
 // Helper to automatically retrieve FCM token
 const getFcmToken = async (): Promise<string | undefined> => {
   try {
+    // Request Android 13+ POST_NOTIFICATIONS permission
+    if (Platform.OS === 'android' && Platform.Version >= 33) {
+      const hasPermission = await PermissionsAndroid.check(
+        PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS
+      );
+      if (!hasPermission) {
+        const status = await PermissionsAndroid.request(
+          PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS
+        );
+        if (status !== PermissionsAndroid.RESULTS.GRANTED) {
+          console.warn('POST_NOTIFICATIONS permission denied');
+          return undefined;
+        }
+      }
+    }
+
     const authStatus = await messaging().requestPermission();
     const enabled =
       authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
