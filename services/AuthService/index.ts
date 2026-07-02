@@ -1,6 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { FieldValues } from 'react-hook-form';
 import { jwtDecode } from 'jwt-decode';
+import messaging from '@react-native-firebase/messaging';
 
 const BASE_API =
   process.env.EXPO_PUBLIC_BASE_API || 'http://localhost:5000/api/v1';
@@ -240,9 +241,29 @@ const apiRequest = async (
   }
 };
 
+// Helper to automatically retrieve FCM token
+const getFcmToken = async (): Promise<string | undefined> => {
+  try {
+    const authStatus = await messaging().requestPermission();
+    const enabled =
+      authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
+      authStatus === messaging.AuthorizationStatus.PROVISIONAL;
+
+    if (enabled) {
+      const token = await messaging().getToken();
+      return token;
+    }
+  } catch (error) {
+    console.warn('Failed to retrieve FCM token:', error);
+  }
+  return undefined;
+};
+
 // --- Auth functions ---
 export const registerUser = async (userData: FieldValues) => {
-  const result = await apiRequest('/user', 'POST', userData);
+  const fcmToken = await getFcmToken();
+  const payload = fcmToken ? { ...userData, fcmToken } : userData;
+  const result = await apiRequest('/user', 'POST', payload);
   console.log('Register API result:', result);
   if (result.success && result.data) {
     const { accessToken, refreshToken } = result.data;
@@ -253,7 +274,9 @@ export const registerUser = async (userData: FieldValues) => {
 };
 
 export const loginUser = async (userData: FieldValues) => {
-  const result = await apiRequest('/auth/login', 'POST', userData);
+  const fcmToken = await getFcmToken();
+  const payload = fcmToken ? { ...userData, fcmToken } : userData;
+  const result = await apiRequest('/auth/login', 'POST', payload);
   console.log('Login API result:', result);
   if (result.success && result.data) {
     await AsyncStorage.setItem('accessToken', result.data.accessToken);

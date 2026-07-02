@@ -10,7 +10,8 @@
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.anonymous.fasionDB"
+      "bundleIdentifier": "com.anonymous.fasionDB",
+       "UIBackgroundModes": ["remote-notification"]
     },
     "android": {
       "adaptiveIcon": {
