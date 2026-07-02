@@ -8,24 +8,49 @@ import Providers from '@/providers/Providers';
 import { useEffect } from 'react';
 import messaging from '@react-native-firebase/messaging';
 import { setupFcmToken } from '@/utils/notificationUtils';
+import * as Notifications from 'expo-notifications';
+
+// Configure how notifications should be handled when received in the foreground
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: true,
+    shouldSetBadge: false,
+  }),
+});
 
 export default function RootLayout() {
   const appColor = '#10B981';
 
   useEffect(() => {
+    // Configure default Android channel for peeking banners
+    if (Platform.OS === 'android') {
+      Notifications.setNotificationChannelAsync('default', {
+        name: 'default',
+        importance: Notifications.AndroidImportance.MAX,
+        vibrationPattern: [0, 250, 250, 250],
+        lightColor: '#FF231F7C',
+      });
+    }
+
     // Register FCM Token
     setupFcmToken();
 
     // Foreground notification listener
     const unsubscribe = messaging().onMessage(async (remoteMessage) => {
       console.log('Foreground Message received:', remoteMessage);
-      Toast.show({
-        type: 'info',
-        text1: remoteMessage.notification?.title || 'Notification',
-        text2: remoteMessage.notification?.body || 'New message received',
-        position: 'top',
-        visibilityTime: 4000,
-      });
+      
+      // Trigger a native local notification banner immediately
+      if (remoteMessage.notification) {
+        await Notifications.scheduleNotificationAsync({
+          content: {
+            title: remoteMessage.notification.title || 'Notification',
+            body: remoteMessage.notification.body || '',
+            data: remoteMessage.data,
+          },
+          trigger: null,
+        });
+      }
     });
 
     return unsubscribe;
