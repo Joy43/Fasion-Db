@@ -1,4 +1,4 @@
-import { useNotificationSocket } from '@/hooks/useNotification';
+import { useNotificationSocket } from '@/redux';
 import React from 'react';
 import { View, Text } from 'react-native';
 

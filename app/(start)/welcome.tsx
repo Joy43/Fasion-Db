@@ -4,6 +4,7 @@ import { useRef, useState } from 'react';
 import { Image, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Swiper from 'react-native-swiper';
+import { setupFcmToken } from '@/utils/notificationUtils';
 
 const Home = () => {
   const swiperRef = useRef<Swiper | null>(null);
@@ -12,19 +13,15 @@ const Home = () => {
   const isLastSlide = activeIndex === onboarding.length - 1;
 
   return (
-    <SafeAreaView
-      style={{
-        flex: 1,
-        backgroundColor: 'white',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-      }}
-    >
-      <TouchableOpacity
-        onPress={() => router.replace('/(root)/(tabs)/home')}
-        style={{ width: '100%', padding: 20, alignItems: 'flex-end' }}
+    <SafeAreaView className="flex-1 bg-background justify-between items-center">
+       <TouchableOpacity
+        onPress={async () => {
+          await setupFcmToken();
+          router.replace('/(root)/(tabs)/home');
+        }}
+        className="w-full padding-5 items-end p-5"
       >
-        <Text style={{ color: 'black', fontSize: 16, fontWeight: 'bold' }}>
+        <Text className="text-text text-base font-bold">
           Skip
         </Text>
       </TouchableOpacity>
@@ -33,38 +30,17 @@ const Home = () => {
         ref={swiperRef}
         loop={false}
         dot={
-          <View
-            style={{
-              width: 32,
-              height: 4,
-              marginHorizontal: 4,
-              backgroundColor: '#E2E8F0',
-              borderRadius: 2,
-            }}
-          />
+          <View className="w-8 h-1 mx-1 bg-border rounded-full" />
         }
         activeDot={
-          <View
-            style={{
-              width: 32,
-              height: 4,
-              marginHorizontal: 4,
-              backgroundColor: '#0286FF',
-              borderRadius: 2,
-            }}
-          />
+          <View className="w-8 h-1 mx-1 bg-accent rounded-full" />
         }
         onIndexChanged={(index) => setActiveIndex(index)}
       >
         {onboarding.map((item) => (
           <View
             key={item.id}
-            style={{
-              flex: 1,
-              alignItems: 'center',
-              justifyContent: 'center',
-              padding: 20,
-            }}
+            className="flex-1 items-center justify-center p-5"
           >
             <Image
               source={
@@ -72,37 +48,15 @@ const Home = () => {
                   ? { uri: item.image }
                   : item.image
               }
-              style={{ width: '100%', height: 300 }}
+              className="w-full h-[300px]"
               resizeMode="contain"
             />
-            <View
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                justifyContent: 'center',
-                marginTop: 20,
-              }}
-            >
-              <Text
-                style={{
-                  color: 'black',
-                  fontSize: 24,
-                  fontWeight: 'bold',
-                  textAlign: 'center',
-                }}
-              >
+            <View className="flex-row items-center justify-center mt-5">
+              <Text className="text-text text-2xl font-bold text-center">
                 {item.title}
               </Text>
             </View>
-            <Text
-              style={{
-                fontSize: 16,
-                fontWeight: '600',
-                color: '#858585',
-                textAlign: 'center',
-                marginTop: 10,
-              }}
-            >
+            <Text className="text-secondaryText text-base font-semibold text-center mt-2.5">
               {item.description}
             </Text>
           </View>
@@ -110,23 +64,17 @@ const Home = () => {
       </Swiper>
 
       <TouchableOpacity
-        onPress={() =>
-          isLastSlide
-            ? router.replace('/(root)/(tabs)/home')
-            : swiperRef.current?.scrollBy(1)
-        }
-        style={{
-          width: '91%',
-          padding: 15,
-          backgroundColor: '#004CFF',
-          borderRadius: 10,
-          alignItems: 'center',
-          justifyContent: 'center',
-          marginTop: 20,
-          marginBottom: 20,
+        onPress={async () => {
+          if (isLastSlide) {
+            await setupFcmToken();
+            router.replace('/(root)/(tabs)/home');
+          } else {
+            swiperRef.current?.scrollBy(1);
+          }
         }}
+        className="w-[91%] p-4 bg-primary rounded-xl items-center justify-center mt-5 mb-5 shadow-sm active:opacity-90"
       >
-        <Text style={{ color: 'white', fontSize: 16, fontWeight: 'bold' }}>
+        <Text className="text-surface text-base font-bold">
           {isLastSlide ? 'Get Started' : 'Next'}
         </Text>
       </TouchableOpacity>

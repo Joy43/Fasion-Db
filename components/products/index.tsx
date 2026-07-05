@@ -1,5 +1,4 @@
-import { useBrands } from '@/hooks/useBrand';
-import { useCategories } from '@/hooks/useCategories';
+import { useGetAllBrandsQuery, useGetAllCategoriesQuery } from '@/redux';
 import { IBrand } from '@/types/band.types';
 import { ICategory } from '@/types/category';
 import { IProduct } from '@/types/product';
@@ -25,9 +24,12 @@ const AllProducts = ({ products }: AllProductsProps) => {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [filteredProducts, setFilteredProducts] = useState<IProduct[]>([]);
 
-  const { data: brandData, isLoading: isBrandsLoading } = useBrands();
-  const { data: categoryData, isLoading: isCategoriesLoading } =
-    useCategories();
+  const { data: brandData, isLoading: isBrandsLoading } = useGetAllBrandsQuery(undefined, {
+    refetchOnMountOrArgChange: true,
+  });
+  const { data: categoryData, isLoading: isCategoriesLoading } = useGetAllCategoriesQuery(undefined, {
+    refetchOnMountOrArgChange: true,
+  });
 
   const screenWidth = Dimensions.get('window').width;
   const cardWidth = (screenWidth - 48) / 2;

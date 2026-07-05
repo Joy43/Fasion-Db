@@ -1,13 +1,13 @@
 import { View, Text, ScrollView, Image, TouchableOpacity } from 'react-native';
 import React from 'react';
-import { useGetFavorite } from '@/hooks/useFavorite';
+import { useGetFavoritesQuery } from '@/redux';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import LoadingScreen from '@/utils/Loading';
 import { FavoriteProductItem } from '@/types/favoriteproduct.type';
 import { router } from 'expo-router';
 
 const FavoriteProduct = () => {
-  const { data, isLoading, isError } = useGetFavorite();
+  const { data, isLoading, isError } = useGetFavoritesQuery();
   // console.log("Favorite Products:", data?.data);
 
   if (isLoading) {

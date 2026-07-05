@@ -1,12 +1,12 @@
 import AllProducts from '@/components/products';
-import { useProducts } from '@/hooks/useProduct';
+import { useGetAllProductsQuery } from '@/redux';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from 'expo-router';
 
 import { ScrollView, TouchableOpacity } from 'react-native';
 
 const AllProductsPage = () => {
-  const { data: products } = useProducts();
+  const { data: products } = useGetAllProductsQuery();
   const navigation = useNavigation();
   return (
     <ScrollView>

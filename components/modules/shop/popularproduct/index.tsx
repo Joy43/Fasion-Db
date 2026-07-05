@@ -1,4 +1,4 @@
-import { useProducts } from '@/hooks/useProduct';
+import { useGetAllProductsQuery } from '@/redux';
 import { IProduct } from '@/types/product';
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
@@ -13,7 +13,7 @@ import {
 } from 'react-native';
 
 const PopularProduct = () => {
-  const { data: products, isLoading, isError } = useProducts();
+  const { data: products, isLoading, isError } = useGetAllProductsQuery();
   if (!products || !Array.isArray(products.data)) return null;
 
   const slicedProducts = products.data.slice(0, 6);

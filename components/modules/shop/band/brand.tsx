@@ -1,4 +1,4 @@
-import { useBrands } from '@/hooks/useBrand';
+import { useGetAllBrandsQuery } from '@/redux';
 import { IBrand } from '@/types/band.types';
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
@@ -13,7 +13,7 @@ import {
 } from 'react-native';
 
 const Brands = () => {
-  const { data, isLoading, isError } = useBrands();
+  const { data, isLoading, isError } = useGetAllBrandsQuery();
 
   const handleBrandPress = (brandId: string) => {
     // Navigate to product page with brand filter applied

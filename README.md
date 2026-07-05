@@ -122,7 +122,13 @@ eas build -p android --profile preview
 ```bash
 eas build -p android --profile preview --local
 ```
+``` bash 
+npx expo prebuild --clean
+```
+```bash
+cd ios && pod install && cd ..
 
+```
 ## Requirements
 
 - Node.js

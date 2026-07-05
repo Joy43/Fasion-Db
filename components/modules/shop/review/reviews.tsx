@@ -1,4 +1,4 @@
-import { useCreateReview } from '@/hooks/useReview';
+import { useCreateReviewMutation } from '@/redux';
 import React, { useState } from 'react';
 import {
   Alert,
@@ -17,9 +17,9 @@ const Reviews = ({ productId }: ReviewsProps) => {
   const [review, setReview] = useState('');
   const [rating, setRating] = useState(5);
 
-  const { mutate, isPending } = useCreateReview();
+  const [createReview, { isLoading: isPending }] = useCreateReviewMutation();
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (!review.trim()) {
       Alert.alert('Please enter a review');
       return;
@@ -36,17 +36,14 @@ const Reviews = ({ productId }: ReviewsProps) => {
       isVerifiedPurchase: true,
     };
 
-    mutate(reviewData, {
-      onSuccess: () => {
-        Alert.alert('Success', 'Review submitted!');
-        setReview('');
-        setRating(5);
-      },
-      onError: (error: any) => {
-        Alert.alert('Error', error?.message || 'Failed to submit review');
-        console.log(error.message);
-      },
-    });
+    try {
+      await createReview(reviewData).unwrap();
+      Alert.alert('Success', 'Review submitted!');
+      setReview('');
+      setRating(5);
+    } catch (error: any) {
+      Alert.alert('Error', error?.data?.message || 'Failed to submit review');
+    }
   };
 
   return (

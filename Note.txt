@@ -41,3 +41,5 @@ yarn android
 
 # Reset project (with your error-checked script)
 yarn reset-project
+
+npx expo prebuild --clean

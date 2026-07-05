@@ -5,17 +5,17 @@ import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import Toast from 'react-native-toast-message';
 import { FontAwesome } from '@expo/vector-icons';
 
-// Custom hooks for fetching data
-import { useBrands } from '@/hooks/useBrand';
-import { useCategories } from '@/hooks/useCategories';
+import { useGetAllBrandsQuery, useGetAllCategoriesQuery } from '@/redux';
 
 export default function FilterSidebar() {
   const [price, setPrice] = useState(0);
 
-  // Fetching data with fallback
-  const { data: brandData, isLoading: isBrandsLoading } = useBrands();
-  const { data: categoryData, isLoading: isCategoriesLoading } =
-    useCategories();
+  const { data: brandData, isLoading: isBrandsLoading } = useGetAllBrandsQuery(undefined, {
+    refetchOnMountOrArgChange: true,
+  });
+  const { data: categoryData, isLoading: isCategoriesLoading } = useGetAllCategoriesQuery(undefined, {
+    refetchOnMountOrArgChange: true,
+  });
 
   // Safe fallback for arrays
   const brands = Array.isArray(brandData) ? brandData : [];

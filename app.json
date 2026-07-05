@@ -12,11 +12,13 @@
       "supportsTablet": true,
       "bundleIdentifier": "com.anonymous.communicationapp",
       "googleServicesFile": "./GoogleService-Info.plist",
-      "UIBackgroundModes": ["remote-notification"]
+      "UIBackgroundModes": [
+        "remote-notification"
+      ]
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/fasiondb.png",
+        "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
       "edgeToEdgeEnabled": true,
@@ -43,7 +45,16 @@
       ],
       "react-native-video",
       "expo-web-browser",
-      "expo-font"
+      "expo-font",
+      "expo-secure-store",
+      [
+        "expo-build-properties",
+        {
+          "ios": {
+            "useFrameworks": "static"
+          }
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true

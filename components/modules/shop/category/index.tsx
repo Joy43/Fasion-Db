@@ -1,13 +1,15 @@
-import { useCategories } from '@/hooks/useCategories';
+import { useGetAllCategoriesQuery } from '@/redux';
 import { ICategory } from '@/types/category';
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import React from 'react';
-import { Image, ScrollView, Text, TouchableOpacity, View } from 'react-native';
+import { Image, ScrollView, Text, TouchableOpacity, View, RefreshControl } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 const AllCategory = () => {
-  const { data, isLoading, isError } = useCategories();
+  const { data, isLoading, isError, refetch, isFetching } = useGetAllCategoriesQuery(undefined, {
+    refetchOnMountOrArgChange: true,
+  });
 
   if (isError) {
     return (
@@ -30,7 +32,12 @@ const AllCategory = () => {
 
   return (
     <SafeAreaView className="flex-1 bg-white">
-      <ScrollView className="p-4">
+      <ScrollView 
+        className="p-4"
+        refreshControl={
+          <RefreshControl refreshing={isFetching} onRefresh={refetch} />
+        }
+      >
         {/* Header */}
         <View className="flex-row justify-between items-center mb-4">
           <Text className="text-xl font-bold text-gray-900">Categories</Text>

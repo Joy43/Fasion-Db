@@ -1,10 +1,18 @@
-import { getCurrentUser } from '@/services/AuthService';
+/**
+ * UserContext is preserved for backward compatibility with any remaining
+ * components that reference it, but now reads user state from Redux instead
+ * of making its own service calls.
+ *
+ * NOTE: New components should use `useAppSelector((state) => state.auth.user)`
+ * directly from '@/redux' instead of this context.
+ */
 import { IUser } from '@/types/user';
-
-// Key fix: Import ReactNode (and other types) explicitly
 import type { Dispatch, ReactNode, SetStateAction } from 'react';
-import { createContext, useContext, useEffect, useState } from 'react';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { createContext, useContext } from 'react';
+import { useAppSelector } from '@/redux';
+
+import { useEffect } from 'react';
+import { setupFcmToken } from '@/utils/notificationUtils';
 
 interface IUserProviderValues {
   user: IUser | null;
@@ -18,73 +26,41 @@ interface IUserProviderValues {
 const UserContext = createContext<IUserProviderValues | undefined>(undefined);
 
 const UserProvider = ({ children }: { children: ReactNode }) => {
-  const [user, setUser] = useState<IUser | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-
-  const handleUser = async () => {
-    try {
-      console.log('handleUser triggered');
-      // Check if we have a token before attempting to fetch user
-      const accessToken = await AsyncStorage.getItem('accessToken');
-      console.log('handleUser: retrieved accessToken:', accessToken ? 'Exists (truncated)' : 'Null');
-
-      if (!accessToken) {
-        console.log('handleUser: No access token in storage, setting user null');
-        setUser(null);
-        setIsAuthenticated(false);
-        setIsLoading(false);
-        return;
-      }
-
-      const result = await getCurrentUser();
-      console.log('handleUser: getCurrentUser result:', result);
-
-      if (result.success && result.data) {
-        console.log('handleUser: successfully logged in user:', result.data.name || result.data);
-        setUser(result.data);
-        setIsAuthenticated(true);
-      } else {
-        console.log('handleUser: failed to fetch current user, setting user null');
-        setUser(null);
-        setIsAuthenticated(false);
-      }
-    } catch (error) {
-      console.error('Error fetching user:', error);
-      setUser(null);
-      setIsAuthenticated(false);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  // Auth is now managed by Redux — read from the store
+  const authUser = useAppSelector((state) => state.auth.user);
 
   useEffect(() => {
-    handleUser();
-  }, []); // Empty array: Fetch once on mount, no infinite loops
+    if (authUser) {
+      setupFcmToken();
+    }
+  }, [authUser]);
 
-  return (
-    <UserContext.Provider
-      value={{
-        user,
-        setUser,
-        isLoading,
-        setIsLoading,
-        isAuthenticated,
-        refreshUser: handleUser,
-      }}
-    >
-      {children}
-    </UserContext.Provider>
-  );
+  const user = authUser
+    ? ({
+        _id: authUser.userId,
+        email: authUser.email,
+        role: authUser.role,
+        name: authUser.name || '',
+      } as unknown as IUser)
+    : null;
+
+  const value: IUserProviderValues = {
+    user,
+    isLoading: false,
+    isAuthenticated: !!authUser,
+    setUser: () => {},       // no-op: use Redux dispatch instead
+    setIsLoading: () => {},  // no-op: use Redux dispatch instead
+    refreshUser: async () => {}, // no-op: RTK Query refetches automatically
+  };
+
+  return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
 };
 
 export const useUser = () => {
   const context = useContext(UserContext);
-
   if (context === undefined) {
     throw new Error('useUser must be used within the UserProvider context');
   }
-
   return context;
 };
 

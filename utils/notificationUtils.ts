@@ -1,14 +1,20 @@
-import { registerFcmToken } from '@/services/notification';
-import messaging from '@react-native-firebase/messaging';
+import { store } from '@/redux';
+import { authAPI } from '@/redux/auth/auth.api';
+import messaging, { getMessaging, getToken, requestPermission, AuthorizationStatus } from '@react-native-firebase/messaging';
+
+const getMessagingInstance = () => {
+  return typeof getMessaging === 'function' ? getMessaging() : (messaging as any)();
+};
 
 /**
  * Request user permission to receive notifications
  */
 export const requestUserPermission = async () => {
-  const authStatus = await messaging().requestPermission();
+  const messagingInstance = getMessagingInstance();
+  const authStatus = await (requestPermission ? requestPermission(messagingInstance) : messagingInstance.requestPermission());
   const enabled =
-    authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
-    authStatus === messaging.AuthorizationStatus.PROVISIONAL;
+    authStatus === (AuthorizationStatus ? AuthorizationStatus.AUTHORIZED : (messaging as any).AuthorizationStatus.AUTHORIZED) ||
+    authStatus === (AuthorizationStatus ? AuthorizationStatus.PROVISIONAL : (messaging as any).AuthorizationStatus.PROVISIONAL);
 
   return enabled;
 };
@@ -24,13 +30,18 @@ export const setupFcmToken = async () => {
       return;
     }
 
-    const token = await messaging().getToken();
+    const messagingInstance = getMessagingInstance();
+    const token = await (getToken ? getToken(messagingInstance) : messagingInstance.getToken());
     console.log('📱 Device FCM Token:', token);
 
-    // Register this FCM token to backend
-    await registerFcmToken(token);
-
-    console.log('✅ FCM token registered successfully with backend');
+    // Register this FCM token to backend via Redux API only if logged in
+    const accessToken = store.getState().auth.accessToken;
+    if (accessToken) {
+      await store.dispatch(authAPI.endpoints.registerFcmToken.initiate({ fcmToken: token }));
+      console.log('✅ FCM token registered successfully with backend');
+    } else {
+      console.log('ℹ️ No logged-in user yet; skipping backend FCM token registration');
+    }
   } catch (err) {
     console.error('❌ Error in setupFcmToken:', err);
   }
@@ -46,7 +57,7 @@ export const onMessageListener = () =>
     });
   });
 
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { secureStorage } from '@/utils/secureStorage';
 import { DeviceEventEmitter } from 'react-native';
 
 export interface SavedNotification {
@@ -59,7 +70,7 @@ export interface SavedNotification {
 
 export const saveNotification = async (title: string, body: string, imageUrl?: string) => {
   try {
-    const existing = await AsyncStorage.getItem('notifications');
+    const existing = await secureStorage.getItem('notifications');
     const list: SavedNotification[] = existing ? JSON.parse(existing) : [];
     const newNotification: SavedNotification = {
       id: Math.random().toString(36).substring(7),
@@ -69,7 +80,7 @@ export const saveNotification = async (title: string, body: string, imageUrl?: s
       imageUrl,
     };
     list.unshift(newNotification);
-    await AsyncStorage.setItem('notifications', JSON.stringify(list.slice(0, 50)));
+    await secureStorage.setItem('notifications', JSON.stringify(list.slice(0, 50)));
     DeviceEventEmitter.emit('NEW_NOTIFICATION', newNotification);
   } catch (error) {
     console.error('Error saving notification:', error);
@@ -78,7 +89,7 @@ export const saveNotification = async (title: string, body: string, imageUrl?: s
 
 export const getNotifications = async (): Promise<SavedNotification[]> => {
   try {
-    const existing = await AsyncStorage.getItem('notifications');
+    const existing = await secureStorage.getItem('notifications');
     return existing ? JSON.parse(existing) : [];
   } catch (error) {
     console.error('Error getting notifications:', error);
@@ -88,7 +99,7 @@ export const getNotifications = async (): Promise<SavedNotification[]> => {
 
 export const clearAllNotifications = async () => {
   try {
-    await AsyncStorage.removeItem('notifications');
+    await secureStorage.removeItem('notifications');
     DeviceEventEmitter.emit('NOTIFICATIONS_CLEARED');
   } catch (error) {
     console.error('Error clearing notifications:', error);

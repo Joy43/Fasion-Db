@@ -1,11 +1,8 @@
 import Reviews from '@/components/modules/shop/review/reviews';
-import { useUser } from '@/context/UserContext';
-import { useAddToFavorite } from '@/hooks/useFavorite';
-import { useSingleProduct } from '@/hooks/useProduct';
+import { useAppSelector, useAddFavoriteMutation, useGetSingleProductQuery } from '@/redux';
 import LoadingScreen from '@/utils/Loading';
 import { Ionicons } from '@expo/vector-icons';
-import { useNavigation, useLocalSearchParams } from 'expo-router';
-import { router } from 'expo-router';
+import { useNavigation, useLocalSearchParams , router } from 'expo-router';
 import {
   Image,
   SafeAreaView,
@@ -16,16 +13,16 @@ import {
 } from 'react-native';
 
 const PageDetails = () => {
-  const { user, setIsLoading } = useUser();
+  const user = useAppSelector((state) => state.auth.user);
   console.log('user', user);
   const userId = user?._id || '';
   const navigation = useNavigation();
   const params = useLocalSearchParams();
   const productId = params.productId as string;
 
-  const { data, isLoading, error } = useSingleProduct(productId);
+  const { data, isLoading, error } = useGetSingleProductQuery(productId);
   const product = data?.data;
-  const addToFavoriteMutation = useAddToFavorite(userId);
+  const [addFavorite] = useAddFavoriteMutation();
 
   if (!user) {
     return (
@@ -104,7 +101,7 @@ const PageDetails = () => {
             <TouchableOpacity
               onPress={() => {
                 if (product._id) {
-                  addToFavoriteMutation.mutate(product._id);
+                  addFavorite({ userId, productId: product._id });
                 }
               }}
               className="w-12 h-12 border rounded-full justify-center items-center border-gray-300"

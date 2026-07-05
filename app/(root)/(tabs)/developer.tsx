@@ -3,7 +3,7 @@ import { SafeAreaView, View } from 'react-native';
 
 const developer = () => {
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: '#020813' }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: '#F8F8F8' }}>
       <DeveloperProfile />
     </SafeAreaView>
   );

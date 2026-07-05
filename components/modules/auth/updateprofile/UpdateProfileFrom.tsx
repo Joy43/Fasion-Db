@@ -1,4 +1,4 @@
-import { updateUserProfile } from '@/services/AuthService';
+import { useUpdateProfileMutation } from '@/redux';
 import { Picker } from '@react-native-picker/picker';
 import * as ImagePicker from 'expo-image-picker';
 import React, { useEffect, useState } from 'react';
@@ -19,6 +19,7 @@ type UpdateProfileFormProps = {
 };
 
 const UpdateProfileForm = ({ closeModal }: UpdateProfileFormProps) => {
+  const [updateProfile, { isLoading: loading }] = useUpdateProfileMutation();
   const [form, setForm] = useState({
     phoneNo: '',
     dateOfBirth: '',
@@ -27,7 +28,6 @@ const UpdateProfileForm = ({ closeModal }: UpdateProfileFormProps) => {
     photo: '',
   });
 
-  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -119,20 +119,11 @@ const UpdateProfileForm = ({ closeModal }: UpdateProfileFormProps) => {
   };
 
   const handleSubmit = async () => {
-    setLoading(true);
-
-    // Basic validation example:
     if (form.phoneNo && !/^\d{11}$/.test(form.phoneNo)) {
-      Toast.show({
-        type: 'error',
-        text1: 'Validation Error',
-        text2: 'Phone number must be exactly 11 digits.',
-      });
-      setLoading(false);
+      Toast.show({ type: 'error', text1: 'Validation Error', text2: 'Phone number must be exactly 11 digits.' });
       return;
     }
 
-    // Prepare data, omit empty strings
     const profileData: Record<string, string> = {};
     if (form.phoneNo) profileData.phoneNo = form.phoneNo;
     if (form.gender) profileData.gender = form.gender;
@@ -141,38 +132,11 @@ const UpdateProfileForm = ({ closeModal }: UpdateProfileFormProps) => {
     if (form.photo) profileData.photo = form.photo;
 
     try {
-      console.log('Submitting profile data:', profileData);
-
-      const result = await updateUserProfile(profileData);
-
-      if (result.success) {
-        Toast.show({
-          type: 'success',
-          text1: 'Profile Updated',
-          text2: result.message || 'Profile updated successfully!',
-        });
-        closeModal(); // Optional: close modal after successful update
-      } else {
-        console.log('API error response:', result);
-        Toast.show({
-          type: 'error',
-          text1: 'Update Failed',
-          text2:
-            result.message || 'Profile update failed due to server validation.',
-        });
-      }
+      await updateProfile(profileData).unwrap();
+      Toast.show({ type: 'success', text1: 'Profile Updated', text2: 'Profile updated successfully!' });
+      closeModal();
     } catch (error: any) {
-      console.error('Update error:', error.response?.data || error.message);
-      Toast.show({
-        type: 'error',
-        text1: 'Unexpected Error',
-        text2:
-          error.response?.data?.message ||
-          error.message ||
-          'Something went wrong. Please try again.',
-      });
-    } finally {
-      setLoading(false);
+      Toast.show({ type: 'error', text1: 'Update Failed', text2: error?.data?.message || 'Something went wrong.' });
     }
   };
 

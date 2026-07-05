@@ -1,4 +1,4 @@
-import { getUserProfile } from '@/services/AuthService';
+import { useGetProfileQuery, useAppSelector } from '@/redux';
 import { IUserProfile } from '@/types/userprofile';
 import { useEffect, useState } from 'react';
 import {
@@ -18,27 +18,33 @@ import { router } from 'expo-router';
 import { getNotifications, clearAllNotifications, SavedNotification } from '@/utils/notificationUtils';
 
 const HomeProfile = () => {
-  const [profile, setProfile] = useState<IUserProfile | null>(null);
+  const isAuthenticated = useAppSelector((state) => !!state.auth.accessToken);
+  const { data: profileData } = useGetProfileQuery(undefined, { skip: !isAuthenticated });
+  const profile = profileData?.data as IUserProfile | undefined;
   const [drawerVisible, setDrawerVisible] = useState(false);
   const [notificationsVisible, setNotificationsVisible] = useState(false);
   const [notifications, setNotifications] = useState<SavedNotification[]>([]);
 
   const handleAnnouncementPress = (announcement: any) => {
     console.log('Announcement pressed:', announcement);
-    // Navigate to announcement details
-    // navigation.navigate('AnnouncementDetails', { announcement });
   };
 
   useEffect(() => {
-    const fetchProfile = async () => {
-      const result = await getUserProfile();
-      if (result.success) {
-        setProfile(result.data);
-      } else {
-        console.warn('Failed to load profile:', result.message);
-      }
+    const fetchNotifications = async () => {
+      const list = await getNotifications();
+      setNotifications(list);
     };
-    fetchProfile();
+    fetchNotifications();
+
+    const newSub = DeviceEventEmitter.addListener('NEW_NOTIFICATION', (newNotif: SavedNotification) => {
+      setNotifications((prev) => [newNotif, ...prev]);
+    });
+
+    const clearSub = DeviceEventEmitter.addListener('NOTIFICATIONS_CLEARED', () => {
+      setNotifications([]);
+    });
+
+    return () => { newSub.remove(); clearSub.remove(); };
   }, []);
 
   useEffect(() => {
@@ -83,10 +89,10 @@ const HomeProfile = () => {
           <SafeAreaView className="flex-1">
             <ScrollView>
               {/*----------- Header ----------- */}
-              <View className="p-4 border-b border-gray-200 bg-green-600 flex-row justify-between items-center">
-                <Text className="text-xl font-bold text-white">Settings</Text>
+              <View className="p-4 border-b border-border bg-primary flex-row justify-between items-center">
+                <Text className="text-xl font-bold text-surface">Settings</Text>
                 <TouchableOpacity onPress={() => setDrawerVisible(false)}>
-                  <Feather name="x" size={24} color="white" />
+                  <Feather name="x" size={24} color="#FFFFFF" />
                 </TouchableOpacity>
               </View>
 
@@ -98,8 +104,10 @@ const HomeProfile = () => {
 
               <TouchableOpacity
                 onPress={() => {
-                  router.push('/profile');
                   setDrawerVisible(false);
+                  setTimeout(() => {
+                    router.push('/(root)/(tabs)/profile');
+                  }, 350);
                 }}
                 className="p-4 border-b border-gray-100 flex-row items-center"
               >
@@ -184,18 +192,18 @@ const HomeProfile = () => {
       <View className="flex-1 bg-black/50 justify-end">
         <View className="bg-white rounded-t-3xl h-4/5">
           <SafeAreaView className="flex-1">
-            <View className="p-4 border-b border-gray-200 flex-row justify-between items-center">
+            <View className="p-4 border-b border-border flex-row justify-between items-center bg-surface">
               <View>
-                <Text className="text-xl font-bold">Notifications</Text>
+                <Text className="text-xl font-bold text-text">Notifications</Text>
               </View>
               <View className="flex-row items-center gap-4">
                 {notifications.length > 0 && (
                   <TouchableOpacity onPress={clearAllNotifications}>
-                    <Text className="text-red-500 font-semibold text-sm">Clear All</Text>
+                    <Text className="text-error font-semibold text-sm">Clear All</Text>
                   </TouchableOpacity>
                 )}
                 <TouchableOpacity onPress={() => setNotificationsVisible(false)}>
-                  <Feather name="x" size={24} color="black" />
+                  <Feather name="x" size={24} color="#1F2937" />
                 </TouchableOpacity>
               </View>
             </View>
@@ -213,7 +221,7 @@ const HomeProfile = () => {
                   const timeStr = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
                   
                   return (
-                    <View key={notif.id} className="bg-blue-50 p-4 rounded-lg mb-3 flex-row items-start">
+                    <View key={notif.id} className="bg-background p-4 rounded-lg mb-3 flex-row items-start border border-border">
                       {notif.imageUrl ? (
                         <Image
                           source={{ uri: notif.imageUrl }}
@@ -221,16 +229,16 @@ const HomeProfile = () => {
                           resizeMode="cover"
                         />
                       ) : (
-                        <View className="w-10 h-10 bg-blue-500 rounded-full items-center justify-center mr-3">
-                          <Feather name="bell" size={20} color="white" />
+                        <View className="w-10 h-10 bg-accent rounded-full items-center justify-center mr-3">
+                          <Feather name="bell" size={20} color="#111827" />
                         </View>
                       )}
                       <View className="flex-1">
-                        <Text className="font-semibold mb-1">{notif.title}</Text>
-                        <Text className="text-gray-600 text-sm">
+                        <Text className="font-semibold text-text mb-1">{notif.title}</Text>
+                        <Text className="text-secondaryText text-sm">
                           {notif.body}
                         </Text>
-                        <Text className="text-gray-400 text-xs mt-1">
+                        <Text className="text-secondaryText/60 text-xs mt-1">
                           {timeStr}
                         </Text>
                       </View>
@@ -259,34 +267,37 @@ const HomeProfile = () => {
                 resizeMode="cover"
               />
             ) : (
-              <View className="w-12 h-12 rounded-full bg-gray-300 items-center justify-center">
-                <Text className="text-xs text-gray-600">profile</Text>
+              <View className="w-12 h-12 rounded-full bg-border items-center justify-center">
+                <Text className="text-xs text-secondaryText">profile</Text>
               </View>
             )}
 
-            <TouchableOpacity className="bg-green-500 px-4 py-2 rounded-full">
-              <Text className="text-white font-semibold">My Profile</Text>
+            <TouchableOpacity 
+              onPress={() => router.push('/(root)/(tabs)/profile')}
+              className="bg-primary px-4 py-2 rounded-full"
+            >
+              <Text className="text-surface font-semibold">My Profile</Text>
             </TouchableOpacity>
           </View>
 
           {/*----- Right side: icons -------*/}
           <View className="flex-row gap-3">
             <TouchableOpacity className="relative" onPress={() => setNotificationsVisible(true)}>
-              <Feather name="bell" size={24} color="black" />
+              <Feather name="bell" size={24} color="#1F2937" />
               {notifications.length > 0 && (
-                <View className="absolute -top-1 -right-1 bg-red-500 w-4 h-4 rounded-full items-center justify-center">
-                  <Text className="text-white text-[9px] font-bold">{notifications.length}</Text>
+                <View className="absolute -top-1 -right-1 bg-error w-4 h-4 rounded-full items-center justify-center">
+                  <Text className="text-surface text-[9px] font-bold">{notifications.length}</Text>
                 </View>
               )}
             </TouchableOpacity>
             <TouchableOpacity onPress={() => setDrawerVisible(true)}>
-              <Feather name="settings" size={24} color="black" />
+              <Feather name="settings" size={24} color="#1F2937" />
             </TouchableOpacity>
           </View>
         </View>
 
         {/* Greeting */}
-        <Text className="text-2xl font-bold mb-4">
+        <Text className="text-2xl font-bold text-text mb-4">
           Hello, {profile?.name || 'User'}!
         </Text>
 

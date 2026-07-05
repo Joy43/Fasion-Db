@@ -1,4 +1,4 @@
-import { useGetFlashsellProducts } from '@/hooks/useFlashsell';
+import { useGetFlashsellQuery } from '@/redux';
 import { IProduct } from '@/types/product';
 import LoadingScreen from '@/utils/Loading';
 import { router } from 'expo-router';
@@ -7,7 +7,7 @@ import { Image, Text, TouchableOpacity, View } from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
 
 const Flashsell = () => {
-  const { data, isLoading, error } = useGetFlashsellProducts();
+  const { data, isLoading, error } = useGetFlashsellQuery();
   const FlashsellItems = data?.data?.slice(0, 6) || [];
 
   const [timeLeft, setTimeLeft] = useState(3600);

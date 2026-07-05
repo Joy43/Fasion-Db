@@ -14,6 +14,7 @@ export default function Home() {
 
   return (
     <FlatList
+      className="bg-background"
       data={dummy}
       keyExtractor={() => 'home-content'}
       renderItem={null}

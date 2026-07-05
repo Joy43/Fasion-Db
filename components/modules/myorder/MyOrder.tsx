@@ -1,9 +1,9 @@
 import { View, Text, ScrollView } from 'react-native';
 import React from 'react';
-import { useGetOrders } from '@/hooks/useOrder';
+import { useGetMyOrdersQuery } from '@/redux';
 
 const MyOrder = () => {
-  const { data, isLoading, error } = useGetOrders() || {};
+  const { data, isLoading, error } = useGetMyOrdersQuery();
   const orders = data?.data || [];
 
   if (isLoading) return <Text>Loading...</Text>;

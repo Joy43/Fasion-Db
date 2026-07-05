@@ -1,8 +1,11 @@
-// useNotificationSocket.ts
+// Socket-based real-time notification hook
+// Lives in redux/features/notifications since it's a real-time extension of the notification feature
 import { useEffect, useState } from 'react';
 import { io, Socket } from 'socket.io-client';
 
-const SERVER_URL = 'https://fasion-db-server.vercel.app'; // change to your backend URL
+const SERVER_URL =
+  process.env.EXPO_PUBLIC_BASE_API?.replace("/api/v1", "") ||
+  "https://fasiondb-server.vercel.app";
 
 export const useNotificationSocket = (userId: string | null) => {
   const [socket, setSocket] = useState<Socket | null>(null);
@@ -19,7 +22,6 @@ export const useNotificationSocket = (userId: string | null) => {
 
     newSocket.on('connect', () => {
       console.log('Socket connected:', newSocket.id);
-      // Register userId with server to receive personal notifications
       newSocket.emit('register', userId);
     });
 

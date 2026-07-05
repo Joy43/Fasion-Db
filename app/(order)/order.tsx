@@ -1,10 +1,7 @@
-import { useUser } from '@/context/UserContext';
-import { useAddOrder } from '@/hooks/useOrder';
-import { useSingleProduct } from '@/hooks/useProduct';
+import { useAppSelector, useCreateOrderMutation, useGetSingleProductQuery } from '@/redux';
 import LoadingScreen from '@/utils/Loading';
 import { Ionicons } from '@expo/vector-icons';
-import { useNavigation } from 'expo-router';
-import { useLocalSearchParams } from 'expo-router';
+import { useNavigation , useLocalSearchParams } from 'expo-router';
 import * as WebBrowser from 'expo-web-browser';
 import { useState, useEffect } from 'react';
 import {
@@ -19,12 +16,12 @@ import {
 import { any } from 'zod';
 
 const PageOrder = () => {
-  const { mutateAsync: createOrder, isPending } = useAddOrder();
+  const [createOrder, { isLoading: isPending }] = useCreateOrderMutation();
   const navigation = useNavigation();
   const params = useLocalSearchParams();
   const productId = params.productId as string;
-  const { user } = useUser();
-  const { data, isLoading, error } = useSingleProduct(productId);
+  const user = useAppSelector((state) => state.auth.user);
+  const { data, isLoading, error } = useGetSingleProductQuery(productId);
   const product = data?.data;
 
   const [selectedColor, setSelectedColor] = useState(0);
@@ -82,7 +79,7 @@ const PageOrder = () => {
     };
 
     try {
-      const response = await createOrder(payload as any);
+      const response = await createOrder(payload as any).unwrap();
       console.log('Order Response:', response);
 
       if (response?.success && response?.data?.paymentUrl) {
@@ -91,8 +88,8 @@ const PageOrder = () => {
         alert(response?.message || 'Order placed but no payment URL returned.');
       }
     } catch (err: any) {
-      console.error('Error creating order:', err.message || err);
-      alert(err.message || 'Failed to place order.');
+      console.error('Error creating order:', err?.data?.message || err);
+      alert(err?.data?.message || 'Failed to place order.');
     }
   };
 
