@@ -1,0 +1,28 @@
+https://documenter.getpostman.com/view/28371413/2sAYQXpCyd
+
+https://i.ibb.co/xtth0t4J/carblog-3.png
+https://i.ibb.co/jZM8j1zm/carblog-2.png
+https://i.ibb.co/y25NvtJ/carblog-1.png
+
+docker build -t docker-joy:1 .
+docker build .
+docker images
+docker run 8369522c586f
+docker ps
+docker ps -a 
+docker run p 5000:5000 sha256:808798d4da18e72cf91a6ea8f9202d50fe26205a9d9561d3a9ef23480d7f5f14
+docker container stop
+docker container start
+docker image rmi id
+
+docker login
+docker image tag fasiondb:v1 ssjoy43/fasiondb:v1
+docker push ssjoy43/fasiondb
+
+docker push ssjoy43/fasiondb:v1
+docker image prune -a 
+
+
+ # nagrok setup
+ https://scarcely-amused-lizard.ngrok-free.app/
+ https://scarcely-amused-lizard.ngrok-free.app/

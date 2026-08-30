@@ -1,0 +1,4 @@
+yarn add express cors cookie-parser swagger-jsdoc swagger-ui-express http-status-codes os
+yarn add -D @types/express @types/cookie-parser @types/cors @types/swagger-ui-express typescript ts-node-dev
+yarn add -D @types/swagger-ui-dist
+yarn add openapi-types

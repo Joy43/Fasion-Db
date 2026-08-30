@@ -1,0 +1,147 @@
+<!-- templates/404.htm -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>404 - Page Not Found | FashionDB Server</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --primary-color: #ffa500;
+        --secondary-color: #333;
+        --bg-color: #f8f9fa;
+        --card-bg: #ffffff;
+        --text-color: #555;
+        --border-color: #e9ecef;
+        --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        --error-color: #dc3545;
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: "Inter", sans-serif;
+        background: linear-gradient(135deg, var(--bg-color) 0%, #e9ecef 100%);
+        padding: 20px;
+        min-height: 100vh;
+        color: var(--text-color);
+        line-height: 1.6;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .container {
+        max-width: 600px;
+        width: 100%;
+        margin: 0 auto;
+        background: var(--card-bg);
+        border-radius: 16px;
+        box-shadow: var(--shadow);
+        overflow: hidden;
+        text-align: center;
+      }
+      .header {
+        background: linear-gradient(
+          135deg,
+          var(--error-color) 0%,
+          #c82333 100%
+        );
+        color: white;
+        padding: 60px 30px;
+      }
+      .header h1 {
+        font-size: 4rem;
+        font-weight: 700;
+        margin-bottom: 10px;
+      }
+      .header .subtitle {
+        font-size: 1.2rem;
+        opacity: 0.9;
+        font-weight: 300;
+      }
+      .content {
+        padding: 40px 30px;
+      }
+      .error-message {
+        font-size: 1.1rem;
+        color: var(--error-color);
+        margin-bottom: 30px;
+        font-weight: 500;
+      }
+      .actions {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        align-items: center;
+      }
+      .link {
+        display: inline-block;
+        background: var(--primary-color);
+        color: white;
+        padding: 12px 24px;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: 600;
+        transition: background 0.3s ease;
+        width: 100%;
+        max-width: 250px;
+      }
+      .link:hover {
+        background: #ff8c00;
+      }
+      .home-link {
+        background: var(--secondary-color);
+      }
+      .home-link:hover {
+        background: #222;
+      }
+      .footer {
+        padding: 20px 30px;
+        background: #f8f9fa;
+        border-top: 1px solid var(--border-color);
+        font-size: 0.9rem;
+        color: var(--text-color);
+      }
+      @media (max-width: 600px) {
+        body {
+          padding: 10px;
+        }
+        .header {
+          padding: 40px 20px;
+        }
+        .header h1 {
+          font-size: 3rem;
+        }
+        .content {
+          padding: 30px 20px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <header class="header">
+        <h1>404</h1>
+        <div class="subtitle">Oops! Page Not Found</div>
+      </header>
+      <div class="content">
+        <p class="error-message">
+          The page you're looking for doesn't exist or has been moved.
+        </p>
+        <div class="actions">
+          <a href="/docs" class="link">Go to API Docs</a>
+          <a href="/" class="link home-link">Back to Home</a>
+        </div>
+      </div>
+      <footer class="footer">
+        <p>FashionDB Server &copy; 2025. All rights reserved.</p>
+      </footer>
+    </div>
+  </body>
+</html>

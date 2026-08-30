@@ -1,0 +1,2 @@
+yarn add install firebase-admin
+

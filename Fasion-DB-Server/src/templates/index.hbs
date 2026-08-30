@@ -1,0 +1,55 @@
+<html>
+  <head>
+    <title>FasionDB Server Info</title>
+    <style>
+       body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      background-color: #f9f9f9;
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 20px auto;
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+  </head>
+  <body>
+    <div class="container">
+      <h1>Welcome to FasionDB</h1>
+      <p><strong>Version:</strong> {{version}}</p>
+
+      <h2>Client Details</h2>
+      <pre>
+        IP Address:
+        {{clientDetails.ipAddress}}
+        Accessed At:
+        {{clientDetails.accessedAt}}
+      </pre>
+
+      <h2>Server Details</h2>
+      <pre>
+        Hostname:
+        {{serverDetails.hostname}}
+        Platform:
+        {{serverDetails.platform}}
+        Uptime:
+        {{serverDetails.uptime}}
+      </pre>
+
+      <h2>Developer Contact</h2>
+      <pre>
+        Email:
+        {{developerContact.email}}
+        Website:
+        {{developerContact.website}}
+      </pre>
+    </div>
+  </body>
+</html>

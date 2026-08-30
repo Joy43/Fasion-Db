@@ -1,0 +1,78 @@
+name: Deploy on EC2
+
+on:
+   push:
+      branches: ['main']
+   pull_request:
+      branches: ['main']
+
+jobs:
+   build:
+      runs-on: ubuntu-latest
+
+      steps:
+         - uses: actions/checkout@v3
+
+         - name: Use Node.js
+           uses: actions/setup-node@v3
+           with:
+              node-version: '20.15'
+
+         - name: Install Dependencies
+           run: yarn install --frozen-lockfile
+
+         - name: Build Project
+           run: yarn build
+   deploy:
+      runs-on: ubuntu-latest
+      needs: build
+
+      steps:
+         - uses: actions/checkout@v3
+
+         - name: Use Node.js
+           uses: actions/setup-node@v3
+           with:
+              node-version: '20.15'
+
+         - name: Install Dependencies
+           run: yarn install --frozen-lockfile
+
+         - name: Build Project
+           run: yarn build
+
+           # Configure SSH
+         - name: Configure SSH
+           env:
+              SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
+           run: |
+              mkdir -p ~/.ssh
+              echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+              chmod 600 ~/.ssh/id_rsa
+              ssh-keyscan -H ${{ secrets.EC2_HOST }} >> ~/.ssh/known_hosts
+
+         # Deploy to EC2
+         - name: Deploy to EC2
+           env:
+              EC2_HOST: ${{ secrets.EC2_HOST }}
+              EC2_USER: ${{ secrets.EC2_USER }}
+           run: |
+              # Create deployment directory
+              ssh $EC2_USER@$EC2_HOST "mkdir -p ~/app"
+
+              # Copy files to EC2 instance
+              rsync -avz \
+                --exclude='.git' \
+                --exclude='node_modules' \
+                --exclude='.github' \
+                . $EC2_USER@$EC2_HOST:~/app/z
+
+
+              # Install production dependencies on EC2
+              ssh $EC2_USER@$EC2_HOST "cd ~/app && export PATH=$PATH:/run/user/1000/fnm_multishells/112424_1734077954807/bin && yarn install --frozen-lockfile"
+
+              # Stop existing PM2 process if it exists
+              ssh $EC2_USER@$EC2_HOST "export PATH=$PATH:/run/user/1000/fnm_multishells/112424_1734077954807/bin && pm2 delete nodejs-app || true"
+
+              # Start the application with PM2
+              ssh $EC2_USER@$EC2_HOST "export PATH=$PATH:/run/user/1000/fnm_multishells/112424_1734077954807/bin && cd ~/app && pm2 start dist/server.js --name nodejs-app"

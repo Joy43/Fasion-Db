@@ -1,0 +1,232 @@
+<!-- templates/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FashionDB Server Info</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary-color: #FFA500;
+      --secondary-color: #333;
+      --bg-color: #f8f9fa;
+      --card-bg: #ffffff;
+      --text-color: #555;
+      --border-color: #e9ecef;
+      --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, var(--bg-color) 0%, #e9ecef 100%);
+      padding: 20px;
+      min-height: 100vh;
+      color: var(--text-color);
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      background: var(--card-bg);
+      border-radius: 16px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .header {
+      background: linear-gradient(135deg, var(--primary-color) 0%, #ff8c00 100%);
+      color: white;
+      padding: 40px 30px;
+      text-align: center;
+    }
+
+    .header h1 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .header .version {
+      font-size: 1.1rem;
+      opacity: 0.9;
+      font-weight: 300;
+    }
+
+    .content {
+      padding: 40px 30px;
+    }
+
+    .section {
+      margin-bottom: 40px;
+      padding-bottom: 30px;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .section:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+    }
+
+    .section h2 {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--secondary-color);
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .section h2::before {
+      content: '📋';
+      font-size: 1.2rem;
+    }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+    }
+
+    .info-item {
+      background: #f8f9fa;
+      padding: 20px;
+      border-radius: 12px;
+      border-left: 4px solid var(--primary-color);
+    }
+
+    .info-item strong {
+      display: block;
+      font-size: 0.95rem;
+      color: var(--secondary-color);
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .info-item .value {
+      font-size: 1.1rem;
+      font-weight: 500;
+      color: var(--text-color);
+      word-break: break-all;
+    }
+
+    .link {
+      display: inline-block;
+      background: var(--primary-color);
+      color: white;
+      padding: 12px 24px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: background 0.3s ease;
+      margin: 10px 0;
+    }
+
+    .link:hover {
+      background: #ff8c00;
+    }
+
+    .contact {
+      text-align: center;
+    }
+
+    .contact a {
+      color: var(--primary-color);
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .contact a:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 600px) {
+      body {
+        padding: 10px;
+      }
+
+      .header {
+        padding: 30px 20px;
+      }
+
+      .header h1 {
+        font-size: 2rem;
+      }
+
+      .content {
+        padding: 30px 20px;
+      }
+
+      .info-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <h1>Welcome to FashionDB Server</h1>
+      <div class="version">Version: 1.0.0</div>
+      <div>Environment: {{env}}</div>
+    </header>
+
+    <div class="content">
+      <section class="section">
+        <h2>API Documentation</h2>
+        <p>Explore our comprehensive API endpoints and get started with integration.</p>
+        <a href="/docs" class="link">View API Docs</a>
+      </section>
+
+      <section class="section">
+        <h2>Client Details</h2>
+        <div class="info-grid">
+          <div class="info-item">
+            <strong>IP Address</strong>
+            <div class="value">{{clientIp}}</div>
+          </div>
+          <div class="info-item">
+            <strong>Accessed At</strong>
+            <div class="value">{{currentDateTime}}</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2>Server Details</h2>
+        <div class="info-grid">
+          <div class="info-item">
+            <strong>Hostname</strong>
+            <div class="value">{{serverHostname}}</div>
+          </div>
+          <div class="info-item">
+            <strong>Platform</strong>
+            <div class="value">{{serverPlatform}}</div>
+          </div>
+          <div class="info-item">
+            <strong>Uptime</strong>
+            <div class="value">{{uptime}}</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2>Developer Contact</h2>
+        <div class="contact">
+          <p><strong>Email:</strong> <a href="mailto:ssjoy43@gmail.com">ssjoy43@gmail.com</a></p>
+          <p><strong>Website:</strong> <a href="https://shahsultan-islam-joy.vercel.app/" target="_blank">shahsultan-islam-joy.vercel.app</a></p>
+        </div>
+      </section>
+    </div>
+  </div>
+</body>
+</html>
