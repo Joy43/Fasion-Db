@@ -1,4 +1,79 @@
 export const authDocs = {
+  "/api/v1/auth/register": {
+    post: {
+      tags: ["Auth"],
+      summary: "User Registration",
+      description:
+        "Register a new user account with email, password, and name.",
+      requestBody: {
+        required: true,
+        content: {
+          "application/json": {
+            schema: {
+              type: "object",
+              properties: {
+                name: {
+                  type: "string",
+                  example: "SS JOY",
+                },
+                email: {
+                  type: "string",
+                  example: "user@gmail.com",
+                },
+                password: {
+                  type: "string",
+                  example: "12345678",
+                },
+                role: {
+                  type: "string",
+                  enum: ["user", "admin"],
+                  example: "user",
+                },
+                fcmToken: {
+                  type: "string",
+                  example: "optional_fcm_token",
+                },
+              },
+              required: ["name", "email", "password"],
+            },
+          },
+        },
+      },
+      responses: {
+        200: {
+          description: "User registration completed successfully!",
+          content: {
+            "application/json": {
+              schema: {
+                type: "object",
+                properties: {
+                  statusCode: { type: "number", example: 200 },
+                  success: { type: "boolean", example: true },
+                  message: {
+                    type: "string",
+                    example: "User registration completed successfully!",
+                  },
+                  data: {
+                    type: "object",
+                    properties: {
+                      accessToken: {
+                        type: "string",
+                        example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+        400: {
+          description: "Validation error or User already exists",
+        },
+      },
+    },
+  },
+
   "/api/v1/auth/login": {
     post: {
       tags: ["Auth"],

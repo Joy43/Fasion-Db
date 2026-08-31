@@ -3,7 +3,7 @@ import express, { Application, Request, Response, NextFunction } from "express";
 import cookieParser from "cookie-parser";
 import os from "os";
 import path from "path";
-import { readFile } from "fs/promises";
+import { readFile, appendFile } from "fs/promises";
 import { StatusCodes } from "http-status-codes";
 
 import swaggerJsdoc from "swagger-jsdoc";
@@ -11,6 +11,7 @@ import swaggerUi from "swagger-ui-express";
 
 import router from "./app/routes";
 import globalErrorHandler from "./app/middleware/globalErrorHandler";
+import config from "./app/config";
 import { authDocs } from "./swagger/authDocs";
 
 import { userDocs } from "./swagger/userDoc";
@@ -57,10 +58,10 @@ const swaggerOptions = {
       configs.env === "production"
         ? [
             { url: "https://fasion-db-server.onrender.com" },
-            { url: "http://localhost:5050" },
+            { url: `http://localhost:${config.port}` },
           ]
         : [
-            { url: "http://localhost:5050" },
+            { url: `http://localhost:${config.port}` },
             { url: "https://fasion-db-server.onrender.com" },
           ],
     components: {
@@ -82,7 +83,7 @@ const swaggerOptions = {
   apis: [
     path.join(
       __dirname,
-      configs.env === "production" ? "./**/*.js" : "./**/*.ts"
+      configs.env === "production" ? "./**/*.js" : "./**/*.ts",
     ),
   ],
 };
@@ -93,9 +94,9 @@ app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 // ------------------- Middleware -------------------
 app.use(
   cors({
-    origin: "*",
+    origin: true,
     credentials: true,
-  })
+  }),
 );
 
 app.use(cookieParser());
@@ -103,17 +104,20 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Log login and register payloads to a file
-import { appendFile } from "fs/promises";
 app.use(async (req: Request, res: Response, next: NextFunction) => {
-   if (req.path === "/api/v1/auth/login" || req.path === "/api/v1/user") {
-      const logMsg = `[${new Date().toISOString()}] PATH: ${req.path} | BODY: ${JSON.stringify(req.body)}\n`;
-      try {
-         await appendFile(path.join(__dirname, "..", "auth_debug.log"), logMsg, "utf8");
-      } catch (err) {
-         console.error("Failed to write auth log:", err);
-      }
-   }
-   next();
+  if (req.path === "/api/v1/auth/login" || req.path === "/api/v1/user") {
+    const logMsg = `[${new Date().toISOString()}] PATH: ${req.path} | BODY: ${JSON.stringify(req.body)}\n`;
+    try {
+      await appendFile(
+        path.join(__dirname, "..", "auth_debug.log"),
+        logMsg,
+        "utf8",
+      );
+    } catch (err) {
+      console.error("Failed to write auth log:", err);
+    }
+  }
+  next();
 });
 
 // ------------------- Routes -------------------
@@ -124,7 +128,11 @@ app.use("/api/v1", router);
 app.get("/", async (req: Request, res: Response) => {
   try {
     const currentDateTime = new Date().toISOString();
-    const clientIp = (req.headers["x-forwarded-for"] || req.socket.remoteAddress || req.ip || req.connection.remoteAddress || "unknown") as string;
+    const clientIp = (req.headers["x-forwarded-for"] ||
+      req.socket.remoteAddress ||
+      req.ip ||
+      req.connection.remoteAddress ||
+      "unknown") as string;
     const serverHostname = os.hostname();
     const serverPlatform = os.platform();
     const serverUptime = os.uptime();
@@ -144,7 +152,9 @@ app.get("/", async (req: Request, res: Response) => {
     res.status(StatusCodes.OK).send(htmlContent);
   } catch (error) {
     // Fallback to a simple response if template not found
-    res.status(StatusCodes.INTERNAL_SERVER_ERROR).send("Server info page template not found.");
+    res
+      .status(StatusCodes.INTERNAL_SERVER_ERROR)
+      .send("Server info page template not found.");
   }
 });
 
@@ -162,6 +172,5 @@ app.use(async (req: Request, res: Response, next: NextFunction) => {
 
 // ------------------- Error Handlers -------------------
 app.use(globalErrorHandler);
-
 
 export default app;

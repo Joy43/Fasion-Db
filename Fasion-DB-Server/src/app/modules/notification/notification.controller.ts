@@ -3,7 +3,7 @@ import { sendMessageToToken } from "../../utils/fcmService";
 import { JwtPayload } from "jsonwebtoken";
 
 interface AuthenticatedRequest extends Request {
-  user: JwtPayload; 
+  user: JwtPayload;
 }
 
 const tokens = new Map<string, string>(); // userId -> token
@@ -11,9 +11,10 @@ const tokens = new Map<string, string>(); // userId -> token
 /**
  * Register an FCM token for the authenticated user
  */
-export const registerToken = (req: AuthenticatedRequest, res: Response) => {
+export const registerToken = (req: Request, res: Response) => {
   try {
-    const userId = req.user.userId || req.user.id;
+    const user = (req as any).user;
+    const userId = user?.userId || user?.id;
     const { token } = req.body;
 
     if (!userId) {
@@ -38,7 +39,8 @@ export const sendNotification = async (req: Request, res: Response) => {
   if (!userId) return res.status(400).json({ error: "User ID required" });
 
   const token = tokens.get(userId);
-  if (!token) return res.status(404).json({ error: "User FCM token not found" });
+  if (!token)
+    return res.status(404).json({ error: "User FCM token not found" });
 
   try {
     const response = await sendMessageToToken(token, { title, body, data });

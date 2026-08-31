@@ -1,10 +1,82 @@
 export const userDocs = {
   "/api/v1/user": {
+    post: {
+      tags: ["Users"],
+      summary: "Register new user",
+      description:
+        "Register a new user account with email, password, and name.",
+      requestBody: {
+        required: true,
+        content: {
+          "application/json": {
+            schema: {
+              type: "object",
+              properties: {
+                name: {
+                  type: "string",
+                  example: "SS JOY",
+                },
+                email: {
+                  type: "string",
+                  example: "user@gmail.com",
+                },
+                password: {
+                  type: "string",
+                  example: "12345678",
+                },
+                role: {
+                  type: "string",
+                  enum: ["user", "admin"],
+                  example: "user",
+                },
+                fcmToken: {
+                  type: "string",
+                  example: "optional_fcm_token",
+                },
+              },
+              required: ["name", "email", "password"],
+            },
+          },
+        },
+      },
+      responses: {
+        200: {
+          description: "User registration completed successfully!",
+          content: {
+            "application/json": {
+              schema: {
+                type: "object",
+                properties: {
+                  statusCode: { type: "number", example: 200 },
+                  success: { type: "boolean", example: true },
+                  message: {
+                    type: "string",
+                    example: "User registration completed successfully!",
+                  },
+                  data: {
+                    type: "object",
+                    properties: {
+                      accessToken: {
+                        type: "string",
+                        example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+        400: {
+          description: "Validation error or User already exists",
+        },
+      },
+    },
     get: {
       tags: ["Users"],
       summary: "Get all users (Admin only)",
       description: "Fetch all users. Only accessible by Admins.",
-         AuthorizationToken: {
+      AuthorizationToken: {
         type: "apiKey",
         in: "header",
         name: "Authorization",
@@ -22,7 +94,7 @@ export const userDocs = {
       tags: ["Users"],
       summary: "Get current logged-in user's profile",
       description: "Retrieve profile of the currently authenticated user.",
-         AuthorizationToken: {
+      AuthorizationToken: {
         type: "apiKey",
         in: "header",
         name: "Authorization",
@@ -67,7 +139,7 @@ export const userDocs = {
     patch: {
       tags: ["Users"],
       summary: "Update logged-in user's profile",
-         AuthorizationToken: {
+      AuthorizationToken: {
         type: "apiKey",
         in: "header",
         name: "Authorization",
@@ -103,7 +175,7 @@ export const userDocs = {
     patch: {
       tags: ["Users"],
       summary: "Update user's active status (Admin only)",
-         AuthorizationToken: {
+      AuthorizationToken: {
         type: "apiKey",
         in: "header",
         name: "Authorization",
