@@ -2,8 +2,7 @@ import { Server } from 'http';
 import mongoose from 'mongoose';
 import app from './app';
 import config from './app/config';
-
-
+import seedAdmin from './app/DB/seed';
 
 let server: Server | null = null;
 
@@ -12,6 +11,7 @@ async function connectToDatabase() {
    try {
       await mongoose.connect(config.db_url as string);
       console.log('🛢 Database connected successfully');
+      await seedAdmin();
    } catch (err) {
       console.error('Failed to connect to database:', err);
       process.exit(1);
