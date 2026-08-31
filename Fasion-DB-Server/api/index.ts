@@ -1,7 +1,7 @@
-import mongoose from 'mongoose';
-import app from '../src/app';
-import config from '../src/app/config';
-import seedAdmin from '../src/app/DB/seed';
+import mongoose from "mongoose";
+import app from "../src/app";
+import config from "../src/app/config";
+import seedAdmin from "../src/app/DB/seed";
 
 let isSeeded = false;
 
@@ -21,7 +21,7 @@ export default async (req: any, res: any) => {
     await connectDB();
     return app(req, res);
   } catch (error) {
-    console.error('Error in Vercel handler:', error);
-    res.status(500).send('Internal Server Error during connection');
+    console.error("Error in Vercel handler:", error);
+    res.status(500).send("Internal Server Error during connection");
   }
 };
