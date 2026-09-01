@@ -34,6 +34,13 @@
     "plugins": [
       "expo-router",
       "@react-native-firebase/app",
+       "react-native-google-mobile-ads",
+      [
+        "react-native-google-mobile-ads",
+        {
+          "androidAppId": "ca-app-pub-8125663690680528/6641937530"
+        }
+      ],
       [
         "expo-splash-screen",
         {

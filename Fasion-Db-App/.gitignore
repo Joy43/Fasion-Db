@@ -37,3 +37,9 @@ yarn-error.*
 *.tsbuildinfo
 
 app-example
+
+# macOS resource fork files (external volume)
+._*
+.DS_Store
+.Spotlight-V100
+.Trashes

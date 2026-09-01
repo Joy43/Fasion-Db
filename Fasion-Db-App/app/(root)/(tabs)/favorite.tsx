@@ -4,7 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function favorites() {
   return (
-    <SafeAreaView>
+    <SafeAreaView className="flex-1">
       <FavoriteProduct />
     </SafeAreaView>
   );
